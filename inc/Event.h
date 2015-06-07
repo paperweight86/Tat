@@ -1,5 +1,7 @@
 #pragma once
 
+#include "tat.h"
+
 #include "Callback.h"
 
 #include <list>
@@ -12,7 +14,7 @@ namespace uti
 	// Can it be setup to allow them to run on microthreads simultaneously?
 	// This would certainly require all types to be thread safe...
 	template<typename ...Arguments>
-	class Event
+	class TAT_DEF Event
 	{
 	private:
 		std::list<CCallback<void, Arguments>::ptr> m_handlers;

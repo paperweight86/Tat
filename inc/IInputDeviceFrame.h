@@ -1,5 +1,7 @@
 #pragma once
 
+#include "tat.h"
+
 #include "types.h"
 
 #include <istream>
@@ -8,7 +10,7 @@ namespace uti
 {
 	namespace Input
 	{
-		class IDeviceFrame
+		class TAT_DEF IDeviceFrame
 		{
 		public:
 			IDeviceFrame( ) {}

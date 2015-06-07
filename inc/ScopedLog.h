@@ -2,6 +2,8 @@
 
 #include "Logger.h"
 
+#include "tat.h"
+
 namespace uti
 {
 
@@ -9,7 +11,7 @@ namespace uti
 		Simple class which pushes a component name onto the logggers component stack on 
 		construction and then pops it on destruction. Simplifies enter/exit components/functions.
 	*/
-	class CScopedLog
+	class TAT_DEF CScopedLog
 	{
 	public:
 		CScopedLog( tstr component );
@@ -20,7 +22,7 @@ namespace uti
 		This class simplifies use of the singleton by adding a CScopedLogger to your main function
 		it will automatically Create and Destroy the singleton.
 	*/
-	class CScopedLogger
+	class TAT_DEF CScopedLogger
 	{
 	public:
 		CScopedLogger( ) { Logger.PushComponent(_T("main")); Logger.Info(_T("Go...")); }

@@ -3,13 +3,13 @@
 
 using namespace uti;
 
-IWindow::IWindow( )
+IWindow::IWindow()
 {
 	++m_numInstances;
 }
 
 
-IWindow::~IWindow( )
+IWindow::~IWindow()
 {
 }
 

@@ -1,4 +1,4 @@
-#include "StdAfx.h"
+#include "stdafx.h"
 #include "Logger.h"
 
 #include <stdarg.h>
@@ -10,6 +10,8 @@
 #endif
 
 using namespace uti;
+
+const int uti::log::g_iMaxMsg = 1024;
 
 tstr g_Info = _T("Info");
 tstr g_InfoShort = _T("Inf");
@@ -140,7 +142,7 @@ void CLogger::Log( log::eLogLevel level, tstr format, va_list args )
 		assert( _tclen(levelStr) + _tclen(format) + _tclen(finalFormat) <= log::g_iMaxMsg );
 		_stprintf_s<log::g_iMaxMsg>( buffer, finalFormat, levelStr, format );
 	}
-	_vtcprintf_s(buffer, args );
+	_vtprintf_s(buffer, args);
 }
 
 void CLogger::Log( log::eLogLevel level, tstr format, ... )

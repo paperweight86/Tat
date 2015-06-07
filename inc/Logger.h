@@ -1,23 +1,25 @@
 #pragma once
 
+#include "tat.h"
+
 #include <stack>
 
 namespace uti
 {
 	namespace log
 	{
-		const int g_iMaxMsg = 1024;
-		enum eLogLevel
+		TAT_DEF extern const int g_iMaxMsg;
+		TAT_DEF enum eLogLevel
 		{
 			Info = 0,
 			Warning,
 			Error,
 			Debug
 		};
-		tstr LevelToStr( eLogLevel level, bool _short = false );
+		TAT_DEF tstr LevelToStr(eLogLevel level, bool _short = false);
 	}
 
-	class CLogger
+	class TAT_DEF CLogger
 	{
 	private:
 		CLogger( );

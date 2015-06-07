@@ -1,11 +1,13 @@
 #pragma once
 
+#include "tat.h"
+
 #include <memory>
 
 namespace uti
 {
 	template<typename TRet, typename... Arguments>
-	class CCallback
+	class TAT_DEF CCallback
 	{
 	public:
 		typedef TRet(*TCallbackFunc)(Arguments...);

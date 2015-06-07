@@ -1,11 +1,10 @@
 #include "stdafx.h"
 
 #include "float4.h"
-#include "types.h"
 
 namespace uti
 {
-	float4 operator-(float4 left, float4 right)
+	float4 operator-(const float4& left, const float4& right)
 	{
 		float4 result;
 		result.x = left.x - right.x;
@@ -14,7 +13,7 @@ namespace uti
 		return result;
 	}
 
-	float4 operator+(float4 left, float4 right)
+	float4 operator+(const float4& left, const float4& right)
 	{
 		float4 result;
 		result.x = left.x + right.x;
@@ -23,7 +22,7 @@ namespace uti
 		return result;
 	}
 
-	float4 operator*(float4 left, float4 right)
+	float4 operator*(const float4& left, const float4& right)
 	{
 		float4 result;
 		result.x = left.x * right.x;
@@ -32,7 +31,7 @@ namespace uti
 		return result;
 	}
 
-	float4 operator/(float4 left, float4 right)
+	float4 operator/(const float4& left, const float4& right)
 	{
 		float4 result;
 		result.x = left.x / right.x;
@@ -41,7 +40,7 @@ namespace uti
 		return result;
 	}
 
-	float4 dot(float4 left, float4 right)
+	float4 dot(const float4& left, const float4& right)
 	{
 		float4 result;
 		result.x = result.y = result.z = left.x*right.x
@@ -50,7 +49,7 @@ namespace uti
 		return result;
 	}
 
-	float4 cross(float4 left, float4 right)
+	float4 cross(const float4& left, const float4& right)
 	{
 		float4 result;
 		result.x = left.y*right.z - left.z*right.y;
@@ -58,5 +57,4 @@ namespace uti
 		result.z = left.x*right.y - left.y*right.x;
 		return result;
 	}
-
 }

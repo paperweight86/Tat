@@ -20,6 +20,11 @@ CWinInput::~CWinInput()
 
 }
 
+void CWinInput::Initialise(ptr handle)
+{
+
+}
+
 void CWinInput::Update()
 {
 	ComponentLogFunc();

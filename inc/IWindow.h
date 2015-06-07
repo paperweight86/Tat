@@ -1,8 +1,10 @@
 #pragma once
 
+#include "tat.h"
+
 namespace uti
 {
-	class IWindow
+	class TAT_DEF IWindow
 	{
 	protected:
 		static int32 m_numInstances;

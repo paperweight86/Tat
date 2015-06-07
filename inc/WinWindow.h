@@ -2,9 +2,11 @@
 
 #include "IWindow.h"
 
+#include "tat.h"
+
 namespace uti
 {
-	class CWinWindow : public IWindow
+	class TAT_DEF CWinWindow : public IWindow
 	{
 	private:
 		bool	 m_bQuit;

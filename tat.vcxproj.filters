@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{54e45f84-00a9-4df4-a69e-07a9eb2f59e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="inc">
+      <UniqueIdentifier>{1a374231-e565-4948-b860-fbd77dfbdfee}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\float3.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\float4.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IEventArgs.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IInput.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IObservable.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IObserver.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IWindow.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Logger.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ScopedLog.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WinInput.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\WinWindow.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\Callback.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Event.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\float3.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\float4.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\HRTools.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\IEventArgs.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\IInput.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\IInputDevice.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\IInputDeviceFrame.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\IObservable.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\IObserver.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\IWindow.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\Logger.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ScopedLog.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\types.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\WinInput.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\WinWindow.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="tat.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

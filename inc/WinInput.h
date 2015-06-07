@@ -2,13 +2,17 @@
 
 #include "IInput.h"
 
+#include "tat.h"
+
 namespace uti
 {
-	class CWinInput : public IInput
+	class TAT_DEF CWinInput : public IInput
 	{
 	public:
 		CWinInput( );
 		virtual ~CWinInput( );
+
+		virtual void Initialise(ptr handle);
 
 		virtual void Update( ) override;
 

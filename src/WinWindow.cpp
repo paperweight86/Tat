@@ -60,7 +60,7 @@ bool CWinWindow::Initialise( int32 width, int32 height, bool show, tstr windowTi
     wcex.hCursor = LoadCursor( NULL, IDC_ARROW );
     wcex.hbrBackground = ( HBRUSH )( COLOR_WINDOW + 1 );
     wcex.lpszMenuName = NULL;
-    wcex.lpszClassName = (LPCWSTR)m_sWinClassName;
+    wcex.lpszClassName = m_sWinClassName;
     wcex.hIconSm = 0;//LoadIcon( wcex.hInstance, ( LPCTSTR )IDI_TUTORIAL1 );
     if( !RegisterClassEx( &wcex ) )
 	{
@@ -71,7 +71,7 @@ bool CWinWindow::Initialise( int32 width, int32 height, bool show, tstr windowTi
     // Create window
     RECT rc = { 0, 0, width, height };
     AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
-    m_hWnd = (ptr)CreateWindow( (LPCWSTR)m_sWinClassName, windowTitle, WS_OVERLAPPEDWINDOW | WS_EX_WINDOWEDGE,
+    m_hWnd = (ptr)CreateWindow( m_sWinClassName, windowTitle, WS_OVERLAPPEDWINDOW | WS_EX_WINDOWEDGE,
                            CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, wcex.hInstance,
                            NULL );
     if( !m_hWnd )

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "tat.h"
+
 #include <vector>
 #include <memory>
 
@@ -10,7 +12,7 @@ namespace uti
 {
 	namespace Input
 	{
-		enum EDevice
+		enum TAT_DEF EDevice
 		{
 			eInputDevice_Keyboard,
 			eInputDevice_Mouse,
@@ -18,7 +20,7 @@ namespace uti
 			eInputDevice_Controller
 		};
 
-		class IDeviceFrame;
+		class TAT_DEF IDeviceFrame;
 
 		typedef std::vector<EDevice>						    TDeviceTypes;
 		typedef std::vector<std::shared_ptr<IDeviceFrame>>	    TFrame;
@@ -26,11 +28,13 @@ namespace uti
 		typedef CCallback<void, std::shared_ptr<IDeviceFrame>&> TInputCB;
 	}
 
-	class IInput
+	class TAT_DEF IInput
 	{
 	public:
 		IInput() {}
 		virtual ~IInput() {}
+
+		virtual void Initialise(ptr hwnd) = 0;
 
 		virtual void Update( ) = 0;
 
