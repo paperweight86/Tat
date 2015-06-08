@@ -19,8 +19,8 @@ namespace uti
 		virtual void GetDevices(Input::TDeviceTypes& devices) override;
 		virtual void GetFrame(Input::TFrame& frame) override;
 
-		virtual void RegisterOnConnect(Input::TConnectCB& callback) override;
-		virtual void RegisterOnInput(Input::TInputCB& callback) override;
-		virtual void RegisterOnInputFilter( Input::TInputCB& callback, Input::TDeviceTypes& filter) override;
+		//virtual void RegisterOnConnect(Input::TConnectCB& callback) override;
+		//virtual void RegisterOnInput(Input::TInputCB& callback) override;
+		//virtual void RegisterOnInputFilter( Input::TInputCB& callback, Input::TDeviceTypes& filter) override;
 	};
 }

@@ -40,17 +40,17 @@ void CWinInput::GetFrame(Input::TFrame& frame)
 
 }
 
-void CWinInput::RegisterOnConnect(Input::TConnectCB& callback)
-{
-
-}
-
-void CWinInput::RegisterOnInput(Input::TInputCB& callback)
-{
-
-}
-
-void CWinInput::RegisterOnInputFilter(Input::TInputCB& callback, Input::TDeviceTypes& filter)
-{
-
-}
+//void CWinInput::RegisterOnConnect(Input::TConnectCB& callback)
+//{
+//
+//}
+//
+//void CWinInput::RegisterOnInput(Input::TInputCB& callback)
+//{
+//
+//}
+//
+//void CWinInput::RegisterOnInputFilter(Input::TInputCB& callback, Input::TDeviceTypes& filter)
+//{
+//
+//}

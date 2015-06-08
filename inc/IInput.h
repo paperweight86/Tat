@@ -24,8 +24,8 @@ namespace uti
 
 		typedef std::vector<EDevice>						    TDeviceTypes;
 		typedef std::vector<std::shared_ptr<IDeviceFrame>>	    TFrame;
-		typedef CCallback<void, EDevice, const rhandle&>        TConnectCB;
-		typedef CCallback<void, std::shared_ptr<IDeviceFrame>&> TInputCB;
+		//typedef CCallback<void, EDevice, const rhandle&>        TConnectCB;
+		//typedef CCallback<void, std::shared_ptr<IDeviceFrame>&> TInputCB;
 	}
 
 	class TAT_DEF IInput
@@ -41,9 +41,9 @@ namespace uti
 		virtual void GetDevices( Input::TDeviceTypes& devices ) = 0;
 		virtual void GetFrame( Input::TFrame& frame ) = 0;
 
-		virtual void RegisterOnConnect( Input::TConnectCB& callback ) = 0;
-		virtual void RegisterOnInput( Input::TInputCB& callback ) = 0;
-		virtual void RegisterOnInputFilter( Input::TInputCB& callback, 
-											Input::TDeviceTypes& filter ) = 0;
+		//virtual void RegisterOnConnect( Input::TConnectCB& callback ) = 0;
+		//virtual void RegisterOnInput( Input::TInputCB& callback ) = 0;
+		//virtual void RegisterOnInputFilter( Input::TInputCB& callback, 
+		//									Input::TDeviceTypes& filter ) = 0;
 	};
 }
