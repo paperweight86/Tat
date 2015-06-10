@@ -177,11 +177,11 @@
     <ClInclude Include="inc\IWindow.h" />
     <ClInclude Include="inc\Logger.h" />
     <ClInclude Include="inc\ScopedLog.h" />
+    <ClInclude Include="inc\tat.h" />
     <ClInclude Include="inc\types.h" />
     <ClInclude Include="inc\WinInput.h" />
     <ClInclude Include="inc\WinWindow.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="tat.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

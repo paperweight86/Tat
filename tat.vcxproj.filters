@@ -97,7 +97,7 @@
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="tat.h">
+    <ClInclude Include="inc\tat.h">
       <Filter>inc</Filter>
     </ClInclude>
   </ItemGroup>
