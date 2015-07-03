@@ -44,3 +44,5 @@
 											pD2DResource=nullptr;\
 										} static_cast<void>(0)
 
+#define D2D_RELEASE_ALL_MAP(resourceMap)	std::for_each(resourceMap.begin(), resourceMap.end(), [](std::pair<rhandle, IUnknownPtr> kv) { D2D_RELEASE(kv.second); }); resourceMap.clear()
+
