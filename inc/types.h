@@ -20,7 +20,7 @@ namespace uti
 		#define __SSE
 	#endif
 	
-	// The usual typedefs
+	// POD types
 	typedef char int8;
 	typedef unsigned char uint8;
 	typedef short int16;
@@ -29,10 +29,29 @@ namespace uti
 	typedef unsigned __int32 uint32;
 	typedef __int64 int64;
 	typedef unsigned __int64 uint64;
-	typedef float    real;
+	typedef float real32;
+	typedef float real64;
+#ifdef TAT_REAL64
+	typedef real64 real;
+#else
+	typedef real32 real;
+#endif
 	typedef void* voidptr;
 	typedef void* evilptr;
 
+	// concise POD types
+	typedef char i8;
+	typedef unsigned char ui8;
+	typedef short i16;
+	typedef unsigned short u16;
+	typedef __int32 i32;
+	typedef unsigned __int32 u32;
+	typedef __int64 i64;
+	typedef unsigned __int64 u64;
+	typedef real32 r32;
+	typedef real32 r64;
+	
+	// Compound PODs
 	struct float2 
 	{ 
 		float x, y; 
@@ -102,6 +121,18 @@ namespace uti
 	#define double_max     DBL_MAX
 	#define double_min     DBL_MIN
 	#define double_epsilon DBL_EPSILON
+	#define real32_max float_max
+	#define real32_min float_min
+	#define real64_max double_max
+	#define real64_min double_min
+
+#ifdef UTI_REAL64
+	#define real_max real64_max
+	#define real_min real64_min
+#else
+	#define real_max real32_max
+	#define real_min real32_min
+#endif
 
 	//!< Pointer Sized Type
 #if   defined(__ARCX64)
