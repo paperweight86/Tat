@@ -3,6 +3,18 @@
 // for __comerror
 #include "comdef.h"
 
+#define CHECK_HR_ONFAIL_LOG_RETURN_VOID(hr,estr)	if( FAILED(hr) )\
+											{\
+												_com_error err(hr);\
+												LPCTSTR errMsg = err.ErrorMessage();\
+												if(errMsg) {\
+													Logger.Error(_T("%s (\"%s\")"), estr, errMsg);\
+												} else {\
+													Logger.Error(_T("%s (%08x)"), estr, hr);\
+												}\
+												return;\
+											} static_cast<void>(0)
+
 #define CHECK_HR_ONFAIL_LOG_RETURN(hr,estr)	if( FAILED(hr) )\
 											{\
 												_com_error err(hr);\
