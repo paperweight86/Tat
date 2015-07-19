@@ -166,8 +166,17 @@ void CWinWindow::RegisterKeyboardInput(KeyboardInputCallback callback)
 ptr CWinWindow::ProcessMessage(uint32 message, uint64 wParam, uint64 lParam)
 {
 	int16 wheelDelta = 0;
+	bool keyDown = true;
 	switch (message)
 	{
+	case WM_KEYUP:
+		keyDown = false;
+	case WM_KEYDOWN:
+		if (m_keyboardCallback)
+		{
+			m_keyboardCallback(wParam, keyDown, false);
+		}
+		break;
 	case WM_MOUSEMOVE:
 	case WM_LBUTTONDOWN:
 	case WM_LBUTTONUP:

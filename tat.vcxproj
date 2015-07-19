@@ -172,6 +172,7 @@
     <ClInclude Include="inc\IInput.h" />
     <ClInclude Include="inc\IInputDevice.h" />
     <ClInclude Include="inc\IInputDeviceFrame.h" />
+    <ClInclude Include="inc\InputKeyboardKeys.h" />
     <ClInclude Include="inc\IObservable.h" />
     <ClInclude Include="inc\IObserver.h" />
     <ClInclude Include="inc\IWindow.h" />

@@ -100,5 +100,8 @@
     <ClInclude Include="inc\tat.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="inc\InputKeyboardKeys.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
