@@ -161,12 +161,14 @@ namespace uti
 	#ifndef UTI_NO_STL
 	typedef std::wstring tstring;
 	#endif
+	#define TSTR_TO_FLOAT(str) _wtof(str)
 #else
 	typedef const char* tstr;
 	typedef char tchar;
 	#ifndef UTI_NO_STL
 	typedef std::string tstring;
 	#endif
+	#define TSTR_TO_FLOAT(str) atof(str)
 #endif
 
 	// debugging macros
