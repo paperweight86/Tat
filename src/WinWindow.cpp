@@ -30,7 +30,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
     PAINTSTRUCT ps;
     HDC hdc;
 
-	CWinWindow* winWindow = (CWinWindow*)GetWindowLong(hWnd, GWLP_USERDATA);
+	CWinWindow* winWindow = (CWinWindow*)GetWindowLongPtr(hWnd, GWLP_USERDATA);
 
     switch( message )
     {
