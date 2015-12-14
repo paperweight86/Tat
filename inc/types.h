@@ -99,6 +99,11 @@ namespace uti
 	{
 		float4 m[4];
 	};
+
+	// Super compact real vector types
+	typedef float2 rv2;
+	typedef float3 rv3;
+	typedef float4 rv4;
 	
 	// Integer Ranges
 	#define uint64_max  _UI64_MAX

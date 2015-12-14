@@ -14,11 +14,16 @@ CWinWindow::CWinWindow( )
 	m_bQuit = false;
 	m_callbackMouse = false;
 	m_callbackKeyboard = false;
+	m_hWnd = 0;
 }
-
 
 CWinWindow::~CWinWindow( )
 {
+	if (m_hWnd != 0)
+	{
+		SetWindowLongPtr((HWND)m_hWnd, 0, NULL);
+		DestroyWindow((HWND)m_hWnd);
+	}
 }
 
 

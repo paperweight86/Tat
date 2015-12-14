@@ -43,6 +43,8 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="src\float2.cpp" />
+    <ClCompile Include="src\FileSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Callback.h">
@@ -103,6 +105,8 @@
     <ClInclude Include="inc\InputKeyboardKeys.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="inc\float2.h" />
+    <ClInclude Include="inc\FileSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt" />
