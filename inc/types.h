@@ -10,16 +10,16 @@
 namespace uti
 {
 	// Instruction Set
-	#if defined(_M_AMD64)
-	#define __ARCX64
-	#elif defined(_M_IX86)
-	#define __ARCX86
-	#endif
+#if defined(_M_AMD64)
+#define __ARCX64
+#elif defined(_M_IX86)
+#define __ARCX86
+#endif
 
-	#if defined(__ARCX64) || defined(__ARCX86)
-		#define __SSE
-	#endif
-	
+#if defined(__ARCX64) || defined(__ARCX86)
+#define __SSE
+#endif
+
 	// POD types
 	typedef char int8;
 	typedef unsigned char uint8;
@@ -41,7 +41,7 @@ namespace uti
 
 	// concise POD types
 	typedef char i8;
-	typedef unsigned char ui8;
+	typedef unsigned char u8;
 	typedef short i16;
 	typedef unsigned short u16;
 	typedef __int32 i32;
@@ -50,33 +50,33 @@ namespace uti
 	typedef unsigned __int64 u64;
 	typedef real32 r32;
 	typedef real32 r64;
-	
+
 	// Compound PODs
-	struct float2 
-	{ 
-		float x, y; 
-		float2():x(0.0f),y(0.0f){};
-		float2(float _x, float _y):x(_x),y(_y){}; 
+	struct float2
+	{
+		float x, y;
+		float2() :x(0.0f), y(0.0f){};
+		float2(float _x, float _y) :x(_x), y(_y){};
 	};
 
-	struct float3 
-	{ 
-		float x, y, z; 
+	struct float3
+	{
+		float x, y, z;
 		float3() : x(0.0f), y(0.0f), z(0.0f) {}
-		float3( float _x, float _y, float _z ) : x(_x), y(_y), z(_z) {}
-		float3( float2 xy ) : x(xy.x), y(xy.y), z(0.0f) {}
-		private:
-			float pad;
+		float3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
+		float3(float2 xy) : x(xy.x), y(xy.y), z(0.0f) {}
+	private:
+		float pad;
 	};
 
-	#ifdef __SSE
-		typedef __m128 vector4;
-	#else
-		typedef struct vector4
-		{
-			float x,y,z,h;
-		} vector4;
-	#endif
+#ifdef __SSE
+	typedef __m128 vector4;
+#else
+	typedef struct vector4
+	{
+		float x,y,z,h;
+	} vector4;
+#endif
 
 	//!< Vector 4
 	struct float4
@@ -84,11 +84,11 @@ namespace uti
 		union
 		{
 			vector4 v;
-			float   a[4];
+			r32     a[4];
 #ifdef __SSE
 			struct
 			{
-				float x,y,z,h;
+				r32 x, y, z, h;
 			};
 #endif
 		};
@@ -104,6 +104,56 @@ namespace uti
 	typedef float2 rv2;
 	typedef float3 rv3;
 	typedef float4 rv4;
+
+	struct size
+	{
+		r32 w, h;
+	};
+
+	// Basic shapes
+	struct rect
+	{
+		r32 x, y, w, h;
+	};
+
+	struct circle
+	{
+		r32 x, y, r;
+	};
+
+	struct triangle
+	{
+		r32 p0x, p0y,
+			p1x, p1y,
+			p2x, p2y;
+	};
+
+	struct margin
+	{
+		r32 l, t, r, b;
+	};
+
+	// Colour
+	struct color
+	{
+		float r, g, b, a;
+
+		bool const operator==(const color &other) const
+		{
+			return r == other.r
+				&& g == other.g
+				&& b == other.b
+				&& a == other.a;
+		}
+	};
+
+	inline void CreateColourFromRGB(color& col, u32 rgba)
+	{
+		col.r = ((float)(u8)(rgba >> 24)) / 255.0f;
+		col.g = ((float)(u8)(rgba >> 16)) / 255.0f;
+		col.b = ((float)(u8)(rgba >> 8)) / 255.0f;
+		col.a = ((float)(u8)(rgba)) / 255.0f;
+	}
 	
 	// Integer Ranges
 	#define uint64_max  _UI64_MAX
@@ -141,21 +191,21 @@ namespace uti
 
 	//!< Pointer Sized Type
 #if   defined(__ARCX64)
-	typedef uint64 ptr;
+	typedef u64 ptr;
 #else
-	typedef uint32 ptr;
+	typedef u32 ptr;
 #endif
 
 	// resource handle, split into 32bits for unique ID, 32bits for type
-	typedef uint64 rhandle;
-	const rhandle nullrhandle = (uint64)uint32_max | ((uint64)uint32_max << 32);
+	typedef u64 rhandle;
+	const rhandle nullrhandle = (u64)uint32_max | ((u64)uint32_max << 32);
 	// proposal:
 	// 2b - type	// e.g. mesh, texture, shader etc.
 	// 2b - subtype // e.g. terrain, skinned, 2D, RenderTarget, Pixel, Vertex, Compute
 	// 4b - UID     // 1,2,3,4,5...etc
-	#define MAKE_RHANDLE( id, type ) (uint64)id | ((uint64)type << 32)
-	#define GET_RHANDLE_ID( handle ) (uint32)handle
-	#define GET_RHANDLE_TYPE( handle ) (uint32)(handle >> 32)
+	#define MAKE_RHANDLE( id, type ) (u64)id | ((u64)type << 32)
+	#define GET_RHANDLE_ID( handle ) (u32)handle
+	#define GET_RHANDLE_TYPE( handle ) (u32)(handle >> 32)
 
 	// strings
 	typedef const wchar_t* wstr;
@@ -175,6 +225,29 @@ namespace uti
 	#endif
 	#define TSTR_TO_FLOAT(str) atof(str)
 #endif
+
+	// reflection
+	union UValue
+	{
+		uti::r32 real32;
+		uti::r64 real64;
+		
+		uti::i32 int32;
+		uti::i64 int64;
+
+		uti::u32 uint32;
+		uti::u64 uint64;
+	};
+
+	enum UValueType
+	{
+		eReal32,
+		eReal64,
+		eInt32,
+		eInt64,
+		eUInt32,
+		eUInt64
+	};
 
 	// debugging macros
 #ifdef UNICODE
