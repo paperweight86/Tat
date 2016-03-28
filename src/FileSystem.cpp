@@ -17,5 +17,5 @@ void TAT_DEF uti::getExecutableFilePath(tchar* str, size_t strLen)
 void TAT_DEF uti::getExecutableFolderPath(tchar* str, size_t strLen)
 {
 	getExecutableFilePath(str, strLen);
-	PathCchRemoveFileSpec(str, strLen);
+	PathRemoveFileSpec(str);
 }

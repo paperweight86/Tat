@@ -11,6 +11,7 @@ namespace uti
 	TAT_DEF float2 operator-(float2 left, float2 right);
 	TAT_DEF float2 operator+(float2 left, float2 right);
 	TAT_DEF float2 operator*(float2 left, float2 right);
+	TAT_DEF float2 operator*(float2 left, float right);
 	TAT_DEF float2 operator/(float2 left, float2 right);
 	TAT_DEF float2 operator/(float2 left, float right);
 

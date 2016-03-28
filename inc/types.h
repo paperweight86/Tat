@@ -5,6 +5,7 @@
 
 #ifndef UTI_NO_STL
 #include <string>
+#include <tchar.h>
 #endif
 
 namespace uti
@@ -211,6 +212,7 @@ namespace uti
 	typedef const wchar_t* wstr;
 	typedef const char*    cstr;
 #ifdef UNICODE
+	typedef wchar_t* mstr;
 	typedef const wchar_t* tstr;
 	typedef wchar_t tchar;
 	#ifndef UTI_NO_STL
@@ -218,6 +220,7 @@ namespace uti
 	#endif
 	#define TSTR_TO_FLOAT(str) _wtof(str)
 #else
+	typedef char* mstr;
 	typedef const char* tstr;
 	typedef char tchar;
 	#ifndef UTI_NO_STL

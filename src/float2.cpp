@@ -29,6 +29,14 @@ float2 operator*(float2 left, float2 right)
 	return result;
 }
 
+float2 operator*(float2 left, float right)
+{
+	float2 result;
+	result.x = left.x * right;
+	result.y = left.y * right;
+	return result;
+}
+
 float2 operator/(float2 left, float2 right)
 {
 	float2 result;
