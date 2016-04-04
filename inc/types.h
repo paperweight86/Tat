@@ -17,6 +17,19 @@ namespace uti
 #define __ARCX86
 #endif
 
+	// Platform & Config
+#ifdef _MSC_VER
+	#ifdef _WIN32 || _WIN64
+		#define TAT_WINDOWS
+	#endif
+	#ifdef _DEBUG
+		#define TAT_DEBUG
+	#endif
+#endif
+#ifndef TAT_DEBUG
+	#define TAT_RELEASE
+#endif
+
 #if defined(__ARCX64) || defined(__ARCX86)
 #define __SSE
 #endif

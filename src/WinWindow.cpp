@@ -73,26 +73,25 @@ bool CWinWindow::Initialise( int32 width, int32 height, bool show, tstr windowTi
     wcex.cbClsExtra = 0;
     wcex.cbWndExtra = 0;
     wcex.hInstance = GetModuleHandle(NULL);
-    wcex.hIcon = 0;//LoadIcon( hInstance, ( LPCTSTR )IDI_TUTORIAL1 );
+    wcex.hIcon = 0;//LoadIcon( hInstance, ( LPCTSTR )IDI_... );
     wcex.hCursor = LoadCursor( NULL, IDC_ARROW );
     wcex.hbrBackground = ( HBRUSH )( COLOR_WINDOW + 1 );
     wcex.lpszMenuName = NULL;
     wcex.lpszClassName = m_sWinClassName;
-    wcex.hIconSm = 0;//LoadIcon( wcex.hInstance, ( LPCTSTR )IDI_TUTORIAL1 );
+    wcex.hIconSm = 0;//LoadIcon( wcex.hInstance, ( LPCTSTR )IDI_... );
     if( !RegisterClassEx( &wcex ) )
 	{
 		Logger.Log(log::Error, _T("Unable to register window class."));
         return false;
 	}
 
-    // Create window
     RECT rc = { 0, 0, width, height };
     AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, FALSE );
     m_hWnd = (ptr)CreateWindow( m_sWinClassName, windowTitle, WS_OVERLAPPEDWINDOW | WS_EX_WINDOWEDGE,
                            CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, wcex.hInstance,
                            NULL );
 
-	// Pass "this" to the message function
+	// Allows us to access "this" in the message function
 	SetWindowLongPtr((HWND)m_hWnd, GWLP_USERDATA, (LONG_PTR)this);
 
     if( !m_hWnd )
