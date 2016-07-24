@@ -22,11 +22,10 @@ namespace uti
 	#ifdef _WIN32 || _WIN64
 		#define TAT_WINDOWS
 	#endif
-	#ifdef _DEBUG
-		#define TAT_DEBUG
-	#endif
 #endif
-#ifndef TAT_DEBUG
+#ifdef _DEBUG
+	#define TAT_DEBUG
+#else
 	#define TAT_RELEASE
 #endif
 
