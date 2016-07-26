@@ -45,6 +45,7 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="src\float2.cpp" />
     <ClCompile Include="src\FileSystem.cpp" />
+    <ClCompile Include="intersection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Callback.h">
@@ -107,6 +108,12 @@
     </ClInclude>
     <ClInclude Include="inc\float2.h" />
     <ClInclude Include="inc\FileSystem.h" />
+    <ClInclude Include="inc\intersection.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\primatives.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt" />

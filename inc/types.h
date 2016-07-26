@@ -19,7 +19,7 @@ namespace uti
 
 	// Platform & Config
 #ifdef _MSC_VER
-	#ifdef _WIN32 || _WIN64
+	#if defined(_WIN32) || defined(_WIN64)
 		#define TAT_WINDOWS
 	#endif
 #endif
@@ -265,12 +265,16 @@ namespace uti
 	};
 
 	// debugging macros
+#define UTI_STRINGIZE(x) UTI_STRINGIZE2(x)
+#define UTI_STRINGIZE2(x) #x
 #ifdef UNICODE
 	#define __FUNCTIONT__ __FUNCTIONW__
 	#define __FILET__ _STR2WSTR(__FILE__)
+	#define __LINET__ _STR2WSTR(UTI_STRINGIZE(__LINE__))
 #else
 	#define __FUNCTIONT__ __FUNCTION__
 	#define __FILET__ __FILE__
+	#define __LINET__ UTI_STRINGIZE(__LINE__)
 #endif
 	
 	// compile-time warnings/errors
