@@ -49,7 +49,8 @@ namespace uti
 
 	float4 dot(const float4& left, const float4& right)
 	{
-		float4 result = float4(_mm_dp_ps(left.v, right.v, 0xFF));
+		const int mask = (0xF >> 1 << 4) | (0xF >> 1);
+		float4 result = float4(_mm_dp_ps(left.v, right.v, mask));
 		return result;
 	}
 
