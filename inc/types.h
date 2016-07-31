@@ -96,14 +96,14 @@ namespace uti
 	//!< Vector 4
 	struct float4
 	{
-		float4() : x(0.0f), y(0.0f), z(0.0f), h(1.0f) {}
+		float4() { _mm_set1_ps(0.0f); }
 		float4(__m128 _v) { v = _v; }
-		float4(float _x, float _y, float _z) : x(_x), y(_y), z(_z), h(1.0f) {}
-		float4(float _x, float _y, float _z, float _h) : x(_x), y(_y), z(_z), h(_h) {}
-		r32 get_x() { return (*this)[0]; }
-		r32 get_y() { return (*this)[1]; }
-		r32 get_z() { return (*this)[2]; }
-		r32 get_h() { return (*this)[3]; }
+		float4(float _x, float _y, float _z) { v = _mm_set_ps(_z, _y, _x, 1.0f); }
+		float4(float _x, float _y, float _z, float _h) { v = _mm_set_ps(_z, _y, _x,_h); }
+		r32 get_x() { return (*this)[1]; }
+		r32 get_y() { return (*this)[2]; }
+		r32 get_z() { return (*this)[3]; }
+		r32 get_h() { return (*this)[0]; }
 		float operator[](u32 i)
 		{
 #ifdef __SSE4_1__
@@ -131,7 +131,7 @@ namespace uti
 //#ifdef __SSE
 			struct
 			{
-				r32 x, y, z, h;
+				r32 h, x, y, z;
 			};
 //#endif
 		};
