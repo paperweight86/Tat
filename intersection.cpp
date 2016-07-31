@@ -2,11 +2,11 @@
 
 #include "intersection.h"
 #include "primatives.h"
-#include "float3.h"
+#include "float4.h"
 
 namespace uti
 {
-	bool rayVsSphere(const Ray& ray, const Sphere& sphere, float3* pos, float3* normal)
+	bool rayVsSphere(const Ray& ray, const Sphere& sphere, float4* pos, float4* normal)
 	{
 		float x0 = ray.origin.x;
 		float y0 = ray.origin.y;
@@ -40,7 +40,7 @@ namespace uti
 		float y = y0 + t * dy;
 		float z = z0 + t * dz;
 
-		*pos = float3(x, y, z);
+		*pos = float4(x, y, z);
 		*normal = (*pos - sphere.pos) / sphere.radius;
 		*normal = uti::norm(*normal);
 

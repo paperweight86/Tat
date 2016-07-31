@@ -88,7 +88,7 @@ float3 cross(float3 left, float3 right)
 
 float  len(float3 vec)
 {
-	return sqrt(vec.x*vec.x + vec.y*vec.y + vec.z*vec.z);
+	return sqrtf(vec.x*vec.x + vec.y*vec.y + vec.z*vec.z);
 }
 
 float3 norm(float3 vec)

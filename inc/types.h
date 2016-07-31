@@ -8,6 +8,8 @@
 #include <tchar.h>
 #endif
 
+#include <mmintrin.h>
+
 namespace uti
 {
 	// Instruction Set
@@ -94,16 +96,44 @@ namespace uti
 	//!< Vector 4
 	struct float4
 	{
+		float4() : x(0.0f), y(0.0f), z(0.0f), h(1.0f) {}
+		float4(__m128 _v) { v = _v; }
+		float4(float _x, float _y, float _z) : x(_x), y(_y), z(_z), h(1.0f) {}
+		float4(float _x, float _y, float _z, float _h) : x(_x), y(_y), z(_z), h(_h) {}
+		r32 get_x() { return (*this)[0]; }
+		r32 get_y() { return (*this)[1]; }
+		r32 get_z() { return (*this)[2]; }
+		r32 get_h() { return (*this)[3]; }
+		float operator[](u32 i)
+		{
+#ifdef __SSE4_1__
+			return _mm_extract_epi32(v, i);
+#else
+			switch (i)
+			{
+				case 0:
+					return _mm_cvtss_f32(_mm_shuffle_ps(v, v, (((0) << 6) | ((0) << 4) | ((0) << 2) | ((0)))));
+				case 1:
+					return _mm_cvtss_f32(_mm_shuffle_ps(v, v, (((1) << 6) | ((1) << 4) | ((1) << 2) | ((1)))));
+				case 2:
+					return _mm_cvtss_f32(_mm_shuffle_ps(v, v, (((2) << 6) | ((2) << 4) | ((2) << 2) | ((2)))));
+				case 3:
+					return _mm_cvtss_f32(_mm_shuffle_ps(v, v, (((3) << 6) | ((3) << 4) | ((3) << 2) | ((3)))));
+				default:
+					return 0.0f;
+			}
+#endif
+		}
 		union
 		{
-			vector4 v;
-			r32     a[4];
-#ifdef __SSE
+			__m128 v;
+//			r32     a[4];
+//#ifdef __SSE
 			struct
 			{
 				r32 x, y, z, h;
 			};
-#endif
+//#endif
 		};
 	};
 

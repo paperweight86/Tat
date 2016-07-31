@@ -4,5 +4,5 @@
 
 namespace uti
 {
-	TAT_DEF bool rayVsSphere(const Ray& ray, const Sphere& sphere, float3* pos = nullptr, float3* norm = nullptr);
+	TAT_DEF bool rayVsSphere(const Ray& ray, const Sphere& sphere, float4* pos = nullptr, float4* norm = nullptr);
 }
