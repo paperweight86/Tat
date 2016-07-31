@@ -8,15 +8,43 @@ namespace uti
 {
 	bool rayVsSphere(const Ray& ray, const Sphere& sphere, float4* pos, float4* normal)
 	{
-		float x0 = ray.origin.x;
-		float y0 = ray.origin.y;
-		float z0 = ray.origin.z;
-		float x1 = ray.dir.x;
-		float y1 = ray.dir.y;
-		float z1 = ray.dir.z;
-		float cx = sphere.pos.x;
-		float cy = sphere.pos.y;
-		float cz = sphere.pos.z;
+		//float4 dif = ray.dir - ray.origin;
+
+		//float a = uti::dot(dif, dif).get_h();
+		//float4 dif2 = ray.dir - sphere.pos;
+		//float4 b_ = dif2;
+		//b_ = b_ * 2.0f;
+		//b_ = uti::dot(dif, dif2);
+		//float b = b_.get_h();
+		//float c = (uti::dot(sphere.pos, sphere.pos) + uti::dot(ray.origin, ray.origin) +
+		//	-2 * uti::dot(sphere.pos, ray.origin)).get_h() - sphere.radius*sphere.radius;
+
+		//float dis = b*b - 4 * a * c;
+
+		//if (dis < 0)
+		//	return false;
+		//else if (pos == nullptr && normal == nullptr)
+		//	return true;
+
+		//float t = (-b - sqrt(dis)) / 2.0f * a;
+
+		//float4 tD =  t * dif;
+
+		//*pos = ray.origin + tD;
+		//*normal = (*pos - sphere.pos) / sphere.radius;
+		//*normal = uti::norm(*normal);
+
+		//return true;
+
+		float x0 = ray.origin.get_x();
+		float y0 = ray.origin.get_y();
+		float z0 = ray.origin.get_z();
+		float x1 = ray.dir.get_x();
+		float y1 = ray.dir.get_y();
+		float z1 = ray.dir.get_z();
+		float cx = sphere.pos.get_x();
+		float cy = sphere.pos.get_y();
+		float cz = sphere.pos.get_z();
 		float R = sphere.radius;
 		float dx = x1 - x0;
 		float dy = y1 - y0;

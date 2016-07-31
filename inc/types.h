@@ -100,14 +100,27 @@ namespace uti
 		float4(__m128 _v) { v = _v; }
 		float4(float _x, float _y, float _z) { v = _mm_set_ps(_z, _y, _x, 1.0f); }
 		float4(float _x, float _y, float _z, float _h) { v = _mm_set_ps(_z, _y, _x,_h); }
-		r32 get_x() { return (*this)[1]; }
-		r32 get_y() { return (*this)[2]; }
-		r32 get_z() { return (*this)[3]; }
-		r32 get_h() { return (*this)[0]; }
-		float operator[](u32 i)
+		r32 get_x() const { return (*this)[1]; }
+		r32 get_y() const { return (*this)[2]; }
+		r32 get_z() const { return (*this)[3]; }
+		r32 get_h() const { return (*this)[0]; }
+		float operator[](u32 i) const
 		{
-#ifdef __SSE4_1__
-			return _mm_extract_epi32(v, i);
+//#ifdef __SSE4_1__
+#if 0
+			switch (i)
+			{
+			case 0:
+				return (float)_mm_extract_ps(v, 0); 
+			case 1:
+				return (float)_mm_extract_ps(v, 1);
+			case 2:
+				return (float)_mm_extract_ps(v, 2);
+			case 3:
+				return (float)_mm_extract_ps(v, 3);
+			default:
+				return 0.0f;
+			}
 #else
 			switch (i)
 			{

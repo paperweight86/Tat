@@ -49,8 +49,7 @@ namespace uti
 
 	float4 dot(const float4& left, const float4& right)
 	{
-		//const int mask = (0xF >> 1 << 4) | (0xF >> 1);
-		const int mask = 0xE << 4 | 0xE;
+		const int mask = 0xE << 4 | 0xF;
 		float4 result = float4(_mm_dp_ps(left.v, right.v, mask));
 		return result;
 	}
@@ -66,7 +65,7 @@ namespace uti
 
 	float len(float4 vec)
 	{
-		return sqrtf(dot(vec,vec).get_x());
+		return float4(_mm_sqrt_ss(dot(vec,vec).v)).get_h();
 	}
 
 	float4 norm(float4 vec)
