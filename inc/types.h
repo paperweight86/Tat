@@ -94,63 +94,67 @@ namespace uti
 #endif
 
 	//!< Vector 4
-	struct float4
-	{
-		float4() { _mm_set1_ps(0.0f); }
-		float4(__m128 _v) { v = _v; }
-		float4(float _x, float _y, float _z) { v = _mm_set_ps(_z, _y, _x, 1.0f); }
-		float4(float _x, float _y, float _z, float _h) { v = _mm_set_ps(_z, _y, _x,_h); }
-		r32 get_x() const { return (*this)[1]; }
-		r32 get_y() const { return (*this)[2]; }
-		r32 get_z() const { return (*this)[3]; }
-		r32 get_h() const { return (*this)[0]; }
-		float operator[](u32 i) const
-		{
-//#ifdef __SSE4_1__
-#if 0
-			float h = 0.0f;
-			switch (i)
-			{
-			case 0:
-				h = (float)_mm_extract_ps(v, 0);
-				return h;
-			case 1:
-				return (float)_mm_extract_ps(v, 1);
-			case 2:
-				return (float)_mm_extract_ps(v, 2);
-			case 3:
-				return (float)_mm_extract_ps(v, 3);
-			default:
-				return 0.0f;
-			}
-#else
-			switch (i)
-			{
-				case 0:
-					return _mm_cvtss_f32(_mm_shuffle_ps(v, v, (((0) << 6) | ((0) << 4) | ((0) << 2) | ((0)))));
-				case 1:
-					return _mm_cvtss_f32(_mm_shuffle_ps(v, v, (((1) << 6) | ((1) << 4) | ((1) << 2) | ((1)))));
-				case 2:
-					return _mm_cvtss_f32(_mm_shuffle_ps(v, v, (((2) << 6) | ((2) << 4) | ((2) << 2) | ((2)))));
-				case 3:
-					return _mm_cvtss_f32(_mm_shuffle_ps(v, v, (((3) << 6) | ((3) << 4) | ((3) << 2) | ((3)))));
-				default:
-					return 0.0f;
-			}
-#endif
-		}
-		union
-		{
-			__m128 v;
-//			r32     a[4];
-//#ifdef __SSE
-			struct
-			{
-				r32 h, x, y, z;
-			};
+	typedef vector4 float4;
+//	struct float4
+//	{
+//	private:
+//		float4() { _mm_set1_ps(0.0f); }
+//		float4(__m128 _v) { v = _v; }
+//		float4(float _x, float _y, float _z) { v = _mm_set_ps(_z, _y, _x, 1.0f); }
+//		float4(float _x, float _y, float _z, float _h) { v = _mm_set_ps(_z, _y, _x, _h); }
+//	public:
+//		static float4 create(float _x, float _y, float _z) {   }
+//		r32 get_x() const { return (*this)[1]; }
+//		r32 get_y() const { return (*this)[2]; }
+//		r32 get_z() const { return (*this)[3]; }
+//		r32 get_h() const { return (*this)[0]; }
+//		float operator[](u32 i) const
+//		{
+////#ifdef __SSE4_1__
+//#if 0
+//			float h = 0.0f;
+//			switch (i)
+//			{
+//			case 0:
+//				h = (float)_mm_extract_ps(v, 0);
+//				return h;
+//			case 1:
+//				return (float)_mm_extract_ps(v, 1);
+//			case 2:
+//				return (float)_mm_extract_ps(v, 2);
+//			case 3:
+//				return (float)_mm_extract_ps(v, 3);
+//			default:
+//				return 0.0f;
+//			}
+//#else
+//			switch (i)
+//			{
+//				case 0:
+//					return _mm_cvtss_f32(_mm_shuffle_ps(v, v, (((0) << 6) | ((0) << 4) | ((0) << 2) | ((0)))));
+//				case 1:
+//					return _mm_cvtss_f32(_mm_shuffle_ps(v, v, (((1) << 6) | ((1) << 4) | ((1) << 2) | ((1)))));
+//				case 2:
+//					return _mm_cvtss_f32(_mm_shuffle_ps(v, v, (((2) << 6) | ((2) << 4) | ((2) << 2) | ((2)))));
+//				case 3:
+//					return _mm_cvtss_f32(_mm_shuffle_ps(v, v, (((3) << 6) | ((3) << 4) | ((3) << 2) | ((3)))));
+//				default:
+//					return 0.0f;
+//			}
 //#endif
-		};
-	};
+//		}
+//		union
+//		{
+//			__m128 v;
+////			r32     a[4];
+////#ifdef __SSE
+//			struct
+//			{
+//				r32 h, x, y, z;
+//			};
+////#endif
+//		};
+//	};
 
 	//!< Matrix 4x4
 	struct float44
