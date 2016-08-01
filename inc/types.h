@@ -108,10 +108,12 @@ namespace uti
 		{
 //#ifdef __SSE4_1__
 #if 0
+			float h = 0.0f;
 			switch (i)
 			{
 			case 0:
-				return (float)_mm_extract_ps(v, 0); 
+				h = (float)_mm_extract_ps(v, 0);
+				return h;
 			case 1:
 				return (float)_mm_extract_ps(v, 1);
 			case 2:

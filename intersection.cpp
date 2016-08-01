@@ -62,7 +62,9 @@ namespace uti
 		else if (pos == nullptr && normal == nullptr)
 			return true;
 
-		float t = (-b - sqrt(dis)) / 2.0f * a;
+		float4 test = float4(dis, dis, dis, dis);
+		test.v = _mm_sqrt_ss(test.v);
+		float t = (-b - test.get_h()) / 2.0f * a;
 
 		float x = x0 + t * dx;
 		float y = y0 + t * dy;
