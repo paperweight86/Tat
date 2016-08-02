@@ -9,6 +9,11 @@ namespace uti
 		return _mm_set_ps(z, y, x, h);
 	}
 
+	float4 make_ordered(float r0, float r1, float r2, float r3)
+	{
+		return _mm_set_ps(r3,r2,r1,r0);
+	}
+
 	float get_x(float4 v)
 	{
 		return _mm_cvtss_f32(_mm_shuffle_ps(v, v, (((1) << 6) | ((1) << 4) | ((1) << 2) | ((1)))));
