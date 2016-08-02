@@ -13,7 +13,7 @@ namespace uti
 
 		float a = uti::get_x(uti::dot(diff, diff));
 		float b = uti::get_x(uti::dot(2 * diff, diff2));
-		float c = uti::get_x(uti::dot(sphere.pos, sphere.pos)) + uti::get_x(uti::dot(ray.origin, ray.origin)) + -2 * uti::get_x(uti::dot(sphere.pos, ray.origin)) - powf(sphere.radius,2.0f);
+		float c = uti::get_x(uti::dot(sphere.pos, sphere.pos)) + uti::get_x(uti::dot(ray.origin, ray.origin)) + -2 * uti::get_x(uti::dot(sphere.pos, ray.origin)) - sphere.radius*sphere.radius;
 
 		float dis = b*b - 4 * a * c;
 
