@@ -14,8 +14,20 @@ void TAT_DEF uti::getExecutableFilePath(tchar* str, size_t strLen)
 	GetModuleFileName(NULL, str, strLen);
 }
 
+void TAT_DEF uti::getExecutableFilePathW(wchar_t* str, size_t strLen)
+{
+	GetModuleFileNameW(NULL, str, strLen);
+}
+
 void TAT_DEF uti::getExecutableFolderPath(tchar* str, size_t strLen)
 {
 	getExecutableFilePath(str, strLen);
 	PathRemoveFileSpec(str);
 }
+
+void TAT_DEF uti::getExecutableFolderPathW(wchar_t* str, size_t strLen)
+{
+	getExecutableFilePathW(str, strLen);
+	PathRemoveFileSpecW(str);
+}
+
