@@ -44,4 +44,37 @@ namespace str
 
 		return off;
 	}
+
+	size_t find_char(uti::cstr src, char ch, size_t str_len)
+	{
+		for (size_t i = 0; i < str_len; i++)
+		{
+			if (src[i] == ch)
+				return i;
+		}
+
+		return _CRT_SIZE_MAX;
+	}
+
+	size_t find_not_char(uti::cstr src, char ch, size_t str_len)
+	{
+		for (size_t i = 0; i < str_len; i++)
+		{
+			if (src[i] != ch)
+				return i;
+		}
+
+		return _CRT_SIZE_MAX;
+	}
+
+	uti::u64 find_num_char(uti::cstr src, char ch, uti::u64 str_len)
+	{
+		for (uti::u64 i = 0; i < str_len; i++)
+		{
+			if (src[i] != ch)
+				return i;
+		}
+
+		return u64_max;
+	}
 }

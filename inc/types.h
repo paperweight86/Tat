@@ -219,17 +219,29 @@ namespace uti
 	
 	// Integer Ranges
 	#define uint64_max  _UI64_MAX
+	#define u64_max  _UI64_MAX
 	#define int64_max    _I64_MAX
+	#define i64_max    _I64_MAX
 	#define uint32_max  _UI32_MAX
+	#define u32_max  _UI32_MAX
 	#define int32_max    _I32_MAX
+	#define i32_max    _I32_MAX
 	#define uint16_max  _UI16_MAX
+	#define u16_max  _UI16_MAX
 	#define int16_max    _I16_MAX
+	#define i16_max    _I16_MAX
 	#define uint8_max    _UI8_MAX
+	#define u8_max    _UI8_MAX
 	#define int8_max      _I8_MAX
+	#define i8_max      _I8_MAX
 	#define int64_min    _I64_MIN
+	#define i64_min    _I64_MIN
 	#define int32_min    _I32_MIN
+	#define i32_min    _I32_MIN
 	#define int16_min    _I16_MIN
+	#define i16_min    _I16_MIN
 	#define int8_min      _I8_MIN
+	#define i8_min      _I8_MIN
 
 	// Float Ranges
 	#define float_max      FLT_MAX
