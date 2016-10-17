@@ -45,10 +45,9 @@ bool gel::set_gl_context(ptr hwnd, ptr gl_context)
 	return wglMakeCurrent(hdc, (HGLRC)gl_context) != GL_FALSE;
 }
 
-void gel::swap_gl_buffers(ptr hwnd)
+void gel::swap_gl_buffers(ptr hdc)
 {
-	HDC hdc = GetDC((HWND)hwnd);
-	SwapBuffers(hdc);
+	SwapBuffers((HDC)hdc);
 }
 
 void gel::destroy_gl_context(ptr gl_context)

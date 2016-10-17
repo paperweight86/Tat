@@ -36,7 +36,8 @@ namespace uti
 
 	float4 operator-(const float4& left, const float4& right)
 	{
-		return _mm_sub_ps( left, right );
+		auto res = _mm_sub_ps( left, right );
+		return make(get_x(res), get_y(res), get_z(res));
 	}
 
 	float4 operator+(const float4& left, const float4& right)
@@ -78,12 +79,10 @@ namespace uti
 
 	float4 cross(const float4& left, const float4& right)
 	{
-		return left;
-		//float4 result;
-		//result.x = left.y*right.z - left.z*right.y;
-		//result.y = left.x*right.z - left.z*right.x;
-		//result.z = left.x*right.y - left.y*right.x;
-		//return result;
+		float x = get_y(left)*get_z(right) - get_z(left)*get_y(right);
+		float y = get_z(left)*get_x(right) - get_x(left)*get_z(right);
+		float z = get_x(left)*get_y(right) - get_y(left)*get_x(right);
+		return make(x,y,z);
 	}
 
 	float len(float4 vec)
@@ -93,6 +92,7 @@ namespace uti
 
 	float4 norm(float4 vec)
 	{
-		return vec / len(vec);
+		auto res = vec / len(vec);
+		return make(get_x(res), get_y(res), get_z(res));
 	}
 }

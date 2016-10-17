@@ -86,6 +86,7 @@ namespace uti
 
 #ifdef __SSE
 	typedef __m128 vector4;
+	struct matrix44 { float m[16]; };
 #else
 	typedef struct vector4
 	{
@@ -95,6 +96,7 @@ namespace uti
 
 	//!< Vector 4
 	typedef vector4 float4;
+	typedef matrix44 float44;
 //	struct float4
 //	{
 //	private:
@@ -157,10 +159,10 @@ namespace uti
 //	};
 
 	//!< Matrix 4x4
-	struct float44
-	{
-		float4 m[4];
-	};
+	//struct float44
+	//{
+	//	float4 m[4];
+	//};
 
 	// Super compact real vector types
 	typedef float2 rv2;

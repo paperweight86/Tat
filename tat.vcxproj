@@ -159,6 +159,7 @@
     <ClCompile Include="src\float2.cpp" />
     <ClCompile Include="src\float3.cpp" />
     <ClCompile Include="src\float4.cpp" />
+    <ClCompile Include="src\float44.cpp" />
     <ClCompile Include="src\gel.cpp" />
     <ClCompile Include="src\IEventArgs.cpp" />
     <ClCompile Include="src\IInput.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="inc\float2.h" />
     <ClInclude Include="inc\float3.h" />
     <ClInclude Include="inc\float4.h" />
+    <ClInclude Include="inc\float44.h" />
     <ClInclude Include="inc\gel.h" />
     <ClInclude Include="inc\HRTools.h" />
     <ClInclude Include="inc\IEventArgs.h" />

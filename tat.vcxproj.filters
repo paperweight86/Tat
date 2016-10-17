@@ -48,6 +48,7 @@
     <ClCompile Include="intersection.cpp" />
     <ClCompile Include="src\gel.cpp" />
     <ClCompile Include="src\window_windows.cpp" />
+    <ClCompile Include="src\float44.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Callback.h">
@@ -118,6 +119,7 @@
     </ClInclude>
     <ClInclude Include="inc\gel.h" />
     <ClInclude Include="inc\window.h" />
+    <ClInclude Include="inc\float44.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt" />

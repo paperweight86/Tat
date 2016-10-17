@@ -1,7 +1,5 @@
 #pragma once
 
-#include "float4.h"
-
 namespace uti
 {
 	TAT_DEF float4 make(float x, float y, float z, float h = 1.0f);
