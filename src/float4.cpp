@@ -34,42 +34,6 @@ namespace uti
 		return _mm_cvtss_f32(_mm_shuffle_ps(v, v, (((0) << 6) | ((0) << 4) | ((0) << 2) | ((0)))));
 	}
 
-	float4 operator-(const float4& left, const float4& right)
-	{
-		auto res = _mm_sub_ps( left, right );
-		return make(get_x(res), get_y(res), get_z(res));
-	}
-
-	float4 operator+(const float4& left, const float4& right)
-	{
-		return _mm_add_ps(left, right);
-	}
-
-	float4 operator*(const float4& left, const float4& right)
-	{
-		return float4(_mm_mul_ps(left, right));
-	}
-
-	float4 operator*(float4 left, float right)
-	{
-		return float4(_mm_mul_ps(left, _mm_set1_ps(right)));
-	}
-
-	float4 operator*(float left, float4 right)
-	{
-		return float4(_mm_mul_ps(_mm_set1_ps(left), right));
-	}
-
-	float4 operator/(const float4& left, const float4& right)
-	{
-		return float4(_mm_div_ps(left, right));
-	}
-
-	float4 operator/(float4 left, float right)
-	{
-		return float4(_mm_div_ps(left, _mm_set1_ps(right)));
-	}
-
 	float4 dot(const float4& left, const float4& right)
 	{
 		const int mask = 0xE << 4 | 0xF;
@@ -96,3 +60,42 @@ namespace uti
 		return make(get_x(res), get_y(res), get_z(res));
 	}
 }
+
+using namespace uti;
+
+float4 operator-(const float4& left, const float4& right)
+{
+	auto res = _mm_sub_ps(left, right);
+	return make(get_x(res), get_y(res), get_z(res));
+}
+
+float4 operator+(const float4& left, const float4& right)
+{
+	return _mm_add_ps(left, right);
+}
+
+float4 operator*(const float4& left, const float4& right)
+{
+	return float4(_mm_mul_ps(left, right));
+}
+
+float4 operator*(float4 left, float right)
+{
+	return float4(_mm_mul_ps(left, _mm_set1_ps(right)));
+}
+
+float4 operator*(float left, float4 right)
+{
+	return float4(_mm_mul_ps(_mm_set1_ps(left), right));
+}
+
+float4 operator/(const float4& left, const float4& right)
+{
+	return float4(_mm_div_ps(left, right));
+}
+
+float4 operator/(float4 left, float right)
+{
+	return float4(_mm_div_ps(left, _mm_set1_ps(right)));
+}
+

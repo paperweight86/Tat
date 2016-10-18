@@ -4,25 +4,23 @@
 
 namespace uti
 {
-
-	TAT_DEF struct Ray
+	struct Ray
 	{
 		float4 origin;
 		float4 dir;
 	};
 
-	TAT_DEF struct Sphere
+	struct Sphere
 	{
 		float4	pos;
 		r32		radius;
 		float4  color;
 	};
 
-	TAT_DEF struct Plane
+	struct Plane
 	{
 		float4 pos;
 		float4 norm;
 		float4 color;
 	};
-
 }

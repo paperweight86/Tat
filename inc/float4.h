@@ -9,17 +9,17 @@ namespace uti
 	TAT_DEF float get_z(float4 v);
 	TAT_DEF float get_h(float4 v);
 
-	TAT_DEF float4 operator-(const float4& left, const float4& right);
-	TAT_DEF float4 operator+(const float4& left, const float4& right);
-	TAT_DEF float4 operator*(const float4& left, const float4& right);
-	TAT_DEF float4 operator*(float4 left, float right);
-	TAT_DEF float4 operator*(float left, float4 right);
-	TAT_DEF float4 operator/(const float4& left, const float4& right);
-	TAT_DEF float4 operator/(float4 left, float right);
-
 	TAT_DEF float4 dot(const float4& left, const float4& right);
 	TAT_DEF float4 cross(const float4& left, const float4& right);
 
 	TAT_DEF float  len(float4 vec);
 	TAT_DEF float4 norm(float4 vec);
-}
+};
+
+TAT_DEF uti::float4 operator-(const uti::float4& left, const uti::float4& right);
+TAT_DEF uti::float4 operator+(const uti::float4& left, const uti::float4& right);
+TAT_DEF uti::float4 operator*(const uti::float4& left, const uti::float4& right);
+TAT_DEF uti::float4 operator*(uti::float4 left, float right);
+TAT_DEF uti::float4 operator*(float left, uti::float4 right);
+TAT_DEF uti::float4 operator/(const uti::float4& left, const uti::float4& right);
+TAT_DEF uti::float4 operator/(uti::float4 left, float right);

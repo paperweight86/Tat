@@ -188,7 +188,7 @@ float44 uti::mul(float44 left, float44 right)
 	return res;
 }
 
-float4 uti::mul(float4 left, float44 right)
+float4 uti::mul(float44 right, float4 left)
 {
 	/*
 	Column Matrix
@@ -214,7 +214,7 @@ float44 uti::operator*(float44 left, float44 right)
 	return mul(left, right);
 }
 
-float4  uti::operator*(float4  left, float44 right)
+float4  uti::operator*(float44 left, float4 right)
 {
 	return mul(left, right);
 }

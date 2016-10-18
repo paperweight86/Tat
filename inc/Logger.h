@@ -9,7 +9,7 @@ namespace uti
 	namespace log
 	{
 		TAT_DEF extern const int g_iMaxMsg;
-		TAT_DEF enum eLogLevel
+		enum eLogLevel
 		{
 			Info = 0,
 			Warning,

@@ -17,7 +17,7 @@ namespace uti
 	TAT_DEF float44 make_transposed(const float44& o);
 
 	TAT_DEF float44 mul(float44 left, float44 right);
-	TAT_DEF float4  mul(float4 left, float44 right);
+	TAT_DEF float4  mul(float44 right, float4 left);
 	TAT_DEF float44 operator*(float44 left, float44 right);
-	TAT_DEF float4  operator*(float4  left, float44 right);
+	TAT_DEF float4  operator*(float44 right, float4  left);
 }
