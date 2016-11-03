@@ -61,6 +61,23 @@ namespace
 				return 0;
 			}
 			break;
+		case WM_DROPFILES:
+			if(win->drop_file_callback)
+			{
+				HDROP hDrop = (HDROP)wParam;
+				LPSTR filename = NULL;
+				UINT num_files = DragQueryFile(hDrop, UINT_MAX, NULL, 0);
+				char* files = new char[num_files*MAX_PATH];
+				for (int i = 0; i < num_files; ++i)
+				{
+					DragQueryFile(hDrop, i, files + i*MAX_PATH, MAX_PATH);
+				}
+				win->drop_file_callback(files, num_files, MAX_PATH);
+				// TODO: Callback
+				DragFinish(hDrop);
+				delete[] files;
+			}
+			break;
 		}
 
 		return -1;
@@ -127,7 +144,7 @@ bool uti::window_initialise(window* win, int32 width, int32 height, bool show, t
 
 	RECT rc = { 0, 0, width, height };
 	AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
-	win->hwnd = (ptr)CreateWindow(win->class_name, windowTitle, WS_OVERLAPPEDWINDOW | WS_EX_WINDOWEDGE,
+	win->hwnd = (ptr)CreateWindowEx(WS_EX_WINDOWEDGE | WS_EX_ACCEPTFILES, win->class_name, windowTitle, WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, wcex.hInstance,
 		NULL);
 

@@ -21,6 +21,11 @@ namespace uti
 			bool /*down*/,
 			bool /*syskey*/
 			);
+		void(*drop_file_callback)(
+			uti::mstr files,
+			uti::u32 num_files,
+			uti::u32 stride
+			);
 	};
 
 	TAT_DEF bool	window_initialise(window* win, int32 width, int32 height, bool show, tstr windowTitle = _T("Main"));
