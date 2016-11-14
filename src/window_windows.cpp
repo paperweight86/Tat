@@ -16,8 +16,10 @@ namespace
 		bool keyDown = true;
 		switch (message)
 		{
+		case WM_SYSKEYUP:
 		case WM_KEYUP:
 			keyDown = false;
+		case WM_SYSKEYDOWN:
 		case WM_KEYDOWN:
 			if (win->keyboard_callback)
 			{

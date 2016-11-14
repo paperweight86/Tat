@@ -49,6 +49,7 @@
     <ClCompile Include="src\gel.cpp" />
     <ClCompile Include="src\window_windows.cpp" />
     <ClCompile Include="src\float44.cpp" />
+    <ClCompile Include="src\rearray.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Callback.h">
@@ -120,6 +121,8 @@
     <ClInclude Include="inc\gel.h" />
     <ClInclude Include="inc\window.h" />
     <ClInclude Include="inc\float44.h" />
+    <ClInclude Include="inc\rearray.h" />
+    <ClInclude Include="inc\keycodes.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt" />

@@ -167,6 +167,7 @@
     <ClCompile Include="src\IObserver.cpp" />
     <ClCompile Include="src\IWindow.cpp" />
     <ClCompile Include="src\Logger.cpp" />
+    <ClCompile Include="src\rearray.cpp" />
     <ClCompile Include="src\ScopedLog.cpp" />
     <ClCompile Include="src\window_windows.cpp" />
     <ClCompile Include="src\WinInput.cpp" />
@@ -192,8 +193,10 @@
     <ClInclude Include="inc\IObservable.h" />
     <ClInclude Include="inc\IObserver.h" />
     <ClInclude Include="inc\IWindow.h" />
+    <ClInclude Include="inc\keycodes.h" />
     <ClInclude Include="inc\Logger.h" />
     <ClInclude Include="inc\primatives.h" />
+    <ClInclude Include="inc\rearray.h" />
     <ClInclude Include="inc\ScopedLog.h" />
     <ClInclude Include="inc\tat.h" />
     <ClInclude Include="inc\types.h" />
