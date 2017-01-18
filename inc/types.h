@@ -80,8 +80,10 @@ namespace uti
 		float3() : x(0.0f), y(0.0f), z(0.0f) {}
 		float3(float _x, float _y, float _z) : x(_x), y(_y), z(_z) {}
 		float3(float2 xy) : x(xy.x), y(xy.y), z(0.0f) {}
+#ifndef TAT_FLOAT3_NO_PAD
 	private:
 		float pad;
+#endif
 	};
 
 #ifdef __SSE
