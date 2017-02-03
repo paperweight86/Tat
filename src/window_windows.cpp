@@ -59,7 +59,7 @@ namespace
 				pt.y = GET_Y_LPARAM(lParam);
 				ScreenToClient((HWND)win->hwnd, &pt);
 				// Fire Callback
-				win->mouse_callback(pt.x, pt.y, lButton, mButton, rButton, wheelDelta / WHEEL_DELTA);
+				win->mouse_callback((i16)pt.x, (i16)pt.y, lButton, mButton, rButton, wheelDelta / WHEEL_DELTA);
 				return 0;
 			}
 			break;
@@ -67,22 +67,20 @@ namespace
 			if(win->drop_file_callback)
 			{
 				HDROP hDrop = (HDROP)wParam;
-				LPSTR filename = NULL;
 				UINT num_files = DragQueryFile(hDrop, UINT_MAX, NULL, 0);
 				char* files = new char[num_files*MAX_PATH];
-				for (int i = 0; i < num_files; ++i)
+				for (UINT i = 0; i < num_files; ++i)
 				{
 					DragQueryFile(hDrop, i, files + i*MAX_PATH, MAX_PATH);
 				}
 				win->drop_file_callback(files, num_files, MAX_PATH);
-				// TODO: Callback
 				DragFinish(hDrop);
 				delete[] files;
 			}
 			break;
 		}
 
-		return -1;
+		return u64_max;
 	}
 
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

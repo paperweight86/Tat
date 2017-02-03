@@ -7,6 +7,12 @@
     <Filter Include="inc">
       <UniqueIdentifier>{1a374231-e565-4948-b860-fbd77dfbdfee}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ext">
+      <UniqueIdentifier>{d5be9d7e-deef-4387-bbd5-f6fe9442b6e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="inc\ext">
+      <UniqueIdentifier>{e4bf50aa-b823-4fab-ac5c-caebc95429a9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\float3.cpp">
@@ -30,26 +36,41 @@
     <ClCompile Include="src\IWindow.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\Logger.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\ScopedLog.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\WinInput.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\WinWindow.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="src\float2.cpp" />
-    <ClCompile Include="src\FileSystem.cpp" />
     <ClCompile Include="intersection.cpp" />
-    <ClCompile Include="src\gel.cpp" />
-    <ClCompile Include="src\window_windows.cpp" />
-    <ClCompile Include="src\float44.cpp" />
-    <ClCompile Include="src\rearray.cpp" />
+    <ClCompile Include="src\float2.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\float44.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\gel.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\log.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\rearray.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\window_windows.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\file_system.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ext\murmur_hash_3.cpp">
+      <Filter>src\ext</Filter>
+    </ClCompile>
+    <ClCompile Include="src\non_crypto_hash.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Callback.h">
@@ -88,16 +109,10 @@
     <ClInclude Include="inc\IWindow.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="inc\Logger.h">
-      <Filter>inc</Filter>
-    </ClInclude>
     <ClInclude Include="inc\ScopedLog.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="inc\types.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\WinInput.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="inc\WinWindow.h">
@@ -110,19 +125,45 @@
     <ClInclude Include="inc\InputKeyboardKeys.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="inc\float2.h" />
-    <ClInclude Include="inc\FileSystem.h" />
     <ClInclude Include="inc\intersection.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="inc\primatives.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="inc\gel.h" />
-    <ClInclude Include="inc\window.h" />
-    <ClInclude Include="inc\float44.h" />
-    <ClInclude Include="inc\rearray.h" />
-    <ClInclude Include="inc\keycodes.h" />
+    <ClInclude Include="inc\gel.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\float2.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\float44.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\keycodes.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\log.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\rearray.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\window.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\file_system.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ext\murmur_hash_3.h">
+      <Filter>src\ext</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\non_crypto_hash.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\ext\stb_image.h">
+      <Filter>inc\ext</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt" />

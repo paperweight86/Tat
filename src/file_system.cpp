@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include "FileSystem.h"
+#include "file_system.h"
 
 // More windows utilities
 #include <Shlwapi.h>
@@ -11,12 +11,12 @@
 
 void TAT_DEF uti::getExecutableFilePath(tchar* str, size_t strLen)
 {
-	GetModuleFileName(NULL, str, strLen);
+	GetModuleFileName(NULL, str, (DWORD)strLen);
 }
 
 void TAT_DEF uti::getExecutableFilePathW(wchar_t* str, size_t strLen)
 {
-	GetModuleFileNameW(NULL, str, strLen);
+	GetModuleFileNameW(NULL, str, (DWORD)strLen);
 }
 
 void TAT_DEF uti::getExecutableFolderPath(tchar* str, size_t strLen)
@@ -31,3 +31,16 @@ void TAT_DEF uti::getExecutableFolderPathW(wchar_t* str, size_t strLen)
 	PathRemoveFileSpecW(str);
 }
 
+bool uti::file_exists(const char* name)
+{
+	FILE* file = NULL;
+	if (fopen_s(&file, name, "r") == 0)
+	{
+		fclose(file);
+		return true;
+	}
+	else 
+	{
+		return false;
+	}
+}

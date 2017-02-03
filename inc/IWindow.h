@@ -6,26 +6,20 @@
 
 namespace uti
 {
-	typedef std::function<
-		// Return
-		void(
-		// Parameters
+	typedef void mouse_input_callback_sig(
 		int16 /*x*/,
 		int16 /*y*/,
 		bool /*right down*/,
 		bool /*middle down*/,
 		bool /*left down*/,
 		int16 /*wheel delta*/
-	)> MouseInputCallback;
+	);
 
-	typedef std::function<
-		// Return
-		void(
-		// Parameters
-		uint32 /*keycode*/,
+	typedef void keyboard_input_callback_sig(
+		u64 /*keycode*/,
 		bool /*down*/,
 		bool /*syskey*/
-	)> KeyboardInputCallback;
+	);
 
 	class TAT_DEF IWindow
 	{
@@ -42,7 +36,7 @@ namespace uti
 		virtual void	Close( ) = 0;
 		virtual int32   Width() = 0;
 		virtual int32   Height() = 0;
-		virtual void	RegisterMouseInput(MouseInputCallback callback) = 0;
-		virtual void	RegisterKeyboardInput(KeyboardInputCallback callback) = 0;
+		virtual void	RegisterMouseInput(mouse_input_callback_sig* callback) = 0;
+		virtual void	RegisterKeyboardInput(keyboard_input_callback_sig* callback) = 0;
 	};
 }

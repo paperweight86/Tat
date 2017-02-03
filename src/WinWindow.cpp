@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "WinWindow.h"
 
+#include "log.h"
+
 #ifdef _WIN32
 	#include <windows.h>
 	#include <windowsx.h>
@@ -12,8 +14,8 @@ CWinWindow::CWinWindow( )
 {
 	_stprintf_s<32>( m_sWinClassName, _T("%s%i"), _T("CWinWindow"), m_numInstances );
 	m_bQuit = false;
-	m_callbackMouse = false;
-	m_callbackKeyboard = false;
+	m_mouseCallback = nullptr;
+	m_keyboardCallback = nullptr;
 	m_hWnd = 0;
 }
 
@@ -64,7 +66,7 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam 
 
 bool CWinWindow::Initialise( int32 width, int32 height, bool show, tstr windowTitle )
 {
-	ComponentLogFunc();
+	//ComponentLogFunc();
 	// Register class
     WNDCLASSEX wcex;
     wcex.cbSize = sizeof( WNDCLASSEX );
@@ -81,7 +83,7 @@ bool CWinWindow::Initialise( int32 width, int32 height, bool show, tstr windowTi
     wcex.hIconSm = 0;//LoadIcon( wcex.hInstance, ( LPCTSTR )IDI_... );
     if( !RegisterClassEx( &wcex ) )
 	{
-		Logger.Log(log::Error, _T("Unable to register window class."));
+		log::err_out("Unable to register window class.");
         return false;
 	}
 
@@ -96,7 +98,7 @@ bool CWinWindow::Initialise( int32 width, int32 height, bool show, tstr windowTi
 
     if( !m_hWnd )
 	{
-		Logger.Log(log::Error, _T("Unable to create window."));
+		log::err_out("Unable to create window.");
         return false;
 	}
 	
@@ -108,7 +110,7 @@ bool CWinWindow::Initialise( int32 width, int32 height, bool show, tstr windowTi
 
 bool CWinWindow::Update( )
 {
-	ComponentLogFunc();
+	//ComponentLogFunc();
 	MSG msg = {0};
 	while ( PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) )
 	{
@@ -118,7 +120,7 @@ bool CWinWindow::Update( )
 
 	if (msg.message == WM_QUIT)
 	{
-		Logger.Log(_T("User closed the window."));
+		log::inf_out("User closed the window.");
 		m_bQuit = true;
 	}
 
@@ -155,15 +157,13 @@ int32 CWinWindow::Height()
 		return -1;
 }
 
-void CWinWindow::RegisterMouseInput(MouseInputCallback callback)
+void CWinWindow::RegisterMouseInput(mouse_input_callback_sig* callback)
 {
-	m_callbackMouse = true;
 	m_mouseCallback = callback;
 }
 
-void CWinWindow::RegisterKeyboardInput(KeyboardInputCallback callback)
+void CWinWindow::RegisterKeyboardInput(keyboard_input_callback_sig* callback)
 {
-	m_callbackKeyboard = true;
 	m_keyboardCallback = callback;
 }
 
@@ -176,7 +176,7 @@ ptr CWinWindow::ProcessMessage(uint32 message, uint64 wParam, uint64 lParam)
 	case WM_KEYUP:
 		keyDown = false;
 	case WM_KEYDOWN:
-		if (m_keyboardCallback)
+		if (m_keyboardCallback != nullptr)
 		{
 			m_keyboardCallback(wParam, keyDown, false);
 		}
@@ -188,7 +188,7 @@ ptr CWinWindow::ProcessMessage(uint32 message, uint64 wParam, uint64 lParam)
 	case WM_MBUTTONUP:
 	case WM_RBUTTONDOWN:
 	case WM_RBUTTONUP:
-		if (m_callbackMouse) 
+		if (m_mouseCallback != nullptr)
 		{
 			// Decode parameters
 			bool lButton = (wParam & MK_LBUTTON) == MK_LBUTTON;
@@ -202,7 +202,7 @@ ptr CWinWindow::ProcessMessage(uint32 message, uint64 wParam, uint64 lParam)
 		}
 		break;
 	case WM_MOUSEWHEEL:
-		if (m_callbackMouse)
+		if (m_mouseCallback != nullptr)
 		{
 			wheelDelta = HIWORD(wParam);
 			// Decode parameters
@@ -214,13 +214,13 @@ ptr CWinWindow::ProcessMessage(uint32 message, uint64 wParam, uint64 lParam)
 			pt.y = GET_Y_LPARAM(lParam);
 			ScreenToClient((HWND)m_hWnd, &pt);
 			// Fire Callback
-			m_mouseCallback(pt.x, pt.y, lButton, mButton, rButton, wheelDelta / WHEEL_DELTA);
+			m_mouseCallback((i16)pt.x, (i16)pt.y, lButton, mButton, rButton, wheelDelta / WHEEL_DELTA);
 			return 0;
 		}
 		break;
 	}
 
-	return -1;
+	return u64_max;
 }
 
 

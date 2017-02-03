@@ -8,10 +8,11 @@ using namespace uti;
 
 CScopedLog::CScopedLog( tstr component )
 {
-	Logger.PushComponent( component );
+	(void)component;
+//	Logger.PushComponent( component );
 }
 
 CScopedLog::~CScopedLog( )
 {
-	Logger.PopComponent( );
+//	Logger.PopComponent( );
 }

@@ -31,7 +31,7 @@ float44 uti::make(float* values, uti::u32 num_values)
 {
 	assert(num_values > 0 && num_values <= 16);
 	float44 mat = {};
-	for (int i = 0; i < num_values; i++)
+	for (uti::u32 i = 0; i < num_values; i++)
 		mat.m[i] = values[i];
 	return mat;
 }
@@ -133,8 +133,8 @@ float44 uti::make_transposed(const float44& o)
 float44 uti::make_projection(float aspect, float min_dist, float max_dist, float hfov)
 {
 	float44 res = make_identity();
-	res.m[0] = 1.0f / (aspect * tanf(hfov * 0.5));
-	res.m[5] = 1.0f / tanf(hfov * 0.5);
+	res.m[0] = 1.0f / (aspect * tanf(hfov * 0.5f));
+	res.m[5] = 1.0f / tanf(hfov * 0.5f);
 	res.m[10] = -((max_dist+min_dist)/(max_dist - min_dist));
 	res.m[14] = -(2.0f * max_dist * min_dist / (max_dist - min_dist));
 	res.m[11] = -1.0f;

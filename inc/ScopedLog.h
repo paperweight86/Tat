@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Logger.h"
-
 #include "tat.h"
+
+#include "log.h"
 
 namespace uti
 {
@@ -25,8 +25,8 @@ namespace uti
 	class TAT_DEF CScopedLogger
 	{
 	public:
-		CScopedLogger( ) { Logger.PushComponent(_T("main")); Logger.Info(_T("Go...")); }
-		~CScopedLogger( ) { Logger.Info(_T("fin.")); CLogger::DestroyInstance(); }
+		CScopedLogger( ) { /*Logger.PushComponent(_T("main")); Logger.Info(_T("Go..."));*/ }
+		~CScopedLogger( ) { /*Logger.Info(_T("fin.")); CLogger::DestroyInstance();*/ }
 	};
 
 	#define ComponentLog(component) CScopedLog __ScopedComponent (component)

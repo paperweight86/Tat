@@ -267,6 +267,18 @@ namespace uti
 	#define real_min real32_min
 #endif
 
+	template<typename T>
+	inline T min(T a, T b)
+	{
+		return a < b ? a : b;
+	}
+
+	template<typename T>
+	inline T max(T a, T b)
+	{
+		return a > b ? a : b;
+	}
+
 	//!< Pointer Sized Type
 #if   defined(__ARCX64)
 	typedef u64 ptr;

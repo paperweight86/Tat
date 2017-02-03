@@ -14,10 +14,8 @@ namespace uti
 		bool	 m_bQuit;
 		ptr		 m_hWnd;
 		tchar	 m_sWinClassName [32];
-		MouseInputCallback m_mouseCallback;
-		bool m_callbackMouse;
-		KeyboardInputCallback m_keyboardCallback;
-		bool m_callbackKeyboard;
+		mouse_input_callback_sig* m_mouseCallback;
+		keyboard_input_callback_sig* m_keyboardCallback;
 	public:
 		CWinWindow( );
 		~CWinWindow( );
@@ -29,8 +27,8 @@ namespace uti
 		void	Close( );
 		int32   Width( );
 		int32   Height( );
-		void	RegisterMouseInput(MouseInputCallback callback);
-		void	RegisterKeyboardInput(KeyboardInputCallback callback);
+		void	RegisterMouseInput(mouse_input_callback_sig* callback);
+		void	RegisterKeyboardInput(keyboard_input_callback_sig* callback);
 
 		ptr ProcessMessage(uint32 message, uint64 wParam, uint64 lParam);
 	};

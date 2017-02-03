@@ -17,7 +17,7 @@ namespace uti
 			bool /*left down*/,
 			int16 /*wheel delta*/);
 		void(*keyboard_callback)(
-			uti::uint32 /*keycode*/,
+			uti::uint64 /*keycode*/,
 			bool /*down*/,
 			bool /*syskey*/
 			);

@@ -13,8 +13,8 @@ namespace uti
 	struct Sphere
 	{
 		float4	pos;
-		r32		radius;
 		float4  color;
+		r32		radius;
 	};
 
 	struct Plane

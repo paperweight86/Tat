@@ -15,6 +15,8 @@ namespace uti
 		uti::i64 size;
 		uti::i64 capacity;
 
+		rearray();
+
 		void allocate(uti::i64 initial_capacity, bool zero = true);
 		void rearray<T>::allocate_size(uti::i64 initial_size, bool zero = true);
 		void reallocate(uti::i64 new_capacity, bool zero = true);
@@ -26,6 +28,14 @@ namespace uti
 		void add_end(bool zero = true);
 		void remove_end();
 	};
+
+	template <class T>
+	rearray<T>::rearray()
+	{
+		data = nullptr;
+		size = 0;
+		capacity = 0;
+	}
 
 	template <class T>
 	void rearray<T>::allocate(uti::i64 initial_capacity, bool zero = true)
@@ -70,34 +80,41 @@ namespace uti
 	{
 		uti::u8* old_data = data;
 		data = new uti::u8[sizeof(T) * new_capacity];
-		if (new_capacity > capacity)
+		if (old_data != 0)
 		{
-			memcpy(data, old_data, sizeof(T) * (new_capacity - capacity));
-			if(zero)
-				memset(data + sizeof(T) * capacity, 0, sizeof(T) * (new_capacity - capacity));
+			if (new_capacity > capacity)
+			{
+				memcpy(data, old_data, sizeof(T) * (new_capacity - capacity));
+				if (zero)
+					memset(data + sizeof(T) * capacity, 0, sizeof(T) * (new_capacity - capacity));
+			}
+			else
+			{
+				memcpy(data, old_data, sizeof(T) * new_capacity);
+			}
+			delete[] old_data;
 		}
-		else
+		else if (zero)
 		{
-			memcpy(data, old_data, sizeof(T) * new_capacity);
+			memset(data, 0, sizeof(T) * new_capacity);
 		}
-		delete[] old_data;
 		capacity = new_capacity;
 	}
 
 	template <class T>
-	void rearray<T>::add_end(T value , bool zero = true)
+	void rearray<T>::add_end(T value , bool zero_if_grow = true)
 	{
 		if(size == capacity)
-			reallocate(capacity * 2, zero);
+			reallocate(uti::max(capacity+1,capacity * 2), zero_if_grow);
 
 		*(T*)(data + size++ * sizeof(T)) = value;
 	}
 
 	template <class T>
-	void rearray<T>::add_end( bool zero = false )
+	void rearray<T>::add_end(bool zero_if_grow = true)
 	{
 		if (size == capacity)
-			reallocate(capacity * 2, zero);
+			reallocate(uti::max(capacity+1,capacity * 2), zero_if_grow);
 
 		size++;
 	}

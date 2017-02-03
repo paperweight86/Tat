@@ -8,9 +8,9 @@
 												_com_error err(hr);\
 												LPCTSTR errMsg = err.ErrorMessage();\
 												if(errMsg) {\
-													Logger.Error(_T("%s (\"%s\")"), estr, errMsg);\
+													uti::log::err_out("%s (\"%s\")", estr, errMsg);\
 												} else {\
-													Logger.Error(_T("%s (%08x)"), estr, hr);\
+													uti::log::err_out("%s (%08x)", estr, hr);\
 												}\
 												return;\
 											} static_cast<void>(0)
@@ -20,9 +20,9 @@
 												_com_error err(hr);\
 												LPCTSTR errMsg = err.ErrorMessage();\
 												if(errMsg) {\
-													Logger.Error(_T("%s (\"%s\")"), estr, errMsg);\
+													uti::log::err_out("%s (\"%s\")", estr, errMsg);\
 												} else {\
-													Logger.Error(_T("%s (%08x)"), estr, hr);\
+													uti::log::err_out("%s (%08x)", estr, hr);\
 												}\
 												return false;\
 											} static_cast<void>(0)
@@ -32,9 +32,9 @@
 												_com_error err(hr);\
 												LPCTSTR errMsg = err.ErrorMessage();\
 												if(errMsg) {\
-													Logger.Error(_T("%s (\"%s\")"), estr, errMsg);\
+													uti::log::err_out("%s (\"%s\")", estr, errMsg);\
 												} else {\
-													Logger.Error(_T("%s (%08x)"), estr, hr);\
+													uti::log::err_out("%s (%08x)", estr, hr);\
 												}\
 												return ret;\
 											} static_cast<void>(0)
@@ -44,9 +44,9 @@
 											_com_error err(hr);\
 											LPCTSTR errMsg = err.ErrorMessage();\
 											if(errMsg) {\
-												Logger.Error(_T("%s (\"%s\")"), estr, errMsg);\
+												uti::log::err_out("%s (\"%s\")", estr, errMsg);\
 											} else {\
-												Logger.Error(_T("%s (%08x)"), estr, hr);\
+												uti::log::err_out("%s (%08x)", estr, hr);\
 											}\
 										} static_cast<void>(0)
 
