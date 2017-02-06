@@ -7,6 +7,8 @@
 #define STR_CHAR_IS_SCIFLT_EXPONENT(c)	 (*(c) == 'e')
 #define STR_CHAR_IS_DECIMAL_POINT(c)     (*(c) == '.')
 
+#define UTI_FIND_CHAR_NOT_FOUND _CRT_SIZE_MAX
+
 namespace str
 {
 	size_t strOffToNextFloat(uti::tstr c)
@@ -53,7 +55,7 @@ namespace str
 				return i;
 		}
 
-		return _CRT_SIZE_MAX;
+		return UTI_FIND_CHAR_NOT_FOUND;
 	}
 
 	size_t find_not_char(uti::cstr src, char ch, size_t str_len)
@@ -64,7 +66,7 @@ namespace str
 				return i;
 		}
 
-		return _CRT_SIZE_MAX;
+		return UTI_FIND_CHAR_NOT_FOUND;
 	}
 
 	uti::u64 find_num_char(uti::cstr src, char ch, uti::u64 str_len)
