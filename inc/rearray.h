@@ -25,6 +25,7 @@ namespace uti
 		T& operator[](uti::i64 idx);
 
 		void add_end(T data, bool zero = true);
+		T*	 add_end_ret(bool zero_if_grow = true);
 		void add_end(bool zero = true);
 		void remove_end();
 	};
@@ -117,6 +118,13 @@ namespace uti
 			reallocate(uti::max(capacity+1,capacity * 2), zero_if_grow);
 
 		size++;
+	}
+
+	template <class T>
+	T* rearray<T>::add_end_ret(bool zero_if_grow = true)
+	{
+		add_end(zero_if_grow);
+		return (T*)(data + (size-1) * sizeof(T));
 	}
 
 	template <class T>
