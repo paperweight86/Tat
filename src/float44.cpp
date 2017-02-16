@@ -5,7 +5,7 @@
 
 using namespace uti;
 
-float44 uti::make(float4 c0, float4 c1, float4 c2, float4 c3)
+float44 uti::make(const float4& c0, const float4& c1, const float4& c2, const float4& c3)
 {
 	float44 res = {};
 	res.m[0]  = get_x(c0);
@@ -87,7 +87,7 @@ float44 uti::make_rotate_z(float rads)
 	return res;
 }
 
-float44 uti::make_translate(float4 offset)
+float44 uti::make_translate(const float4& offset)
 {
 	return make_translate( get_x(offset), get_y(offset), get_z(offset));
 }
@@ -101,18 +101,27 @@ float44 uti::make_translate(float xt, float yt, float zt)
 	return res;
 }
 
+float44 uti::make_inverse_look_at(const float4& pos, const float4& at, const float4& up)
+{
+	float4 zero = uti::make_f4_zero();
+	float4 test = norm(pos - at);
+	float4 zaxis = zero-test;
+	float4 xaxis = zero-norm(cross(up, zaxis));
+	float4 yaxis = zero-norm(cross(zaxis, xaxis));
+
+	float44 res = { get_x(xaxis), get_x(yaxis), get_x(zaxis), 0.0f,
+					get_y(xaxis), get_y(yaxis), get_y(zaxis), 0.0f,
+					get_z(xaxis), get_z(yaxis), get_z(zaxis), 0.0f,
+					0.0f,		  0.0f,			0.0f,		  1.0f };
+
+	return res;
+}
+
 float44 uti::make_look_at(const float4& pos, const float4& at, const float4& up)
 {
-	//float4 up = norm(cross(pos, at));
 	float4 zaxis = norm(pos - at);
 	float4 xaxis = norm(cross(up, zaxis));
 	float4 yaxis = norm(cross(zaxis, xaxis));
-
-	//float44 res = make(xaxis, yaxis, zaxis, make(0.0f, 0.0f, 0.0f, 1.0f));
-
-	//res.m[3]  = get_x(-1.0f * dot(xaxis, pos));
-	//res.m[7]  = get_x(-1.0f * dot(yaxis, pos));
-	//res.m[11] = get_x(-1.0f * dot(zaxis, pos));
 
 	float44 res = { get_x(xaxis), get_x(yaxis), get_x(zaxis), 0.0f,
 					get_y(xaxis), get_y(yaxis), get_y(zaxis), 0.0f,
@@ -142,7 +151,7 @@ float44 uti::make_projection(float aspect, float min_dist, float max_dist, float
 	return res;
 }
 
-float44 uti::mul(float44 left, float44 right)
+float44 uti::mul(const float44& left, const float44& right)
 {
 	/*
 	Column Matrix
@@ -188,7 +197,7 @@ float44 uti::mul(float44 left, float44 right)
 	return res;
 }
 
-float4 uti::mul(float44 right, float4 left)
+float4 uti::mul(const float44& right, const float4& left)
 {
 	/*
 	Column Matrix
@@ -209,12 +218,96 @@ float4 uti::mul(float44 right, float4 left)
 	return uti::make(x, y, z, w);
 }
 
-float44 uti::operator*(float44 left, float44 right)
+float44 uti::operator*(const float& left, const float44& right)
+{
+	float44 res = {};
+
+	res.m[0 ] = right.m[0 ] * left;
+	res.m[1 ] = right.m[1 ] * left;
+	res.m[2 ] = right.m[2 ] * left;
+	res.m[3 ] = right.m[3 ] * left;
+	res.m[4 ] = right.m[4 ] * left;
+	res.m[5 ] = right.m[5 ] * left;
+	res.m[6 ] = right.m[6 ] * left;
+	res.m[7 ] = right.m[7 ] * left;
+	res.m[8 ] = right.m[8 ] * left;
+	res.m[9 ] = right.m[9 ] * left;
+	res.m[10] = right.m[10] * left;
+	res.m[11] = right.m[11] * left;
+	res.m[12] = right.m[12] * left;
+	res.m[13] = right.m[13] * left;
+	res.m[14] = right.m[14] * left;
+	res.m[15] = right.m[15] * left;
+
+	return res;
+}
+
+float44 uti::operator*(const float44& left, const float44& right)
 {
 	return mul(left, right);
 }
 
-float4  uti::operator*(float44 left, float4 right)
+float4  uti::operator*(const float44& left, const float4& right)
 {
 	return mul(left, right);
+}
+
+float uti::determinant_33(const float44& in)
+{
+	/*
+	Column Matrix
+
+	|0  4  8  12|
+	|1  5  9  13|
+	|2  6  10 14|
+	|3  7  11 15|
+	*/
+
+	return ((in.m[0 ] * in.m[5 ] * in.m[10]) + (in.m[4 ] * in.m[9 ] * in.m[2 ]) + (in.m[8 ] * in.m[1 ] * in.m[6 ]))
+		 - ((in.m[8 ] * in.m[5 ] * in.m[2 ]) + (in.m[4 ] * in.m[1 ] * in.m[10]) + (in.m[0 ] * in.m[9 ] * in.m[6 ]));
+}
+
+void uti::inverse_33(const float44& in, float44* out)
+{
+	/*
+	Column Matrix
+
+	|0  4  8  12|
+	|1  5  9  13|
+	|2  6  10 14|
+	|3  7  11 15|
+	*/
+
+	*out = make_identity();
+
+	out->m[0 ] = in.m[5 ]*in.m[10] - in.m[9 ]*in.m[6 ];
+	out->m[1 ] = in.m[4 ]*in.m[10] - in.m[8 ]*in.m[6 ];
+	out->m[2 ] = in.m[4 ]*in.m[9 ] - in.m[8 ]*in.m[5 ];
+	out->m[4 ] = in.m[1 ]*in.m[10] - in.m[9 ]*in.m[2 ];
+	out->m[5 ] = in.m[0 ]*in.m[10] - in.m[8 ]*in.m[2 ];
+	out->m[6 ] = in.m[0 ]*in.m[9 ] - in.m[8 ]*in.m[1 ];
+	out->m[8 ] = in.m[1 ]*in.m[6 ] - in.m[5 ]*in.m[2 ];
+	out->m[9 ] = in.m[0 ]*in.m[6 ] - in.m[4 ]*in.m[2 ];
+	out->m[10] = in.m[0 ]*in.m[5 ] - in.m[4 ]*in.m[1 ];
+
+	//TODO: [DanJ] I fucked up and used the calculation for row matricies
+	//*out = make_transposed(*out);
+
+	float det = determinant_33(*out);
+	float oneOverDet = 1.0f / det;
+
+	*out = oneOverDet * (*out);
+}
+
+void uti::clear_to_33(float44* in_out)
+{
+	in_out->m[12] = 0.0f;
+	in_out->m[13] = 0.0f;
+	in_out->m[14] = 0.0f;
+
+	in_out->m[3 ] = 0.0f;
+	in_out->m[7 ] = 0.0f;
+	in_out->m[11] = 0.0f;
+	
+	in_out->m[15] = 1.0f;
 }

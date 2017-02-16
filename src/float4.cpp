@@ -14,6 +14,11 @@ namespace uti
 		return _mm_set_ps(r3,r2,r1,r0);
 	}
 
+	float4 make_f4_zero()
+	{
+		return _mm_set_ps(0.0f, 0.0f, 0.0f, 1.0f);
+	}
+
 	float get_x(float4 v)
 	{
 		return _mm_cvtss_f32(_mm_shuffle_ps(v, v, (((1) << 6) | ((1) << 4) | ((1) << 2) | ((1)))));
@@ -56,7 +61,10 @@ namespace uti
 
 	float4 norm(float4 vec)
 	{
-		auto res = vec / len(vec);
+		float len_vec = len(vec);
+		if (len_vec == 0.0f)
+			return vec;
+		auto res = vec / len_vec;
 		return make(get_x(res), get_y(res), get_z(res));
 	}
 }
