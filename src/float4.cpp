@@ -59,6 +59,11 @@ namespace uti
 		return get_h(_mm_sqrt_ss(dot(vec,vec)));
 	}
 
+	float sqlen(float4 vec)
+	{
+		return get_h(dot(vec, vec));
+	}
+
 	float4 norm(float4 vec)
 	{
 		float len_vec = len(vec);

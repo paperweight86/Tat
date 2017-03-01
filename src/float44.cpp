@@ -144,9 +144,10 @@ float44 uti::make_projection(float aspect, float min_dist, float max_dist, float
 	float44 res = make_identity();
 	res.m[0] = 1.0f / (aspect * tanf(hfov * 0.5f));
 	res.m[5] = 1.0f / tanf(hfov * 0.5f);
-	res.m[10] = -((max_dist+min_dist)/(max_dist - min_dist));
-	res.m[14] = -(2.0f * max_dist * min_dist / (max_dist - min_dist));
+	res.m[10] = -((max_dist)/(max_dist - min_dist));
+	res.m[14] = -(max_dist * min_dist / (max_dist - min_dist));
 	res.m[11] = -1.0f;
+	res.m[15] = 0.0f;
 
 	return res;
 }
@@ -278,6 +279,10 @@ void uti::inverse_33(const float44& in, float44* out)
 	|3  7  11 15|
 	*/
 
+
+	float det = determinant_33(in);
+	float oneOverDet = 1.0f / det;
+
 	*out = make_identity();
 
 	out->m[0 ] = in.m[5 ]*in.m[10] - in.m[9 ]*in.m[6 ];
@@ -293,9 +298,6 @@ void uti::inverse_33(const float44& in, float44* out)
 	//TODO: [DanJ] I fucked up and used the calculation for row matricies
 	//*out = make_transposed(*out);
 
-	float det = determinant_33(*out);
-	float oneOverDet = 1.0f / det;
-
 	*out = oneOverDet * (*out);
 }
 
@@ -310,4 +312,110 @@ void uti::clear_to_33(float44* in_out)
 	in_out->m[11] = 0.0f;
 	
 	in_out->m[15] = 1.0f;
+}
+
+float uti::determinant(const float44& in)
+{
+	/*
+	Column Matrix
+
+	|0  4  8  12|
+	|1  5  9  13|
+	|2  6  10 14|
+	|3  7  11 15|
+
+	|11 12 13 14|
+	|21 22 23 24|
+	|31 32 33 34|
+	|41 42 43 44|
+
+	*/
+		
+	return in.m[0 ] * in.m[5 ] * in.m[10] * in.m[15] + in.m[0 ] * in.m[9 ] * in.m[14] * in.m[7 ] + in.m[0 ] * in.m[13] * in.m[6 ] * in.m[11]
+		 + in.m[4 ] * in.m[1 ] * in.m[14] * in.m[11] + in.m[4 ] * in.m[9 ] * in.m[2 ] * in.m[15] + in.m[4 ] * in.m[13] * in.m[10] * in.m[3 ]
+		 + in.m[8 ] * in.m[1 ] * in.m[6 ] * in.m[15] + in.m[8 ] * in.m[5 ] * in.m[14] * in.m[3 ] + in.m[8 ] * in.m[13] * in.m[2 ] * in.m[7 ]
+		 + in.m[12] * in.m[1 ] * in.m[10] * in.m[7 ] + in.m[12] * in.m[5 ] * in.m[2 ] * in.m[11] + in.m[12] * in.m[9 ] * in.m[6 ] * in.m[3 ]
+		 - in.m[0 ] * in.m[5 ] * in.m[14] * in.m[11] - in.m[0 ] * in.m[9 ] * in.m[6 ] * in.m[15] - in.m[0 ] * in.m[13] * in.m[10] * in.m[7 ]
+		 - in.m[4 ] * in.m[1 ] * in.m[10] * in.m[15] - in.m[4 ] * in.m[9 ] * in.m[14] * in.m[3 ] - in.m[4 ] * in.m[13] * in.m[2 ] * in.m[11]
+		 - in.m[8 ] * in.m[1 ] * in.m[14] * in.m[7 ] - in.m[8 ] * in.m[5 ] * in.m[2 ] * in.m[15] - in.m[8 ] * in.m[13] * in.m[6 ] * in.m[3 ]
+		 - in.m[12] * in.m[1 ] * in.m[6 ] * in.m[11] - in.m[12] * in.m[5 ] * in.m[10] * in.m[3 ] - in.m[12] * in.m[9 ] * in.m[2 ] * in.m[7 ];
+}
+
+void uti::inverse(const float44& in, float44* out)
+{
+	/*
+	Column Matrix
+
+	|0  4  8  12|
+	|1  5  9  13|
+	|2  6  10 14|
+	|3  7  11 15|
+
+	11 = 22 33 44 + 23 34 42 + 24 32 43 - 22 34 43 - 23 32 44 - 24 33 42;
+	12 = 12 34 43 + 13 32 44 + 14 33 42 - 12 33 44 - 13 34 42 - 14 32 43;
+	13 = 12 23 44 + 13 24 42 + 14 22 43 - 12 24 43 - 13 22 44 - 14 23 42;
+	14 = 12 24 33 + 13 22 34 + 14 23 32 - 12 23 34 - 13 24 32 - 14 22 33;
+
+	21 = 21 34 43 + 23 31 44 + 24 33 41 - 21 33 44 - 23 34 41 - 24 31 43;
+	22 = 11 33 44 + 13 34 41 + 14 31 43 - 11 34 43 - 13 31 44 - 14 33 41;
+	23 = 11 24 43 + 13 21 44 + 14 23 41 - 11 23 44 - 13 24 41 - 14 21 43;
+	24 = 11 23 34 + 13 24 31 + 14 21 33 - 11 24 33 - 13 21 34 - 14 23 31;
+
+	31 = 21 32 44 + 22 34 41 + 24 31 42 - 21 34 42 - 22 31 44 - 24 32 41;
+	32 = 11 34 42 + 12 31 44 + 14 32 41 - 11 32 44 - 12 34 41 - 14 31 42;
+	33 = 11 22 44 + 12 24 41 + 14 21 42 - 11 24 42 - 12 21 44 - 14 22 41;
+	34 = 11 24 32 + 12 21 34 + 14 22 31 - 11 22 34 - 12 24 31 - 14 21 32;
+
+	41 = 21 33 42 + 22 31 43 + 23 32 41 - 21 32 43 - 22 33 41 - 23 31 42;
+	42 = 11 32 43 + 12 33 41 + 13 31 42 - 11 33 42 - 12 31 43 - 13 32 41;
+	43 = 11 23 42 + 12 21 43 + 13 22 41 - 11 22 43 - 12 23 41 - 13 21 42;
+	44 = 11 22 33 + 12 23 31 + 13 21 32 - 11 23 32 - 12 21 33 - 13 22 31;
+
+	*/
+
+	*out = make_identity();
+
+	/*
+	Column Matrix
+
+	|0  4  8  12|
+	|1  5  9  13|
+	|2  6  10 14|
+	|3  7  11 15|
+
+	|11 12 13 14|
+	|21 22 23 24|
+	|31 32 33 34|
+	|41 42 43 44|
+
+	*/
+
+	float det = determinant(in);
+	float oneOverDet = 1.0f / det;
+
+	out->m[0 ] = in.m[5] * in.m[10] * in.m[15] + in.m[9] * in.m[14] * in.m[7]  + in.m[13] * in.m[6] * in.m[11] - in.m[5] * in.m[14] * in.m[11] - in.m[9] * in.m[6]  * in.m[15] - in.m[13] * in.m[10] * in.m[7];
+	out->m[4 ] = in.m[4] * in.m[14] * in.m[11] + in.m[8] * in.m[6]  * in.m[15] + in.m[12] * in.m[10]* in.m[7]  - in.m[4] * in.m[10] * in.m[15] - in.m[8] * in.m[14] * in.m[7]  - in.m[12] * in.m[6]  * in.m[11];
+	out->m[8 ] = in.m[4] * in.m[9]  * in.m[15] + in.m[8] * in.m[13] * in.m[7]  + in.m[12] * in.m[5] * in.m[11] - in.m[4] * in.m[13] * in.m[11] - in.m[8] * in.m[5]  * in.m[15] - in.m[12] * in.m[9]  * in.m[7];
+	out->m[12] = in.m[4] * in.m[13] * in.m[10] + in.m[8] * in.m[5]  * in.m[14] + in.m[12] * in.m[9] * in.m[6]  - in.m[4] * in.m[9]  * in.m[14] - in.m[8] * in.m[13] * in.m[6]  - in.m[12] * in.m[5]  * in.m[10];
+
+	out->m[1 ] = in.m[1] * in.m[14] * in.m[11] + in.m[9] * in.m[2]  * in.m[15] + in.m[13] * in.m[10]* in.m[3]  - in.m[1] * in.m[10] * in.m[15] - in.m[9] * in.m[14] * in.m[3]  - in.m[13] * in.m[2]  * in.m[11];
+	out->m[5 ] = in.m[0] * in.m[10] * in.m[15] + in.m[8] * in.m[14] * in.m[3]  + in.m[12] * in.m[2] * in.m[11] - in.m[0] * in.m[14] * in.m[11] - in.m[8] * in.m[2]  * in.m[15] - in.m[12] * in.m[10] * in.m[3];
+	out->m[9 ] = in.m[0] * in.m[13] * in.m[11] + in.m[8] * in.m[1]  * in.m[15] + in.m[12] * in.m[9] * in.m[3]  - in.m[0] * in.m[9 ] * in.m[15] - in.m[8] * in.m[13] * in.m[3]  - in.m[12] * in.m[1]  * in.m[11];
+	out->m[13] = in.m[0] * in.m[9]  * in.m[14] + in.m[8] * in.m[13] * in.m[2]  + in.m[12] * in.m[1] * in.m[10] - in.m[0] * in.m[13] * in.m[10] - in.m[8] * in.m[1]  * in.m[14] - in.m[12] * in.m[9]  * in.m[2];
+
+	out->m[2 ] = in.m[1] * in.m[6]  * in.m[15] + in.m[5] * in.m[14] * in.m[3]  + in.m[13] * in.m[2] * in.m[7]  - in.m[1] * in.m[14] * in.m[7]  - in.m[5] * in.m[2]  * in.m[15] - in.m[13] * in.m[6]  * in.m[3];
+	out->m[6 ] = in.m[0] * in.m[14] * in.m[7]  + in.m[4] * in.m[2]  * in.m[15] + in.m[12] * in.m[6] * in.m[3]  - in.m[0] * in.m[6]  * in.m[15] - in.m[4] * in.m[14] * in.m[3]  - in.m[12] * in.m[2]  * in.m[7];
+	out->m[10] = in.m[0] * in.m[5]  * in.m[15] + in.m[4] * in.m[13] * in.m[3]  + in.m[12] * in.m[1] * in.m[7]  - in.m[0] * in.m[13] * in.m[7]  - in.m[4] * in.m[1]  * in.m[15] - in.m[12] * in.m[5]  * in.m[3];
+	out->m[14] = in.m[0] * in.m[13] * in.m[6]  + in.m[4] * in.m[1]  * in.m[14] + in.m[12] * in.m[5] * in.m[2]  - in.m[0] * in.m[5]  * in.m[14] - in.m[4] * in.m[13] * in.m[2]  - in.m[12] * in.m[1]  * in.m[6];
+
+	out->m[3 ] = in.m[1] * in.m[10] * in.m[7]  + in.m[5] * in.m[2]  * in.m[11] + in.m[9]  * in.m[6] * in.m[3]  - in.m[1] * in.m[6]  * in.m[11] - in.m[5] * in.m[10] * in.m[3]  - in.m[9]  * in.m[2]  * in.m[7];
+	out->m[7 ] = in.m[0] * in.m[6]  * in.m[11] + in.m[4] * in.m[10] * in.m[3]  + in.m[8]  * in.m[2] * in.m[7]  - in.m[0] * in.m[10] * in.m[7]  - in.m[4] * in.m[2]  * in.m[11] - in.m[8]  * in.m[6]  * in.m[3];
+	out->m[11] = in.m[0] * in.m[9]  * in.m[7]  + in.m[4] * in.m[1]  * in.m[11] + in.m[8]  * in.m[5] * in.m[3]  - in.m[0] * in.m[5]  * in.m[11] - in.m[4] * in.m[9]  * in.m[3]  - in.m[8]  * in.m[1]  * in.m[7];
+	out->m[15] = in.m[0] * in.m[5]  * in.m[10] + in.m[4] * in.m[9]  * in.m[2]  + in.m[8]  * in.m[1] * in.m[6]  - in.m[0] * in.m[9]  * in.m[6]  - in.m[4] * in.m[1]  * in.m[10] - in.m[8]  * in.m[5]  * in.m[2];
+
+
+	//TODO: [DanJ] I fucked up and used the calculation for row matricies
+	//*out = make_transposed(*out);
+
+	*out = oneOverDet * (*out);
 }

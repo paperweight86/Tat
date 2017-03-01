@@ -2,6 +2,15 @@
 
 namespace uti
 {
+	/*	
+		Column Matrix
+
+		|0  4  8  12|
+		|1  5  9  13|
+		|2  6  10 14|
+		|3  7  11 15|
+	*/
+
 	TAT_DEF float44 make(const float4& c0, const float4& c1, const float4& c2, const float4& c3);
 	TAT_DEF float44 make(float* values, uti::u32 num_values);
 	TAT_DEF float44 make_identity();
@@ -26,4 +35,6 @@ namespace uti
 	TAT_DEF float determinant_33(const float44& in);
 	TAT_DEF void inverse_33(const float44& in, float44* out);
 	TAT_DEF void clear_to_33(float44* in_out);
+	TAT_DEF float determinant(const float44& in);
+	TAT_DEF void inverse(const float44& in, float44* out);
 }

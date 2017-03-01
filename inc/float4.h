@@ -14,6 +14,7 @@ namespace uti
 	TAT_DEF float4 cross(const float4& left, const float4& right);
 
 	TAT_DEF float  len(float4 vec);
+	TAT_DEF float  sqlen(float4 vec);
 	TAT_DEF float4 norm(float4 vec);
 };
 
