@@ -38,5 +38,6 @@ namespace uti
 		virtual int32   Height() = 0;
 		virtual void	RegisterMouseInput(mouse_input_callback_sig* callback) = 0;
 		virtual void	RegisterKeyboardInput(keyboard_input_callback_sig* callback) = 0;
+		virtual void	GetMousePos(int16& x, int16& y) = 0;
 	};
 }

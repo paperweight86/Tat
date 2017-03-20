@@ -205,3 +205,12 @@ int32 uti::window_height(window* win)
 		return -1;
 }
 
+void uti::window_get_mouse_pos(int16& x, int16& y)
+{
+	POINT pt = {};
+	if (GetCursorPos(&pt))
+	{
+		x = pt.x;
+		y = pt.y;
+	}
+}

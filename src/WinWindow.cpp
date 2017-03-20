@@ -167,6 +167,16 @@ void CWinWindow::RegisterKeyboardInput(keyboard_input_callback_sig* callback)
 	m_keyboardCallback = callback;
 }
 
+void CWinWindow::GetMousePos(int16& x, int16& y)
+{
+	POINT pt = {};
+	if (GetCursorPos(&pt))
+	{
+		x = pt.x;
+		y = pt.y;
+	}
+}
+
 ptr CWinWindow::ProcessMessage(uint32 message, uint64 wParam, uint64 lParam)
 {
 	int16 wheelDelta = 0;

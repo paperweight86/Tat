@@ -2,6 +2,8 @@
 
 #include "log.h"
 
+#include "ext/murmur_hash_3.h"
+
 #include <stdarg.h>
 
 //using namespace uti;
@@ -57,7 +59,7 @@ void uti::log::init(log::log_state* state, log::log_config* config)
 	//memset(state->stack, 0, MAX_UTI_LOG_STACK*MAX_UTI_LOG_STACK_ITEM);
 }
 
-void uti::log::out(log_state* state, log_level level, cstr format, va_list args)
+void uti::log::out(log_state* state, log_level level, log_flag flags, cstr format, va_list args)
 {
 	assert(_tclen(format) <= log::g_iMaxMsg);
 	tchar buffer[log::g_iMaxMsg];
@@ -97,6 +99,21 @@ void uti::log::out(log_state* state, log_level level, cstr format, va_list args)
 		sprintf_s<log::g_iMaxMsg>(fmt_buffer, finalFormat, levelStr, format);
 		vsprintf_s(buffer, log::g_iMaxMsg, fmt_buffer, args);
 	}
+
+	if ((flags & flag_once_only) == flag_once_only)
+	{
+		u32 line_hash = 0;
+		MurmurHash3_x86_32(buffer, (int)strnlen(buffer, log::g_iMaxMsg), 0, (void*)&line_hash);
+		for (i64 i = 0; i < state->ignore_lines.size; ++i)
+		{
+			if (state->ignore_lines[i] == line_hash)
+				return; // ignore we've printed it before
+		}
+
+		// add to ignore list
+		state->ignore_lines.add_end(line_hash);
+	}
+
 	if(!state->config.no_write_console)
 		printf_s(buffer);
 
@@ -110,7 +127,7 @@ void uti::log::inf_out(cstr format, ...)
 {
 	va_list args;
 	va_start(args, format);
-	out(&g_default_logger, level_info, format, args);
+	out(&g_default_logger, level_info, flag_none, format, args);
 	va_end(args);
 }
 
@@ -126,7 +143,7 @@ void uti::log::err_out(cstr format, ...)
 {
 	va_list args;
 	va_start(args, format);
-	out(&g_default_logger, level_error, format, args);
+	out(&g_default_logger, level_error, flag_none, format, args);
 	va_end(args);
 }
 
@@ -142,7 +159,15 @@ void uti::log::wrn_out(cstr format, ...)
 {
 	va_list args;
 	va_start(args, format);
-	out(&g_default_logger, level_warning, format, args);
+	out(&g_default_logger, level_warning, flag_none, format, args);
+	va_end(args);
+}
+
+void uti::log::wrn_out(log_flag flags, cstr format, ...)
+{
+	va_list args;
+	va_start(args, format);
+	out(&g_default_logger, level_warning, flags, format, args);
 	va_end(args);
 }
 
@@ -159,7 +184,7 @@ void uti::log::dbg_out(cstr format, ...)
 #ifdef TAT_DEBUG
 	va_list args;
 	va_start(args, format);
-	out(&g_default_logger, level_debug, format, args);
+	out(&g_default_logger, level_debug, flag_none, format, args);
 	va_end(args);
 #endif
 }

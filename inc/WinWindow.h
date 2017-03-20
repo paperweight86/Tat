@@ -29,6 +29,7 @@ namespace uti
 		int32   Height( );
 		void	RegisterMouseInput(mouse_input_callback_sig* callback);
 		void	RegisterKeyboardInput(keyboard_input_callback_sig* callback);
+		void	GetMousePos(int16& x, int16& y);
 
 		ptr ProcessMessage(uint32 message, uint64 wParam, uint64 lParam);
 	};

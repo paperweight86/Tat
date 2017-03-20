@@ -34,4 +34,5 @@ namespace uti
 	TAT_DEF void	window_close(window* win);
 	TAT_DEF int32   window_width(window* win);
 	TAT_DEF int32   window_height(window* win);
+	TAT_DEF void	window_get_mouse_pos(int16& x, int16& y);
 }

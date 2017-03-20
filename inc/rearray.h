@@ -105,10 +105,8 @@ namespace uti
 	template <class T>
 	void rearray<T>::add_end(T value , bool zero_if_grow = true)
 	{
-		if(size == capacity)
-			reallocate(uti::max(capacity+1,capacity * 2), zero_if_grow);
-
-		*(T*)(data + size++ * sizeof(T)) = value;
+		T* new_value = add_end_ret(zero_if_grow);
+		*new_value = value;
 	}
 
 	template <class T>
