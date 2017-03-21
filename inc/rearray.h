@@ -69,7 +69,7 @@ namespace uti
 	template <class T>
 	T& rearray<T>::operator[](uti::i64 idx)
 	{
-		assert(idx < size);
+		assert(abs(idx) < size || (idx == -1 && size == 1));
 		if (idx >= 0)
 			return *(T*)(data + idx * sizeof(T));
 		else

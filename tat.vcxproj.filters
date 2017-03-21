@@ -33,13 +33,7 @@
     <ClCompile Include="src\IObserver.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\IWindow.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\ScopedLog.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\WinWindow.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="stdafx.cpp" />
@@ -106,16 +100,10 @@
     <ClInclude Include="inc\IObserver.h">
       <Filter>inc</Filter>
     </ClInclude>
-    <ClInclude Include="inc\IWindow.h">
-      <Filter>inc</Filter>
-    </ClInclude>
     <ClInclude Include="inc\ScopedLog.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="inc\types.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\WinWindow.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h" />

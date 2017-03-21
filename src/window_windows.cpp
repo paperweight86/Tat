@@ -73,7 +73,11 @@ namespace
 				{
 					DragQueryFile(hDrop, i, files + i*MAX_PATH, MAX_PATH);
 				}
-				win->drop_file_callback(files, num_files, MAX_PATH);
+				POINT pt = {};
+				DragQueryPoint(hDrop, &pt);
+				float2 f2pt = { (float)pt.x / (float)uti::window_width(win),
+								(float)pt.y / (float)uti::window_height(win) };
+				win->drop_file_callback(files, num_files, MAX_PATH, f2pt);
 				DragFinish(hDrop);
 				delete[] files;
 			}
@@ -212,5 +216,17 @@ void uti::window_get_mouse_pos(int16& x, int16& y)
 	{
 		x = pt.x;
 		y = pt.y;
+	}
+}
+
+void uti::window_set_cursor_visible(bool visible)
+{
+	if (visible)
+	{
+		while (ShowCursor(true) < 0) { _mm_pause(); }
+	}
+	else
+	{
+		while (ShowCursor(false) >= 0) { _mm_pause(); }
 	}
 }

@@ -169,13 +169,11 @@
     <ClCompile Include="src\IInput.cpp" />
     <ClCompile Include="src\IObservable.cpp" />
     <ClCompile Include="src\IObserver.cpp" />
-    <ClCompile Include="src\IWindow.cpp" />
     <ClCompile Include="src\log.cpp" />
     <ClCompile Include="src\non_crypto_hash.cpp" />
     <ClCompile Include="src\rearray.cpp" />
     <ClCompile Include="src\ScopedLog.cpp" />
     <ClCompile Include="src\window_windows.cpp" />
-    <ClCompile Include="src\WinWindow.cpp" />
     <ClCompile Include="stdafx.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -197,7 +195,6 @@
     <ClInclude Include="inc\intersection.h" />
     <ClInclude Include="inc\IObservable.h" />
     <ClInclude Include="inc\IObserver.h" />
-    <ClInclude Include="inc\IWindow.h" />
     <ClInclude Include="inc\keycodes.h" />
     <ClInclude Include="inc\log.h" />
     <ClInclude Include="inc\non_crypto_hash.h" />
@@ -207,7 +204,6 @@
     <ClInclude Include="inc\tat.h" />
     <ClInclude Include="inc\types.h" />
     <ClInclude Include="inc\window.h" />
-    <ClInclude Include="inc\WinWindow.h" />
     <ClInclude Include="src\ext\murmur_hash_3.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>

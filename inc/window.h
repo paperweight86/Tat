@@ -24,7 +24,8 @@ namespace uti
 		void(*drop_file_callback)(
 			uti::mstr files,
 			uti::u32 num_files,
-			uti::u32 stride
+			uti::u32 stride,
+			uti::float2 pos
 			);
 	};
 
@@ -35,4 +36,5 @@ namespace uti
 	TAT_DEF int32   window_width(window* win);
 	TAT_DEF int32   window_height(window* win);
 	TAT_DEF void	window_get_mouse_pos(int16& x, int16& y);
+	TAT_DEF void	window_set_cursor_visible(bool visible);
 }

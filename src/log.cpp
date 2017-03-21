@@ -59,6 +59,11 @@ void uti::log::init(log::log_state* state, log::log_config* config)
 	//memset(state->stack, 0, MAX_UTI_LOG_STACK*MAX_UTI_LOG_STACK_ITEM);
 }
 
+uti::log::log_state* uti::log::get_default_log_state()
+{
+	return &g_default_logger;
+}
+
 void uti::log::out(log_state* state, log_level level, log_flag flags, cstr format, va_list args)
 {
 	assert(_tclen(format) <= log::g_iMaxMsg);
@@ -94,10 +99,20 @@ void uti::log::out(log_state* state, log_level level, log_flag flags, cstr forma
 	//}
 	//else
 	{
-		cstr finalFormat = _T("[%s] %s\n");
-		assert(_tclen(levelStr) + _tclen(format) + _tclen(finalFormat) <= log::g_iMaxMsg);
-		sprintf_s<log::g_iMaxMsg>(fmt_buffer, finalFormat, levelStr, format);
-		vsprintf_s(buffer, log::g_iMaxMsg, fmt_buffer, args);
+		if (state->prefix != nullptr)
+		{
+			cstr finalFormat = _T("[%s][%s] %s\n");
+			assert(_tclen(levelStr) + _tclen(format) + _tclen(finalFormat) <= log::g_iMaxMsg);
+			sprintf_s<log::g_iMaxMsg>(fmt_buffer, finalFormat, state->prefix, levelStr, format);
+			vsprintf_s(buffer, log::g_iMaxMsg, fmt_buffer, args);
+		}
+		else
+		{
+			cstr finalFormat = _T("[%s] %s\n");
+			assert(_tclen(levelStr) + _tclen(format) + _tclen(finalFormat) <= log::g_iMaxMsg);
+			sprintf_s<log::g_iMaxMsg>(fmt_buffer, finalFormat, levelStr, format);
+			vsprintf_s(buffer, log::g_iMaxMsg, fmt_buffer, args);
+		}
 	}
 
 	if ((flags & flag_once_only) == flag_once_only)
@@ -116,6 +131,7 @@ void uti::log::out(log_state* state, log_level level, log_flag flags, cstr forma
 
 	if(!state->config.no_write_console)
 		printf_s(buffer);
+
 
 	if (state->config.write_file && state->file_handle != NULL)
 	{
@@ -198,3 +214,8 @@ void uti::log::dbg_out(cstr format, ...)
 //	va_end(args);
 //#endif
 //}
+
+void uti::log::set_prefix(log_state* state, cstr prefix) 
+{ 
+	state->prefix = prefix; 
+}
