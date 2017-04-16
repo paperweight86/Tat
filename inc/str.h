@@ -7,7 +7,7 @@
 #define STR_CHAR_IS_SCIFLT_EXPONENT(c)	 (*(c) == 'e')
 #define STR_CHAR_IS_DECIMAL_POINT(c)     (*(c) == '.')
 
-#define UTI_FIND_CHAR_NOT_FOUND _CRT_SIZE_MAX
+#define UTI_STR_FIND_NOT_FOUND _CRT_SIZE_MAX
 
 namespace str
 {
@@ -55,7 +55,7 @@ namespace str
 				return i;
 		}
 
-		return UTI_FIND_CHAR_NOT_FOUND;
+		return UTI_STR_FIND_NOT_FOUND;
 	}
 
 	size_t find_not_char(uti::cstr src, char ch, size_t str_len)
@@ -66,7 +66,7 @@ namespace str
 				return i;
 		}
 
-		return UTI_FIND_CHAR_NOT_FOUND;
+		return UTI_STR_FIND_NOT_FOUND;
 	}
 
 	uti::u64 find_num_char(uti::cstr src, char ch, uti::u64 str_len)
@@ -75,6 +75,29 @@ namespace str
 		{
 			if (src[i] != ch)
 				return i;
+		}
+
+		return u64_max;
+	}
+
+	//!< Finds a word within a string by assuming it's surrounded by whitespace
+	uti::u64 find_word(uti::cstr find, uti::u64 find_len, char* src, uti::u64 str_len)
+	{
+		if (str_len < find_len)
+			return u64_max;
+
+		const uti::u64 buffer_size = 256;
+//		char buff[buffer_size] = {};
+//		uti::u64 buffer_usage = find_len + 2;
+		char* cur_str = src;
+//		uti::u64 cur_offset = 0;
+		for (uti::u64 i = 0; i < str_len; i++)
+		{
+			// TODO: [DanJ] Slide a window through the file looking for the string surrounded by whitespace
+			if (strncmp(cur_str + i,find,find_len) == 0)
+			{
+				return i;
+			}
 		}
 
 		return u64_max;

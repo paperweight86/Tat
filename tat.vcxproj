@@ -197,6 +197,7 @@
     <ClInclude Include="inc\IObserver.h" />
     <ClInclude Include="inc\keycodes.h" />
     <ClInclude Include="inc\log.h" />
+    <ClInclude Include="inc\mem.h" />
     <ClInclude Include="inc\non_crypto_hash.h" />
     <ClInclude Include="inc\primatives.h" />
     <ClInclude Include="inc\rearray.h" />

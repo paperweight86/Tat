@@ -106,7 +106,7 @@ namespace
 
 		case WM_DESTROY:
 			PostQuitMessage(0);
-			break;
+			return 0;
 
 		default:
 			if (win != NULL)
@@ -116,7 +116,6 @@ namespace
 					return res;
 			}
 			break;
-
 		}
 
 		return DefWindowProc(hWnd, message, wParam, lParam);

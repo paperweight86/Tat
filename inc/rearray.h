@@ -16,6 +16,7 @@ namespace uti
 		uti::i64 capacity;
 
 		rearray();
+		~rearray();
 
 		void allocate(uti::i64 initial_capacity, bool zero = true);
 		void rearray<T>::allocate_size(uti::i64 initial_size, bool zero = true);
@@ -36,6 +37,12 @@ namespace uti
 		data = nullptr;
 		size = 0;
 		capacity = 0;
+	}
+
+	template <class T>
+	rearray<T>::~rearray()
+	{
+		deallocate();
 	}
 
 	template <class T>
