@@ -19,6 +19,8 @@ namespace uti
 	TAT_DEF float44 make_rotate_x(float rads);
 	TAT_DEF float44 make_rotate_y(float rads);
 	TAT_DEF float44 make_rotate_z(float rads);
+	TAT_DEF float44 make_rotate(float4 rads);
+	TAT_DEF float44 make_rotate(float x, float y, float z);
 	TAT_DEF float44 make_translate(const float4& offset);
 	TAT_DEF float44 make_translate(float xt, float yt, float zt);
 	TAT_DEF float44 make_look_at(const float4& pos, const float4& at, const float4& up);
@@ -37,4 +39,6 @@ namespace uti
 	TAT_DEF void clear_to_33(float44* in_out);
 	TAT_DEF float determinant(const float44& in);
 	TAT_DEF void inverse(const float44& in, float44* out);
+
+	TAT_DEF void get_pos_only(const float44& in, float44* out);
 }

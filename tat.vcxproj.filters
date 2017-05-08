@@ -65,6 +65,9 @@
     <ClCompile Include="src\non_crypto_hash.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\quaternion.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Callback.h">
@@ -153,6 +156,9 @@
       <Filter>inc\ext</Filter>
     </ClInclude>
     <ClInclude Include="inc\mem.h">
+      <Filter>inc</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\quaternion.h">
       <Filter>inc</Filter>
     </ClInclude>
   </ItemGroup>

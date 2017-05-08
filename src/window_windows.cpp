@@ -168,12 +168,11 @@ bool uti::window_update(window* win)
 	MSG msg = { 0 };
 	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 	{
+		if (msg.message == WM_QUIT)
+			win->quit = true;
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
-
-	if (msg.message == WM_QUIT)
-		win->quit = true;
 
 	return true;
 }

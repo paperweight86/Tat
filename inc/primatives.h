@@ -4,6 +4,13 @@
 
 namespace uti
 {
+	enum axis : u32
+	{
+		axis_x, 
+		axis_y, 
+		axis_z
+	};
+
 	struct Ray
 	{
 		float4 origin;

@@ -87,6 +87,16 @@ float44 uti::make_rotate_z(float rads)
 	return res;
 }
 
+float44 uti::make_rotate(float4 rads)
+{
+	return uti::make_rotate(uti::get_x(rads), uti::get_y(rads), uti::get_z(rads));
+}
+
+float44 uti::make_rotate(float x, float y, float z)
+{
+	return make_rotate_z(z) * make_rotate_x(x) * make_rotate_y(y);
+}
+
 float44 uti::make_translate(const float4& offset)
 {
 	return make_translate( get_x(offset), get_y(offset), get_z(offset));
@@ -103,7 +113,7 @@ float44 uti::make_translate(float xt, float yt, float zt)
 
 float44 uti::make_inverse_look_at(const float4& pos, const float4& at, const float4& up)
 {
-	float4 zero = uti::make_f4_zero();
+	float4 zero = uti::make_float4_zero();
 	float4 test = norm(pos - at);
 	float4 zaxis = zero-test;
 	float4 xaxis = zero-norm(cross(up, zaxis));
@@ -216,7 +226,7 @@ float4 uti::mul(const float44& right, const float4& left)
 	float z = get_x(left)*right.m[2] + get_y(left)*right.m[6] + get_z(left)*right.m[10] + get_h(left)*right.m[14];
 	float w = get_x(left)*right.m[3] + get_y(left)*right.m[7] + get_z(left)*right.m[11] + get_h(left)*right.m[15];
 
-	return uti::make(x, y, z, w);
+	return uti::make_float4(x, y, z, w);
 }
 
 float44 uti::operator*(const float& left, const float44& right)
@@ -418,4 +428,11 @@ void uti::inverse(const float44& in, float44* out)
 	//*out = make_transposed(*out);
 
 	*out = oneOverDet * (*out);
+}
+
+void uti::get_pos_only(const float44& in, float44* out)
+{
+	out->m[12] = in.m[12];
+	out->m[13] = in.m[13];
+	out->m[14] = in.m[14];
 }
