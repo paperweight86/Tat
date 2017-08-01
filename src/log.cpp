@@ -119,7 +119,7 @@ void uti::log::out(log_state* state, log_level level, log_flag flags, cstr forma
 	{
 		u32 line_hash = 0;
 		MurmurHash3_x86_32(buffer, (int)strnlen(buffer, log::g_iMaxMsg), 0, (void*)&line_hash);
-		for (i64 i = 0; i < state->ignore_lines.size; ++i)
+		for (i64 i = 0; i < state->ignore_lines.count; ++i)
 		{
 			if (state->ignore_lines[i] == line_hash)
 				return; // ignore we've printed it before

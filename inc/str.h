@@ -102,4 +102,38 @@ namespace str
 
 		return u64_max;
 	}
+
+	size_t find_number(uti::tstr str, uti::u64 str_len)
+	{
+		size_t off = 0;
+		bool lastWasNum = STR_CHAR_IS_NUM(str + off);
+
+		while (!STR_CHAR_IS_NUM(str + off)
+			&& !STR_CHAR_IS_NEGNUM_START(str + off, off + 1, str_len, str + off + 1)
+			&& off < str_len)
+		{
+			lastWasNum = STR_CHAR_IS_NUM(str + off);
+			++off;
+		}
+
+		return off;
+	}
+
+	size_t find_end_number(uti::tstr str, uti::u64 str_len)
+	{
+		size_t off = 0;
+		bool lastWasNum = STR_CHAR_IS_NUM(str + off);
+
+		while ((STR_CHAR_IS_NUM(str + off)
+			|| STR_CHAR_IS_DECIMAL_POINT(str + off)
+			|| (STR_CHAR_IS_NEGNUM_START(str + off, off + 1, str_len, str + off + 1) && off == 0)
+			|| (lastWasNum && STR_CHAR_IS_SCIFLT_EXPONENT(str + off)))
+			&& off < str_len)
+		{
+			lastWasNum = STR_CHAR_IS_NUM(str + off);
+			++off;
+		}
+
+		return off;
+	}
 }

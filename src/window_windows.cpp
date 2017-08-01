@@ -42,7 +42,7 @@ namespace
 				int16 xPos = GET_X_LPARAM(lParam);
 				int16 yPos = GET_Y_LPARAM(lParam);
 				// Fire Callback
-				win->mouse_callback(xPos, yPos, lButton, mButton, rButton, 0);
+				win->mouse_callback(xPos, yPos, lButton, mButton, rButton, 0, win);
 				return 0;
 			}
 			break;
@@ -59,7 +59,7 @@ namespace
 				pt.y = GET_Y_LPARAM(lParam);
 				ScreenToClient((HWND)win->hwnd, &pt);
 				// Fire Callback
-				win->mouse_callback((i16)pt.x, (i16)pt.y, lButton, mButton, rButton, wheelDelta / WHEEL_DELTA);
+				win->mouse_callback((i16)pt.x, (i16)pt.y, lButton, mButton, rButton, wheelDelta / WHEEL_DELTA, win);
 				return 0;
 			}
 			break;
@@ -122,7 +122,7 @@ namespace
 	}
 }
 
-bool uti::window_initialise(window* win, int32 width, int32 height, bool show, tstr windowTitle)
+bool uti::window_initialise(window* win, int16 width, int16 height, bool show, tstr windowTitle)
 {
 	_stprintf_s<32>(win->class_name, _T("%s"), _T("tat_window_windows"));
 	win->quit = false;
@@ -187,7 +187,7 @@ void uti::window_close(window* win)
 	CloseWindow((HWND)win->hwnd);
 }
 
-int32 uti::window_width(window* win)
+int16 uti::window_width(window* win)
 {
 	RECT rect;
 	ZeroMemory(&rect, sizeof(rect));
@@ -197,7 +197,7 @@ int32 uti::window_width(window* win)
 		return -1;
 }
 
-int32 uti::window_height(window* win)
+int16 uti::window_height(window* win)
 {
 	RECT rect;
 	ZeroMemory(&rect, sizeof(rect));

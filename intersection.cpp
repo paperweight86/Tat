@@ -271,8 +271,8 @@ namespace uti
 				float4 end_norm = make_float4_zero();
 				if (bounds->sphere_segment.in_axis == axis_x)
 				{
-					float shift_start_x = uti::get_x(xform_pos) - bounds->sphere_segment.radius + bounds->sphere_segment.start * bounds->sphere_segment.radius * 2.0f;
-					float shift_end_x = uti::get_x(xform_pos) - bounds->sphere_segment.radius + bounds->sphere_segment.end * bounds->sphere_segment.radius * 2.0f;
+					float shift_start_x = - bounds->sphere_segment.radius + bounds->sphere_segment.start * bounds->sphere_segment.radius * 2.0f;
+					float shift_end_x = - bounds->sphere_segment.radius + bounds->sphere_segment.end * bounds->sphere_segment.radius * 2.0f;
 
 					shift_start = xform * make_float4(shift_start_x, 0.0f, 0.0f);
 					shift_end	= xform * make_float4(shift_end_x,	  0.0f, 0.0f);
@@ -294,8 +294,8 @@ namespace uti
 				}
 				else if (bounds->sphere_segment.in_axis == axis_y)
 				{
-					float shift_start_y = uti::get_y(xform_pos) - bounds->sphere_segment.radius + bounds->sphere_segment.start * bounds->sphere_segment.radius * 2.0f;
-					float shift_end_y = uti::get_y(xform_pos) - bounds->sphere_segment.radius + bounds->sphere_segment.end * bounds->sphere_segment.radius * 2.0f;
+					float shift_start_y = - bounds->sphere_segment.radius + bounds->sphere_segment.start * bounds->sphere_segment.radius * 2.0f;
+					float shift_end_y = - bounds->sphere_segment.radius + bounds->sphere_segment.end * bounds->sphere_segment.radius * 2.0f;
 
 					shift_start = xform * make_float4(0.0f, shift_start_y, 0.0f);
 					shift_end	= xform * make_float4(0.0f, shift_end_y,   0.0f);
@@ -317,8 +317,8 @@ namespace uti
 				}
 				else if (bounds->sphere_segment.in_axis == axis_z)
 				{
-					float shift_start_z = uti::get_z(xform_pos) - bounds->sphere_segment.radius + bounds->sphere_segment.start * bounds->sphere_segment.radius * 2.0f;
-					float shift_end_z = uti::get_z(xform_pos) - bounds->sphere_segment.radius + bounds->sphere_segment.end * bounds->sphere_segment.radius * 2.0f;
+					float shift_start_z = - bounds->sphere_segment.radius + bounds->sphere_segment.start * bounds->sphere_segment.radius * 2.0f;
+					float shift_end_z = - bounds->sphere_segment.radius + bounds->sphere_segment.end * bounds->sphere_segment.radius * 2.0f;
 
 					shift_start  = xform * make_float4(0.0f, 0.0f, shift_start_z);
 					shift_end	 = xform * make_float4(0.0f, 0.0f, shift_end_z);

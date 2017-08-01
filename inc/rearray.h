@@ -12,7 +12,7 @@ namespace uti
 	struct rearray
 	{
 		uti::u8* data;
-		uti::i64 size;
+		uti::i64 count;
 		uti::i64 capacity;
 
 		rearray();
@@ -27,7 +27,7 @@ namespace uti
 
 		void add_end(T data, bool zero = true);
 		T*	 add_end_ret(bool zero_if_grow = true);
-		void add_end(bool zero = true);
+		T*	 add_end(bool zero = true);
 		void remove_end();
 	};
 
@@ -35,7 +35,7 @@ namespace uti
 	rearray<T>::rearray()
 	{
 		data = nullptr;
-		size = 0;
+		count = 0;
 		capacity = 0;
 	}
 
@@ -48,11 +48,12 @@ namespace uti
 	template <class T>
 	void rearray<T>::allocate(uti::i64 initial_capacity, bool zero = true)
 	{
+		assert(count == 0 && capacity == 0);
 		data = new uti::u8[sizeof(T) * initial_capacity];
 		capacity = initial_capacity;
 		if (zero)
 			memset(data, 0, sizeof(T) * capacity);
-		size = 0;
+		count = 0;
 	}
 
 	template <class T>
@@ -62,7 +63,7 @@ namespace uti
 		capacity = initial_size;
 		if (zero)
 			memset(data, 0, sizeof(T) * capacity);
-		size = initial_size;
+		count = initial_size;
 	}
 
 	template <class T>
@@ -70,17 +71,17 @@ namespace uti
 	{
 		delete[] data;
 		capacity = 0;
-		size = 0;
+		count = 0;
 	}
 
 	template <class T>
 	T& rearray<T>::operator[](uti::i64 idx)
 	{
-		assert(abs(idx) < size || (idx == -1 && size == 1));
+		assert(abs(idx) < count || (idx == -1 && count == 1));
 		if (idx >= 0)
 			return *(T*)(data + idx * sizeof(T));
 		else
-			return *(T*)(data + (size + idx) * sizeof(T));
+			return *(T*)(data + (count + idx) * sizeof(T));
 	}
 
 	template <class T>
@@ -117,25 +118,27 @@ namespace uti
 	}
 
 	template <class T>
-	void rearray<T>::add_end(bool zero_if_grow = true)
+	T* rearray<T>::add_end(bool zero_if_grow = true)
 	{
-		if (size == capacity)
+		if (count == capacity)
 			reallocate(uti::max(capacity+1,capacity * 2), zero_if_grow);
 
-		size++;
+		count++;
+
+		return (T*)(data)+(count - 1);
 	}
 
 	template <class T>
 	T* rearray<T>::add_end_ret(bool zero_if_grow = true)
 	{
 		add_end(zero_if_grow);
-		return (T*)(data + (size-1) * sizeof(T));
+		return (T*)(data + (count-1) * sizeof(T));
 	}
 
 	template <class T>
 	void rearray<T>::remove_end()
 	{
-		assert(size > 0);
-		size--;
+		assert(count > 0);
+		count--;
 	}
 }
