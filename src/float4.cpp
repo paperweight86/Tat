@@ -2,6 +2,8 @@
 
 #include "float4.h"
 
+#include <smmintrin.h>
+
 namespace uti
 {
 	float4 make_float4(float x, float y, float z, float h)

@@ -8,7 +8,7 @@
 #include <tchar.h>
 #endif
 
-#include <mmintrin.h>
+#include <xmmintrin.h>
 
 namespace uti
 {

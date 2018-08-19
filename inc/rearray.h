@@ -24,6 +24,7 @@ namespace uti
 		void deallocate();
 
 		T& operator[](uti::i64 idx);
+		T* ptr_at(uti::i64 idx);
 
 		void add_end(T data, bool zero = true);
 		T*	 add_end_ret(bool zero_if_grow = true);
@@ -46,7 +47,7 @@ namespace uti
 	}
 
 	template <class T>
-	void rearray<T>::allocate(uti::i64 initial_capacity, bool zero = true)
+	void rearray<T>::allocate(uti::i64 initial_capacity, bool zero)
 	{
 		assert(count == 0 && capacity == 0);
 		data = new uti::u8[sizeof(T) * initial_capacity];
@@ -57,7 +58,7 @@ namespace uti
 	}
 
 	template <class T>
-	void rearray<T>::allocate_size(uti::i64 initial_size, bool zero = true)
+	void rearray<T>::allocate_size(uti::i64 initial_size, bool zero)
 	{
 		data = new uti::u8[sizeof(T) * initial_size];
 		capacity = initial_size;
@@ -85,7 +86,17 @@ namespace uti
 	}
 
 	template <class T>
-	void rearray<T>::reallocate(uti::i64 new_capacity, bool zero = true)
+	T* rearray<T>::ptr_at(uti::i64 idx)
+	{
+		assert(abs(idx) < count || (idx == -1 && count == 1));
+		if (idx >= 0)
+			return (T*)(data + idx * sizeof(T));
+		else
+			return (T*)(data + (count + idx) * sizeof(T));
+	}
+
+	template <class T>
+	void rearray<T>::reallocate(uti::i64 new_capacity, bool zero)
 	{
 		uti::u8* old_data = data;
 		data = new uti::u8[sizeof(T) * new_capacity];
@@ -111,14 +122,14 @@ namespace uti
 	}
 
 	template <class T>
-	void rearray<T>::add_end(T value , bool zero_if_grow = true)
+	void rearray<T>::add_end(T value , bool zero_if_grow)
 	{
 		T* new_value = add_end_ret(zero_if_grow);
 		*new_value = value;
 	}
 
 	template <class T>
-	T* rearray<T>::add_end(bool zero_if_grow = true)
+	T* rearray<T>::add_end(bool zero_if_grow)
 	{
 		if (count == capacity)
 			reallocate(uti::max(capacity+1,capacity * 2), zero_if_grow);
@@ -129,7 +140,7 @@ namespace uti
 	}
 
 	template <class T>
-	T* rearray<T>::add_end_ret(bool zero_if_grow = true)
+	T* rearray<T>::add_end_ret(bool zero_if_grow)
 	{
 		add_end(zero_if_grow);
 		return (T*)(data + (count-1) * sizeof(T));
