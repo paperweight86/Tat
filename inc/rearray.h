@@ -136,7 +136,7 @@ namespace uti
 
 		count++;
 
-		return (T*)(data)+(count - 1);
+		return (T*)(data + (count-1) * sizeof(T));
 	}
 
 	template <class T>
