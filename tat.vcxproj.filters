@@ -68,6 +68,9 @@
     <ClCompile Include="src\quaternion.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="str.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Callback.h">

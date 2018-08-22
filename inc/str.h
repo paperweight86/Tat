@@ -11,129 +11,20 @@
 
 namespace str
 {
-	size_t strOffToNextFloat(uti::tstr c)
-	{
-		size_t off = 0;
-		size_t len = strlen(c);
-		bool lastWasNum = STR_CHAR_IS_NUM(c + off);
+	TAT_DEF size_t strOffToNextFloat(uti::tstr c);
 
-		while (    !STR_CHAR_IS_NUM(c + off)
-				&& !STR_CHAR_IS_NEGNUM_START(c + off, off + 1, len, c + off + 1)
-			    && off < len)
-		{
-			lastWasNum = STR_CHAR_IS_NUM(c + off);
-			++off;
-		}
+	TAT_DEF size_t strOffToEndFloat(uti::tstr c);
 
-		return off;
-	}
+	TAT_DEF size_t find_char(uti::cstr src, char ch, size_t str_len);
 
-	size_t strOffToEndFloat(uti::tstr c)
-	{
-		size_t off = 0;
-		size_t len = strlen(c);
-		bool lastWasNum = STR_CHAR_IS_NUM(c + off);
+	TAT_DEF size_t find_not_char(uti::cstr src, char ch, size_t str_len);
 
-		while ( (    STR_CHAR_IS_NUM(c + off) 
-				  || STR_CHAR_IS_DECIMAL_POINT(c + off)
-			      || (STR_CHAR_IS_NEGNUM_START(c + off, off + 1, len, c + off + 1) && off == 0)
-				  || (lastWasNum && STR_CHAR_IS_SCIFLT_EXPONENT(c + off)) )
-				&& off < len)
-		{
-			lastWasNum = STR_CHAR_IS_NUM(c + off);
-			++off;
-		}
-
-		return off;
-	}
-
-	size_t find_char(uti::cstr src, char ch, size_t str_len)
-	{
-		for (size_t i = 0; i < str_len; i++)
-		{
-			if (src[i] == ch)
-				return i;
-		}
-
-		return UTI_STR_FIND_NOT_FOUND;
-	}
-
-	size_t find_not_char(uti::cstr src, char ch, size_t str_len)
-	{
-		for (size_t i = 0; i < str_len; i++)
-		{
-			if (src[i] != ch)
-				return i;
-		}
-
-		return UTI_STR_FIND_NOT_FOUND;
-	}
-
-	uti::u64 find_num_char(uti::cstr src, char ch, uti::u64 str_len)
-	{
-		for (uti::u64 i = 0; i < str_len; i++)
-		{
-			if (src[i] != ch)
-				return i;
-		}
-
-		return u64_max;
-	}
+	TAT_DEF uti::u64 find_num_char(uti::cstr src, char ch, uti::u64 str_len);
 
 	//!< Finds a word within a string by assuming it's surrounded by whitespace
-	uti::u64 find_word(uti::cstr find, uti::u64 find_len, char* src, uti::u64 str_len)
-	{
-		if (str_len < find_len)
-			return u64_max;
+	TAT_DEF uti::u64 find_word(uti::cstr find, uti::u64 find_len, char* src, uti::u64 str_len);
 
-		const uti::u64 buffer_size = 256;
-//		char buff[buffer_size] = {};
-//		uti::u64 buffer_usage = find_len + 2;
-		char* cur_str = src;
-//		uti::u64 cur_offset = 0;
-		for (uti::u64 i = 0; i < str_len; i++)
-		{
-			// TODO: [DanJ] Slide a window through the file looking for the string surrounded by whitespace
-			if (strncmp(cur_str + i,find,find_len) == 0)
-			{
-				return i;
-			}
-		}
+	TAT_DEF size_t find_number(uti::tstr str, uti::u64 str_len);
 
-		return u64_max;
-	}
-
-	size_t find_number(uti::tstr str, uti::u64 str_len)
-	{
-		size_t off = 0;
-		bool lastWasNum = STR_CHAR_IS_NUM(str + off);
-
-		while (!STR_CHAR_IS_NUM(str + off)
-			&& !STR_CHAR_IS_NEGNUM_START(str + off, off + 1, str_len, str + off + 1)
-			&& off < str_len)
-		{
-			lastWasNum = STR_CHAR_IS_NUM(str + off);
-			++off;
-		}
-
-		return off;
-	}
-
-	size_t find_end_number(uti::tstr str, uti::u64 str_len)
-	{
-		size_t off = 0;
-		bool lastWasNum = STR_CHAR_IS_NUM(str + off);
-
-		while ((STR_CHAR_IS_NUM(str + off)
-			|| STR_CHAR_IS_DECIMAL_POINT(str + off)
-			|| (STR_CHAR_IS_NEGNUM_START(str + off, off + 1, str_len, str + off + 1) && off == 0)
-			|| (lastWasNum && STR_CHAR_IS_SCIFLT_EXPONENT(str + off)))
-			&& off < str_len)
-		{
-			lastWasNum = STR_CHAR_IS_NUM(str + off);
-			++off;
-		}
-
-		return off;
-	}
+	TAT_DEF size_t find_end_number(uti::tstr str, uti::u64 str_len);
 }

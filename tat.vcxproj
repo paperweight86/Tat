@@ -176,6 +176,7 @@
     <ClCompile Include="src\ScopedLog.cpp" />
     <ClCompile Include="src\window_windows.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="str.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Callback.h" />

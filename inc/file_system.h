@@ -4,6 +4,8 @@
 
 namespace uti
 {
+	constexpr ptr max_len_filepath = 260;
+
 	void TAT_DEF get_executable_path(tchar* str, size_t strLen);
 	void TAT_DEF get_executable_path_w(wchar_t* str, size_t strLen);
 	void TAT_DEF get_executable_folder_path(tchar* str, size_t strLen);

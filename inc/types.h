@@ -361,4 +361,9 @@ namespace uti
 	#if !defined(__ARCX64) && !defined(__ARCX86)
 	#pragma error( "Unknown architecture" )
 	#endif
+
+	namespace mth
+	{
+		constexpr float pi = 3.14159265358979323f;
+	}
 }
