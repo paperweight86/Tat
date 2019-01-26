@@ -6,6 +6,7 @@ namespace uti
 {
 	enum model_bounds_type : u8
 	{
+		none,
 		sphere,
 		aa_sphere_segment,
 		sphere_segment,

@@ -2,15 +2,15 @@
 
 #include "str.h"
 
-size_t str::strOffToNextFloat(uti::tstr c)
+size_t str::strOffToNextFloat(uti::tstr c, uti::u64 l)
 {
 	size_t off = 0;
-	size_t len = strlen(c);
 	bool lastWasNum = STR_CHAR_IS_NUM(c + off);
 
 	while (!STR_CHAR_IS_NUM(c + off)
-		&& !STR_CHAR_IS_NEGNUM_START(c + off, off + 1, len, c + off + 1)
-		&& off < len)
+		&& !STR_CHAR_IS_NEGNUM_START(c + off, off + 1, l, c + off + 1)
+		&& off < l
+		&& c+off != 0)
 	{
 		lastWasNum = STR_CHAR_IS_NUM(c + off);
 		++off;
@@ -19,17 +19,17 @@ size_t str::strOffToNextFloat(uti::tstr c)
 	return off;
 }
 
-size_t str::strOffToEndFloat(uti::tstr c)
+size_t str::strOffToEndFloat(uti::tstr c, uti::u64 l)
 {
 	size_t off = 0;
-	size_t len = strlen(c);
 	bool lastWasNum = STR_CHAR_IS_NUM(c + off);
 
 	while ((STR_CHAR_IS_NUM(c + off)
 		|| STR_CHAR_IS_DECIMAL_POINT(c + off)
-		|| (STR_CHAR_IS_NEGNUM_START(c + off, off + 1, len, c + off + 1) && off == 0)
+		|| (STR_CHAR_IS_NEGNUM_START(c + off, off + 1, l, c + off + 1) && off == 0)
 		|| (lastWasNum && STR_CHAR_IS_SCIFLT_EXPONENT(c + off)))
-		&& off < len)
+		&& off < l
+		&& c + off != 0)
 	{
 		lastWasNum = STR_CHAR_IS_NUM(c + off);
 		++off;

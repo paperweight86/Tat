@@ -66,7 +66,9 @@ bool uti::update_file_mod_time(const char* filepath, uti::u64* update_time)
 
 	u64 mod_time_64 = (u64)mod_time.dwLowDateTime | ((u64)mod_time.dwHighDateTime << 32);
 
-	bool changed = mod_time_64 > *update_time;
+	bool changed = false;
+	if (mod_time_64 > *update_time)
+		changed = true;
 
 	*update_time = mod_time_64;
 

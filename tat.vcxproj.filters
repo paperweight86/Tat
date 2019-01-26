@@ -164,6 +164,9 @@
     <ClInclude Include="inc\quaternion.h">
       <Filter>inc</Filter>
     </ClInclude>
+    <ClInclude Include="inc\static_array.h">
+      <Filter>inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="License.txt" />

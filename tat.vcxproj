@@ -205,6 +205,7 @@
     <ClInclude Include="inc\quaternion.h" />
     <ClInclude Include="inc\rearray.h" />
     <ClInclude Include="inc\ScopedLog.h" />
+    <ClInclude Include="inc\static_array.h" />
     <ClInclude Include="inc\tat.h" />
     <ClInclude Include="inc\types.h" />
     <ClInclude Include="inc\window.h" />

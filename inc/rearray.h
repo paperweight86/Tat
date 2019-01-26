@@ -1,5 +1,5 @@
 /*
-	Reallocating array once it hits capacity
+	Reallocating array once it hits capacity (capacity * 2 at time of writing)
 */
 
 #pragma once
@@ -16,6 +16,7 @@ namespace uti
 		uti::i64 capacity;
 
 		rearray();
+		rearray(rearray&& other);
 		~rearray();
 
 		void allocate(uti::i64 initial_capacity, bool zero = true);
@@ -26,8 +27,7 @@ namespace uti
 		T& operator[](uti::i64 idx);
 		T* ptr_at(uti::i64 idx);
 
-		void add_end(T data, bool zero = true);
-		T*	 add_end_ret(bool zero_if_grow = true);
+		void add_end(T& data, bool zero_if_grow = true);
 		T*	 add_end(bool zero = true);
 		void remove_end();
 	};
@@ -38,6 +38,19 @@ namespace uti
 		data = nullptr;
 		count = 0;
 		capacity = 0;
+	}
+
+	template <class T>
+	rearray<T>::rearray(rearray&& other)
+	{
+		data = other.data;
+		other.data = nullptr;
+
+		count = other.count;
+		other.count = 0;
+
+		capacity = other.capacity;
+		other.capacity = 0;
 	}
 
 	template <class T>
@@ -104,7 +117,7 @@ namespace uti
 		{
 			if (new_capacity > capacity)
 			{
-				memcpy(data, old_data, sizeof(T) * (new_capacity - capacity));
+				memcpy(data, old_data, sizeof(T) * capacity);
 				if (zero)
 					memset(data + sizeof(T) * capacity, 0, sizeof(T) * (new_capacity - capacity));
 			}
@@ -122,9 +135,9 @@ namespace uti
 	}
 
 	template <class T>
-	void rearray<T>::add_end(T value , bool zero_if_grow)
+	void rearray<T>::add_end(T& value, bool zero_if_grow)
 	{
-		T* new_value = add_end_ret(zero_if_grow);
+		T* new_value = add_end(zero_if_grow);
 		*new_value = value;
 	}
 
@@ -136,13 +149,6 @@ namespace uti
 
 		count++;
 
-		return (T*)(data + (count-1) * sizeof(T));
-	}
-
-	template <class T>
-	T* rearray<T>::add_end_ret(bool zero_if_grow)
-	{
-		add_end(zero_if_grow);
 		return (T*)(data + (count-1) * sizeof(T));
 	}
 

@@ -11,9 +11,9 @@
 
 namespace str
 {
-	TAT_DEF size_t strOffToNextFloat(uti::tstr c);
+	TAT_DEF size_t strOffToNextFloat(uti::tstr c, uti::u64 l = 32);
 
-	TAT_DEF size_t strOffToEndFloat(uti::tstr c);
+	TAT_DEF size_t strOffToEndFloat(uti::tstr c, uti::u64 l = 32);
 
 	TAT_DEF size_t find_char(uti::cstr src, char ch, size_t str_len);
 
