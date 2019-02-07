@@ -56,6 +56,7 @@ namespace uti
 		#ifdef __SSE4_1__
 		const int mask = 0xE << 4 | 0xF;
 		float4 result = float4(_mm_dp_ps(left, right, mask));
+		return result;
 		#else
 		//float4 result = make_float4(0.0f,0.0f,0.0f,1.0f);
 		float4 r1 = _mm_mul_ps(left, right);

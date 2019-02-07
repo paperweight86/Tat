@@ -125,7 +125,7 @@ namespace uti
 			__m128 v;
 			vector4(__m128 _v):v(_v){}
 			operator __m128() const {return v;}
-		};
+		} _vector4;
 	#else
 		typedef __m128 vector4;
 	#endif

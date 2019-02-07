@@ -49,7 +49,7 @@ uti::tstr uti::log::level_to_str(log::log_level level, bool _short)
 
 void uti::log::init(log::log_state* state, log::log_config* config)
 {
-	state->file_handle = NULL;
+	state->file_handle = 0;
 	state->config = *config;
 
 	if (state->config.write_file)
@@ -135,10 +135,10 @@ void uti::log::out(log_state* state, log_level level, log_flag flags, cstr forma
 	}
 
 	if(!state->config.no_write_console)
-		printf(buffer);
+		printf("%s", buffer);
 
 
-	if (state->config.write_file && state->file_handle != NULL)
+	if (state->config.write_file && state->file_handle != 0)
 	{
 		fwrite(buffer, strnlen(buffer, log::g_iMaxMsg), 1, (FILE*)state->file_handle);
 	}

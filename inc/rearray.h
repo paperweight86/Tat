@@ -92,7 +92,7 @@ namespace uti
 	template <class T>
 	T& rearray<T>::operator[](uti::i64 idx)
 	{
-		assert(abs(idx) < count || (idx == -1 && count == 1));
+		assert(std::abs(idx) < count || (idx == -1 && count == 1));
 		if (idx >= 0)
 			return *(T*)(data + idx * sizeof(T));
 		else
@@ -102,7 +102,7 @@ namespace uti
 	template <class T>
 	T* rearray<T>::ptr_at(uti::i64 idx)
 	{
-		assert(abs(idx) < count || (idx == -1 && count == 1));
+		assert(std::abs(idx) < count || (idx == -1 && count == 1));
 		if (idx >= 0)
 			return (T*)(data + idx * sizeof(T));
 		else
