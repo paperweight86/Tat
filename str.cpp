@@ -1,10 +1,12 @@
+#include "stdafx.h"
+
 #include "tat.h"
 
 #include "str.h"
 
-size_t str::strOffToNextFloat(uti::tstr c, uti::u64 l)
+uti::i64 str::strOffToNextFloat(uti::tstr c, uti::i64 l)
 {
-	size_t off = 0;
+	uti::i64 off = 0;
 	bool lastWasNum = STR_CHAR_IS_NUM(c + off);
 
 	while (!STR_CHAR_IS_NUM(c + off)
@@ -19,9 +21,9 @@ size_t str::strOffToNextFloat(uti::tstr c, uti::u64 l)
 	return off;
 }
 
-size_t str::strOffToEndFloat(uti::tstr c, uti::u64 l)
+uti::i64 str::strOffToEndFloat(uti::tstr c, uti::i64 l)
 {
-	size_t off = 0;
+	uti::i64 off = 0;
 	bool lastWasNum = STR_CHAR_IS_NUM(c + off);
 
 	while ((STR_CHAR_IS_NUM(c + off)
@@ -38,9 +40,9 @@ size_t str::strOffToEndFloat(uti::tstr c, uti::u64 l)
 	return off;
 }
 
-size_t str::find_char(uti::cstr src, char ch, size_t str_len)
+uti::i64 str::find_char(uti::cstr src, char ch, uti::i64 str_len)
 {
-	for (size_t i = 0; i < str_len; i++)
+	for (uti::i64 i = 0; i < str_len; i++)
 	{
 		if (src[i] == ch)
 			return i;
@@ -49,9 +51,9 @@ size_t str::find_char(uti::cstr src, char ch, size_t str_len)
 	return UTI_STR_FIND_NOT_FOUND;
 }
 
-size_t str::find_not_char(uti::cstr src, char ch, size_t str_len)
+uti::i64 str::find_not_char(uti::cstr src, char ch, uti::i64 str_len)
 {
-	for (size_t i = 0; i < str_len; i++)
+	for (uti::i64 i = 0; i < str_len; i++)
 	{
 		if (src[i] != ch)
 			return i;
@@ -60,29 +62,29 @@ size_t str::find_not_char(uti::cstr src, char ch, size_t str_len)
 	return UTI_STR_FIND_NOT_FOUND;
 }
 
-uti::u64 str::find_num_char(uti::cstr src, char ch, uti::u64 str_len)
+uti::i64 str::find_num_char(uti::cstr src, char ch, uti::i64 str_len)
 {
-	for (uti::u64 i = 0; i < str_len; i++)
+	for (uti::i64 i = 0; i < str_len; i++)
 	{
 		if (src[i] != ch)
 			return i;
 	}
 
-	return u64_max;
+	return i64_max;
 }
 
 //!< Finds a word within a string by assuming it's surrounded by whitespace
-uti::u64 str::find_word(uti::cstr find, uti::u64 find_len, char* src, uti::u64 str_len)
+uti::i64 str::find_word(uti::cstr find, uti::i64 find_len, char* src, uti::i64 str_len)
 {
 	if (str_len < find_len)
-		return u64_max;
+		return i64_max;
 
-	const uti::u64 buffer_size = 256;
+	const uti::i64 buffer_size = 256;
 	//		char buff[buffer_size] = {};
-	//		uti::u64 buffer_usage = find_len + 2;
+	//		uti::i64 buffer_usage = find_len + 2;
 	char* cur_str = src;
-	//		uti::u64 cur_offset = 0;
-	for (uti::u64 i = 0; i < str_len; i++)
+	//		uti::i64 cur_offset = 0;
+	for (uti::i64 i = 0; i < str_len; i++)
 	{
 		// TODO: [DanJ] Slide a window through the file looking for the string surrounded by whitespace
 		if (strncmp(cur_str + i, find, find_len) == 0)
@@ -91,12 +93,12 @@ uti::u64 str::find_word(uti::cstr find, uti::u64 find_len, char* src, uti::u64 s
 		}
 	}
 
-	return u64_max;
+	return i64_max;
 }
 
-size_t str::find_number(uti::tstr str, uti::u64 str_len)
+uti::i64 str::find_number(uti::tstr str, uti::i64 str_len)
 {
-	size_t off = 0;
+	uti::i64 off = 0;
 	bool lastWasNum = STR_CHAR_IS_NUM(str + off);
 
 	while (!STR_CHAR_IS_NUM(str + off)
@@ -110,9 +112,9 @@ size_t str::find_number(uti::tstr str, uti::u64 str_len)
 	return off;
 }
 
-size_t str::find_end_number(uti::tstr str, uti::u64 str_len)
+uti::i64 str::find_end_number(uti::tstr str, uti::i64 str_len)
 {
-	size_t off = 0;
+	uti::i64 off = 0;
 	bool lastWasNum = STR_CHAR_IS_NUM(str + off);
 
 	while ((STR_CHAR_IS_NUM(str + off)

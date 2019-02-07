@@ -1,10 +1,9 @@
 #include "stdafx.h"
 #include "window.h"
 
-#ifdef _WIN32
+#ifdef TAT_WINDOWS
 #include <windows.h>
 #include <windowsx.h>
-#endif
 
 using namespace uti;
 
@@ -228,3 +227,5 @@ void uti::window_set_cursor_visible(bool visible)
 		while (ShowCursor(false) >= 0) { _mm_pause(); }
 	}
 }
+
+#endif

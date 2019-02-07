@@ -1,28 +1,36 @@
 #pragma once
 
-#include <climits>
-#include <cfloat>
-
 #ifndef UTI_NO_STL
 #include <string>
-#include <tchar.h>
+//#include <tchar.h>
 #endif
 
 #include <xmmintrin.h>
 
+#include <limits>
+
 namespace uti
 {
 	// Instruction Set
-#if defined(_M_AMD64)
-#define __ARCX64
-#elif defined(_M_IX86)
-#define __ARCX86
-#endif
 
-	// Platform & Config
+
+// Platform & Config
 #ifdef _MSC_VER
+	#if defined(_M_AMD64)
+		#define __ARCX64
+	#elif defined(_M_IX86)
+		#define __ARCX86
+	#endif
 	#if defined(_WIN32) || defined(_WIN64)
 		#define TAT_WINDOWS
+	#endif
+#endif
+#if !defined(TAT_WINDOWS) && defined(LINUX)
+	#define TAT_LINUX
+	#if __x86_64__ || __ppc64__
+		#define __ARCX64
+	#elif defined(_M_IX86)
+		#define __ARCX86
 	#endif
 #endif
 #ifdef _DEBUG
@@ -36,6 +44,29 @@ namespace uti
 #endif
 
 	// POD types
+#ifdef TAT_LINUX
+	typedef char int8;
+	typedef unsigned char uint8;
+	typedef short int16;
+	typedef unsigned short uint16;
+	typedef __int32_t int32;
+	typedef __uint32_t uint32;
+	typedef __int64_t int64;
+	typedef __uint64_t uint64;
+	typedef float real32;
+	typedef double real64;
+
+	typedef char i8;
+	typedef unsigned char u8;
+	typedef short i16;
+	typedef unsigned short u16;
+	typedef __int32_t i32;
+	typedef __uint32_t u32;
+	typedef __int64_t i64;
+	typedef __uint64_t u64;
+	typedef real32 r32;
+	typedef real64 r64;
+#else
 	typedef char int8;
 	typedef unsigned char uint8;
 	typedef short int16;
@@ -45,16 +76,8 @@ namespace uti
 	typedef __int64 int64;
 	typedef unsigned __int64 uint64;
 	typedef float real32;
-	typedef float real64;
-#ifdef TAT_REAL64
-	typedef real64 real;
-#else
-	typedef real32 real;
-#endif
-	typedef void* voidptr;
-	typedef void* evilptr;
+	typedef double real64;
 
-	// concise POD types
 	typedef char i8;
 	typedef unsigned char u8;
 	typedef short i16;
@@ -65,6 +88,15 @@ namespace uti
 	typedef unsigned __int64 u64;
 	typedef real32 r32;
 	typedef real32 r64;
+#endif
+
+#ifdef TAT_REAL64
+	typedef real64 real;
+#else
+	typedef real32 real;
+#endif
+	typedef void* voidptr;
+	typedef void* evilptr;
 
 	// Compound PODs
 	struct float2
@@ -87,14 +119,23 @@ namespace uti
 	};
 
 #ifdef __SSE
-	typedef __m128 vector4;
-	struct matrix44 { float m[16]; };
+	#ifdef TAT_LINUX
+		typedef struct vector4 
+		{
+			__m128 v;
+			vector4(__m128 _v):v(_v){}
+			operator __m128() const {return v;}
+		};
+	#else
+		typedef __m128 vector4;
+	#endif
 #else
 	typedef struct vector4
 	{
 		float x,y,z,h;
 	} vector4;
 #endif
+	struct matrix44 { float m[16]; };
 
 	//!< Vector 4
 	typedef vector4 float4;
@@ -222,38 +263,38 @@ namespace uti
 	}
 	
 	// Integer Ranges
-	#define uint64_max  _UI64_MAX
-	#define u64_max  _UI64_MAX
-	#define int64_max    _I64_MAX
-	#define i64_max    _I64_MAX
-	#define uint32_max  _UI32_MAX
-	#define u32_max  _UI32_MAX
-	#define int32_max    _I32_MAX
-	#define i32_max    _I32_MAX
-	#define uint16_max  _UI16_MAX
-	#define u16_max  _UI16_MAX
-	#define int16_max    _I16_MAX
-	#define i16_max    _I16_MAX
-	#define uint8_max    _UI8_MAX
-	#define u8_max    _UI8_MAX
-	#define int8_max      _I8_MAX
-	#define i8_max      _I8_MAX
-	#define int64_min    _I64_MIN
-	#define i64_min    _I64_MIN
-	#define int32_min    _I32_MIN
-	#define i32_min    _I32_MIN
-	#define int16_min    _I16_MIN
-	#define i16_min    _I16_MIN
-	#define int8_min      _I8_MIN
-	#define i8_min      _I8_MIN
+	#define uint64_max  std::numeric_limits<uti::uint64>::max()
+	#define u64_max  	std::numeric_limits<uti::u64>::max()
+	#define int64_max   std::numeric_limits<uti::int64>::max()
+	#define i64_max    	std::numeric_limits<uti::i64>::max()
+	#define uint32_max  std::numeric_limits<uti::uint32>::max()
+	#define u32_max  	std::numeric_limits<uti::u32>::max()
+	#define int32_max   std::numeric_limits<uti::int32>::max()
+	#define i32_max    	std::numeric_limits<uti::i32>::max()
+	#define uint16_max  std::numeric_limits<uti::uint16>::max()
+	#define u16_max  	std::numeric_limits<uti::u16>::max()
+	#define int16_max   std::numeric_limits<uti::int16>::max()
+	#define i16_max    	std::numeric_limits<uti::i16>::max()
+	#define uint8_max   std::numeric_limits<uti::uint8>::max()
+	#define u8_max    	std::numeric_limits<uti::u8>::max()
+	#define int8_max    std::numeric_limits<uti::int8>::max()
+	#define i8_max      std::numeric_limits<uti::i8>::max()
+	#define int64_min   std::numeric_limits<uti::int64>::min()
+	#define i64_min    	std::numeric_limits<uti::i64>::min()
+	#define int32_min   std::numeric_limits<uti::int32>::min()
+	#define i32_min    	std::numeric_limits<uti::i32>::min()
+	#define int16_min   std::numeric_limits<uti::int16>::min()
+	#define i16_min    	std::numeric_limits<uti::i16>::min()
+	#define int8_min    std::numeric_limits<uti::int8>::min()
+	#define i8_min      std::numeric_limits<uti::i8>::min()
 
 	// Float Ranges
-	#define float_max      FLT_MAX
-	#define float_min      FLT_MIN
-	#define float_epsilon  FLT_EPSILON
-	#define double_max     DBL_MAX
-	#define double_min     DBL_MIN
-	#define double_epsilon DBL_EPSILON
+	#define float_max      std::numeric_limits<float>::max()
+	#define float_min      std::numeric_limits<float>::min()
+	#define float_epsilon  std::numeric_limits<float>::epsilon()
+	#define double_max     std::numeric_limits<double>::max()
+	#define double_min     std::numeric_limits<double>::min()
+	#define double_epsilon std::numeric_limits<double>::epsilon()
 	#define real32_max float_max
 	#define real32_min float_min
 	#define real64_max double_max

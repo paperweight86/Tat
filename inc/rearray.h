@@ -5,6 +5,7 @@
 #pragma once
 
 #include <assert.h>
+#include <string.h>
 
 namespace uti
 {
@@ -20,7 +21,7 @@ namespace uti
 		~rearray();
 
 		void allocate(uti::i64 initial_capacity, bool zero = true);
-		void rearray<T>::allocate_size(uti::i64 initial_size, bool zero = true);
+		void allocate_size(uti::i64 initial_size, bool zero = true);
 		void reallocate(uti::i64 new_capacity, bool zero = true);
 		void deallocate();
 

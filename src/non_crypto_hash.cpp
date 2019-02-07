@@ -2,7 +2,7 @@
 
 #include "non_crypto_hash.h"
 
-#include "src\ext\murmur_hash_3.h"
+#include "../src/ext/murmur_hash_3.h"
 
 uti::u32 uti::non_crypto_hash_32(const void* data, u32 len, u32 seed)
 {

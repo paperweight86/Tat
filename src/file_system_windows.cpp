@@ -1,5 +1,7 @@
 #include "stdafx.h"
 
+#ifdef TAT_WINDOWS
+
 #include "file_system.h"
 
 // More windows utilities
@@ -96,3 +98,5 @@ bool uti::file_load_all_lines(const char* filepath, char** out_lines, uti::u64* 
 	// TODO: This should check the result of the fread_s which was acting odd when I wrote this
 	return true;
 }
+
+#endif

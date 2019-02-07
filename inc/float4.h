@@ -3,6 +3,7 @@
 namespace uti
 {
 	TAT_DEF float4 make_float4(float x, float y, float z, float h = 1.0f);
+	TAT_DEF float4 make_float4(float x);
 	TAT_DEF float4 make_float4_ordered(float r0, float r1, float r2, float r3);
 	TAT_DEF float4 make_float4_zero();
 	TAT_DEF float get_x(float4 v);
@@ -19,10 +20,10 @@ namespace uti
 	TAT_DEF float4 norm(float4 vec);
 };
 
-TAT_DEF uti::float4 operator-(const uti::float4& left, const uti::float4& right);
-TAT_DEF uti::float4 operator+(const uti::float4& left, const uti::float4& right);
-TAT_DEF uti::float4 operator*(const uti::float4& left, const uti::float4& right);
-TAT_DEF uti::float4 operator*(uti::float4 left, float right);
-TAT_DEF uti::float4 operator*(float left, uti::float4 right);
-TAT_DEF uti::float4 operator/(const uti::float4& left, const uti::float4& right);
-TAT_DEF uti::float4 operator/(uti::float4 left, float right);
+//TAT_DEF uti::float4 operator-(const uti::float4& left, const uti::float4& right);
+//TAT_DEF uti::float4 operator+(const uti::float4& left, const uti::float4& right);
+uti::float4 operator*(const uti::float4& left, const uti::float4& right);
+uti::float4 operator*(uti::float4 left, float right);
+uti::float4 operator*(float left, uti::float4 right);
+//uti::float4 operator/(const uti::float4& left, const uti::float4& right);
+uti::float4 operator/(uti::float4 left, float right);

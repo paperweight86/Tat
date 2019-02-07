@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "float3.h"
+#include <math.h>
 
 namespace uti
 {

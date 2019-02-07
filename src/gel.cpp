@@ -1,13 +1,16 @@
 #include <stdafx.h>
+
 #include "gel.h"
+
+#include <GL/gl.h>
+//#include <gl/GLU.h>
+
+using namespace uti;
+
+#ifdef TAT_WINDOWS
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
-
-#include <gl/GL.h>
-#include <gl/GLU.h>
-
-using namespace uti;
 
 ptr gel::create_gl_context(ptr hwnd)
 {
@@ -54,3 +57,27 @@ void gel::destroy_gl_context(ptr gl_context)
 {
 	wglDeleteContext((HGLRC)gl_context);
 }
+
+#else
+
+ptr gel::create_gl_context(ptr hwnd)
+{
+	return 0;
+}
+
+bool gel::set_gl_context(ptr hwnd, ptr gl_context)
+{
+	return false;
+}
+
+void gel::swap_gl_buffers(ptr hdc)
+{
+	
+}
+
+void gel::destroy_gl_context(ptr gl_context)
+{
+	
+}
+
+#endif

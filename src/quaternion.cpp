@@ -4,9 +4,17 @@
 #include "float4.h"
 #include "float44.h"
 
+uti::quaternion::quaternion() : data(make_float4(0.0f,0.0f,0.0f))
+{
+}
+
+uti::quaternion::quaternion(float4 _data) : data(_data)
+{
+}
+
 uti::quaternion uti::make_quaternion_identity()
 {
-	return quaternion{ uti::make_float4( 0.0f, 0.0f, 0.0f, 1.0f ) };
+	return quaternion();
 }
 
 uti::quaternion uti::make_quaternion(float angle, float axis_x, float axis_y, float axis_z)
@@ -121,7 +129,7 @@ uti::quaternion uti::quaternion::operator*(const uti::quaternion& right) const
 
 	//return quaternion{ uti::make_float4(rx,ry,rz,rw) };
 
-	float4 final = uti::cross(data, right.data) + aw * right.data + bw * data;
+	float4 final = uti::cross(data, right.data) + make_float4(aw) * right.data + make_float4(bw) * data;
 	rx = get_x(final);
 	ry = get_y(final);
 	rz = get_z(final);

@@ -19,7 +19,7 @@ namespace uti
 		float4 diff2 = ray.origin - sphere_pos;
 
 		float a = uti::get_x(uti::dot(diff, diff));
-		float b = uti::get_x(uti::dot(2 * diff, diff2));
+		float b = uti::get_x(uti::dot(uti::make_float4(2.0f) * diff, diff2));
 		float c = uti::get_x(uti::dot(sphere_pos, sphere_pos)) + uti::get_x(uti::dot(ray.origin, ray.origin)) + -2 * uti::get_x(uti::dot(sphere_pos, ray.origin)) - sphere_radius*sphere_radius;
 
 		float dis = b*b - 4 * a * c;
@@ -34,9 +34,9 @@ namespace uti
 		float t = (-b - uti::get_r0(test)) / 2.0f * a;
 
 		if (pos != nullptr)
-			*pos = ray.origin + t * ray.dir;
+			*pos = ray.origin + uti::make_float4(t) * ray.dir;
 		if(norm != nullptr)
-			*norm = uti::norm((*pos - sphere_pos) / sphere_radius);
+			*norm = uti::norm((*pos - sphere_pos) / uti::make_float4(sphere_radius));
 		if (tan != nullptr)
 		{
 			// TODO: [DanJ] This doesn't seem entirely correct
@@ -44,7 +44,7 @@ namespace uti
 			if (norm != nullptr)
 				*tan = uti::norm(cross(inter, *norm));
 			else
-				*tan = uti::norm(cross(inter, uti::norm((*pos - sphere_pos) / sphere_radius)));
+				*tan = uti::norm(cross(inter, uti::norm((*pos - sphere_pos) / uti::make_float4(sphere_radius))));
 		}
 
 		return true;
@@ -60,7 +60,7 @@ namespace uti
 			if (t >= 0.0f)
 			{
 				if (pos != nullptr)
-					*pos = ray_pos + t * ray_dir;
+					*pos = ray_pos + uti::make_float4(t) * ray_dir;
 
 				return true;
 			}
@@ -86,14 +86,11 @@ namespace uti
 			float4 ray_origin = ray.origin - xform_pos;
 
 			{
-				float4 plane_pos = {};
-				float4 plane_norm = {};
-
 				// Top
-				plane_pos = make_float4(0.0f, bounds->aabox.top, 0.0f);
-				plane_norm = make_float4(0.0f, 1.0f, 0.0f);
+				float4 plane_pos = make_float4(0.0f, bounds->aabox.top, 0.0f);
+				float4 plane_norm = make_float4(0.0f, 1.0f, 0.0f);
 
-				float4 hit_pos = {};
+				float4 hit_pos = uti::make_float4(0.0f,0.0f,0.0f);
 				if (ray_vs_plane(ray_origin, ray.dir, plane_norm, plane_pos, &hit_pos))
 				{
 					if (hit_pos_out != nullptr)
@@ -360,6 +357,6 @@ namespace uti
 	{
 		float4 v = point - plane_pos;
 		float dist = get_x(dot(v, plane_normal));
-		*proj_point = point - dist*plane_normal;
+		*proj_point = point - uti::make_float4(dist)*plane_normal;
 	}
 }

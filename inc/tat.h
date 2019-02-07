@@ -1,8 +1,12 @@
 #pragma once
 
-#ifdef TAT_LIB
-	#define TAT_DEF __declspec(dllexport)
+#ifdef LINUX
+	#define TAT_DEF __attribute__((visibility("default")))
 #else
-	#define TAT_DEF __declspec(dllimport)
+	#ifdef TAT_LIB
+		#define TAT_DEF __declspec(dllexport)
+	#else
+		#define TAT_DEF __declspec(dllimport)
+	#endif
 #endif
 

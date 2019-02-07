@@ -6,6 +6,11 @@
 
 #include <stdarg.h>
 
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <string.h>
+
 //using namespace uti;
 
 uti::tstr g_Info = _T("Info");
@@ -49,8 +54,8 @@ void uti::log::init(log::log_state* state, log::log_config* config)
 
 	if (state->config.write_file)
 	{
-		FILE* file;
-		if (fopen_s(&file, state->config.file_path, "w+") == 0)
+		FILE* file = fopen(state->config.file_path, "w+");
+		if (file != nullptr)
 		{
 			state->file_handle = (ptr)file;
 		}
@@ -66,7 +71,7 @@ uti::log::log_state* uti::log::get_default_log_state()
 
 void uti::log::out(log_state* state, log_level level, log_flag flags, cstr format, va_list args)
 {
-	assert(_tclen(format) <= log::g_iMaxMsg);
+	assert(strlen(format) <= log::g_iMaxMsg);
 	tchar buffer[log::g_iMaxMsg];
 	memset(buffer, 0, log::g_iMaxMsg);
 	tchar fmt_buffer[log::g_iMaxMsg];
@@ -102,16 +107,16 @@ void uti::log::out(log_state* state, log_level level, log_flag flags, cstr forma
 		if (state->prefix != nullptr)
 		{
 			cstr finalFormat = _T("[%s][%s] %s\n");
-			assert(_tclen(levelStr) + _tclen(format) + _tclen(finalFormat) <= log::g_iMaxMsg);
-			sprintf_s<log::g_iMaxMsg>(fmt_buffer, finalFormat, state->prefix, levelStr, format);
-			vsprintf_s(buffer, log::g_iMaxMsg, fmt_buffer, args);
+			assert(strlen(levelStr) + strlen(format) + strlen(finalFormat) <= log::g_iMaxMsg);
+			snprintf(fmt_buffer, log::g_iMaxMsg, finalFormat, state->prefix, levelStr, format);
+			vsnprintf(buffer, log::g_iMaxMsg, fmt_buffer, args);
 		}
 		else
 		{
 			cstr finalFormat = _T("[%s] %s\n");
-			assert(_tclen(levelStr) + _tclen(format) + _tclen(finalFormat) <= log::g_iMaxMsg);
-			sprintf_s<log::g_iMaxMsg>(fmt_buffer, finalFormat, levelStr, format);
-			vsprintf_s(buffer, log::g_iMaxMsg, fmt_buffer, args);
+			assert(strlen(levelStr) + strlen(format) + strlen(finalFormat) <= log::g_iMaxMsg);
+			snprintf(fmt_buffer, log::g_iMaxMsg, finalFormat, levelStr, format);
+			vsnprintf(buffer, log::g_iMaxMsg, fmt_buffer, args);
 		}
 	}
 
@@ -130,7 +135,7 @@ void uti::log::out(log_state* state, log_level level, log_flag flags, cstr forma
 	}
 
 	if(!state->config.no_write_console)
-		printf_s(buffer);
+		printf(buffer);
 
 
 	if (state->config.write_file && state->file_handle != NULL)

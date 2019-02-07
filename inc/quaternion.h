@@ -5,7 +5,8 @@ namespace uti
 	struct quaternion
 	{
 		float4 data;
-
+		quaternion();
+		quaternion(float4 data);
 		TAT_DEF uti::quaternion operator+(const uti::quaternion& right) const;
 		TAT_DEF uti::quaternion operator*(const uti::quaternion& right) const;
 	};

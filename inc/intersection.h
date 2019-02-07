@@ -20,14 +20,18 @@ namespace uti
 		plane_position_inside
 	};
 
+	struct bounds_sphere { float radius; };
+	struct bounds_sphere_segment { float radius; float start; float end; axis in_axis; };
+	struct bounds_aabox { float right; float left; float top; float bottom; float front; float back; };
+
 	struct model_bounds
 	{
 		model_bounds_type type;
 		union
 		{
-			struct _sphere { float radius; } sphere;
-			struct _sphere_segment { float radius; float start; float end; axis in_axis; } sphere_segment;
-			struct _aabox { float right; float left; float top; float bottom; float front; float back; } aabox;
+			bounds_sphere sphere;
+			bounds_sphere_segment sphere_segment;
+			bounds_aabox aabox;
 		};
 	};
 
