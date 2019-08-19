@@ -47,7 +47,7 @@ namespace uti
 	template <class T, uti::i64 capacity>
 	T& static_array<T, capacity>::operator[](uti::i64 idx)
 	{
-		assert(abs(idx) < count || (idx == -1 && count == 1));
+		assert(llabs(idx) < count || (idx == -1 && count == 1));
 		if (idx >= 0)
 			return *(T*)(data + idx * sizeof(T));
 		else
@@ -57,7 +57,7 @@ namespace uti
 	template <class T, uti::i64 capacity>
 	T* static_array<T, capacity>::ptr_at(uti::i64 idx)
 	{
-		assert(abs(idx) < count || (idx == -1 && count == 1));
+		assert(llabs(idx) < count || (idx == -1 && count == 1));
 		if (idx >= 0)
 			return (T*)(data + idx * sizeof(T));
 		else
