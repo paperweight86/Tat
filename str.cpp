@@ -4,6 +4,8 @@
 
 #include "str.h"
 
+#include <ctype.h>
+
 uti::i64 str::strOffToNextFloat(uti::tstr c, uti::i64 l)
 {
 	uti::i64 off = 0;
@@ -128,4 +130,15 @@ uti::i64 str::find_end_number(uti::tstr str, uti::i64 str_len)
 	}
 
 	return off;
+}
+
+void	str::to_lower_inplace(uti::mstr str, uti::i64 str_len)
+{
+	uti::mstr c = str;
+	uti::i64 i = 0;
+	while(*c != '\0' && i < str_len)
+	{
+		*c = tolower(*c);
+		c++; i++;
+	}
 }

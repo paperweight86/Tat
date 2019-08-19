@@ -30,7 +30,7 @@ namespace uti
 			);
 	};
 
-	TAT_DEF bool	window_initialise(window* win, int16 width, int16 height, bool show, tstr windowTitle = _T("Main"));
+	TAT_DEF bool	window_initialise(window* win, int16 width, int16 height, bool show, tstr windowTitle = "Main");
 	TAT_DEF bool	window_update(window* win);
 	TAT_DEF void	window_show(window* win);
 	TAT_DEF void	window_close(window* win);
@@ -38,4 +38,5 @@ namespace uti
 	TAT_DEF int16   window_height(window* win);
 	TAT_DEF void	window_get_mouse_pos(int16& x, int16& y);
 	TAT_DEF void	window_set_cursor_visible(bool visible);
+	TAT_DEF void	window_destroy(window* win);
 }

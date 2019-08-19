@@ -18,5 +18,5 @@ cpp_inc="$cpp_inc"| xargs
 fixing_errors=""
 #fixing_errors="-Wno-everything"
 
-clang++ -c $fixing_errors -msse4.1 -std=c++1y -DLINUX -m64 $cpp_files $cpp_inc -I./
+clang++ -c $fixing_errors -msse4.1 -std=c++1y -DLINUX -DTAT_LIB -m64 -g3 $cpp_files $cpp_inc -I./
 ar -rcs tat.a *.o

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "window.h"
+#include "log.h"
 
 #ifdef TAT_LINUX
 
@@ -42,6 +43,11 @@ bool uti::window_initialise(window* win, int16 width, int16 height, bool show, t
 
     win->hwnd = (uti::ptr)lwin;
 
+    if(show)
+    {
+    	uti::window_show(win);
+    }
+
 	return true;
 }
 
@@ -56,6 +62,7 @@ bool uti::window_update(window* win)
 			&event
 		 ))
 	{
+		uti::log::err_out("arse\r\n");
 		switch(event.type)
 		{
 			case Expose:
@@ -92,17 +99,38 @@ void uti::window_show(window* win)
 
 void uti::window_close(window* win)
 {
-	
+	auto lwin = (linux_window*)win->hwnd;
+	XUnmapWindow(lwin->display, lwin->window);
 }
 
 int16 uti::window_width(window* win)
 {
-	return -1;
+	unsigned int width = 0;
+	auto lwin = (linux_window*)win->hwnd;
+	XGetGeometry(lwin->display, lwin->window, 
+		nullptr, 
+		nullptr,
+		nullptr,
+		&width,
+		nullptr,
+		nullptr,
+		nullptr);
+	return (int16)width;
 }
 
 int16 uti::window_height(window* win)
 {
-	return -1;
+	unsigned int height = 0;
+	auto lwin = (linux_window*)win->hwnd;
+	XGetGeometry(lwin->display, lwin->window, 
+		nullptr, 
+		nullptr,
+		nullptr,
+		nullptr,
+		&height,
+		nullptr,
+		nullptr);
+	return (int16)height;
 }
 
 void uti::window_get_mouse_pos(int16& x, int16& y)
@@ -114,6 +142,12 @@ void uti::window_get_mouse_pos(int16& x, int16& y)
 void uti::window_set_cursor_visible(bool visible)
 {
 
+}
+
+void uti::window_destroy(window* win)
+{
+	auto lwin = (linux_window*)win->hwnd;
+	XDestroyWindow(lwin->display, lwin->window);	
 }
 
 #endif

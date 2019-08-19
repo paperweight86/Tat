@@ -9,6 +9,10 @@
 
 #include <limits>
 
+#ifndef TAT_WINDOWS
+#include <linux/limits.h>
+#endif
+
 namespace uti
 {
 	// Instruction Set
@@ -123,6 +127,7 @@ namespace uti
 		typedef struct vector4 
 		{
 			__m128 v;
+			vector4(){}
 			vector4(__m128 _v):v(_v){}
 			operator __m128() const {return v;}
 		} _vector4;
@@ -406,5 +411,23 @@ namespace uti
 	namespace mth
 	{
 		constexpr float pi = 3.14159265358979323f;
+	}
+
+	// array size macro
+	template <class T>
+	constexpr ptr array_size(T* array)
+	{
+		return sizeof(array)/sizeof(T);
+	}
+
+	// platform
+	// TODO: [DanJ] Move this somewhere more useful
+	namespace plt
+	{
+		#ifdef TAT_WINDOWS
+		constexpr ptr max_len_path = MAX_PATH;
+		#else
+		constexpr ptr max_len_path = PATH_MAX-1;
+		#endif
 	}
 }

@@ -27,4 +27,6 @@ namespace str
 	TAT_DEF uti::i64 find_number(uti::tstr str, uti::i64 str_len);
 
 	TAT_DEF uti::i64 find_end_number(uti::tstr str, uti::i64 str_len);
+
+	TAT_DEF void 	 to_lower_inplace(uti::mstr str, uti::i64 str_len);
 }

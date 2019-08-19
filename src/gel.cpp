@@ -5,9 +5,10 @@
 #include <GL/gl.h>
 //#include <gl/GLU.h>
 
-using namespace uti;
 
 #ifdef TAT_WINDOWS
+
+using namespace uti;
 
 #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
@@ -60,22 +61,22 @@ void gel::destroy_gl_context(ptr gl_context)
 
 #else
 
-ptr gel::create_gl_context(ptr hwnd)
+unsigned long uti::gel::create_gl_context(unsigned long hwnd)
 {
 	return 0;
 }
 
-bool gel::set_gl_context(ptr hwnd, ptr gl_context)
+bool uti::gel::set_gl_context(uti::ptr hwnd, uti::ptr gl_context)
 {
 	return false;
 }
 
-void gel::swap_gl_buffers(ptr hdc)
+void uti::gel::swap_gl_buffers(uti::ptr hdc)
 {
 	
 }
 
-void gel::destroy_gl_context(ptr gl_context)
+void uti::gel::destroy_gl_context(uti::ptr gl_context)
 {
 	
 }
