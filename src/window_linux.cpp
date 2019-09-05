@@ -38,7 +38,7 @@ bool uti::window_initialise(window* win, int16 width, int16 height, bool show, t
 	lwin->window = XCreateWindow(lwin->display, RootWindow(lwin->display, screen), 0, 0, width, height, 0, DefaultDepth(lwin->display, screen), InputOutput, DefaultVisual(lwin->display, screen), CWColormap | CWEventMask, &swa);
 
     XSelectInput(lwin->display, lwin->window,
-    	ExposureMask | KeyPressMask | KeyReleaseMask
+    	ExposureMask | KeyPressMask | KeyReleaseMask | PointerMotionMask | ButtonPressMask | ButtonReleaseMask
     	);
 
     XStoreName(lwin->display, lwin->window, windowTitle);
@@ -61,7 +61,7 @@ bool uti::window_update(window* win)
 	XEvent event;
 	while(XCheckMaskEvent(
 			lwin->display, 
-			ExposureMask | KeyPressMask | KeyReleaseMask, 
+			ExposureMask | KeyPressMask | KeyReleaseMask | PointerMotionMask | ButtonPressMask | ButtonReleaseMask, 
 			&event
 		 ))
 	{
@@ -74,13 +74,41 @@ bool uti::window_update(window* win)
 
 				break;
 
+			case MotionNotify:
+				if (win->mouse_callback)
+				{
+					win->mouse_callback(
+						event.xmotion.x /*x*/,
+						event.xmotion.y /*y*/,
+						event.xmotion.state & Button1Mask,
+						event.xmotion.state & Button2Mask,
+						event.xmotion.state & Button3Mask,
+						0, // TODO: wheel - where from?
+						win);
+				}
+				break;
+
+			case ButtonPress:
+			case ButtonRelease:
+				if(win->mouse_callback)
+				{
+					win->mouse_callback(
+						event.xmotion.x /*x*/,
+						event.xmotion.y /*y*/,
+						event.xmotion.state & Button1Mask,
+						event.xmotion.state & Button2Mask,
+						event.xmotion.state & Button3Mask,
+						0, // TODO: wheel - where from?
+						win);
+				}
+				break;
+
 			case KeyPress:
 				if(win->keyboard_callback)
 				{
 					KeySym keysym = XkbKeycodeToKeysym( lwin->display, event.xkey.keycode, 0, event.xkey.state & ShiftMask ? 0 : 1);
 					win->keyboard_callback(keysym, true, false);
-					printf("key down %lu!\r\n", keysym);
-					//FreeSym(keysym);
+					//printf("key down %lu!\r\n", keysym);
 				}
 				break;
 
@@ -89,7 +117,7 @@ bool uti::window_update(window* win)
 				{
 					KeySym keysym = XkbKeycodeToKeysym( lwin->display, event.xkey.keycode, 0, event.xkey.state & ShiftMask ? 0 : 1);
 					win->keyboard_callback(keysym, false, false);
-					printf("key up %lu!\r\n", keysym);
+					//printf("key up %lu!\r\n", keysym);
 				}
 				break;
 		}
@@ -117,30 +145,38 @@ int16 uti::window_width(window* win)
 {
 	unsigned int width = 0;
 	auto lwin = (linux_window*)win->hwnd;
-	XGetGeometry(lwin->display, lwin->window, 
-		nullptr, 
-		nullptr,
-		nullptr,
+	int an_int = 0;
+	unsigned int a_uint = 0;
+	Window* root = 0;
+	/*XGetGeometry(
+		lwin->display, 
+		lwin->window, 
+		root, 
+		&an_int,
+		&an_int,
 		&width,
-		nullptr,
-		nullptr,
-		nullptr);
-	return (int16)width;
+		&a_uint,
+		&a_uint,
+		&a_uint);*/
+	return 1000;//(int16)width;
 }
 
 int16 uti::window_height(window* win)
 {
 	unsigned int height = 0;
 	auto lwin = (linux_window*)win->hwnd;
-	XGetGeometry(lwin->display, lwin->window, 
-		nullptr, 
-		nullptr,
-		nullptr,
-		nullptr,
+	int an_int = 0;
+	unsigned int a_uint = 0;
+	Window* root = 0;
+	/*XGetGeometry(lwin->display, lwin->window, 
+		root, 
+		&an_int,
+		&an_int,
+		&a_uint,
 		&height,
-		nullptr,
-		nullptr);
-	return (int16)height;
+		&a_uint,
+		&a_uint);*/
+	return 1000;//(int16)height;
 }
 
 void uti::window_get_mouse_pos(int16& x, int16& y)

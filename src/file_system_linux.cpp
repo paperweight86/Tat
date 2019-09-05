@@ -50,7 +50,13 @@ bool uti::update_file_mod_time(const char* filepath, uti::u64* update_time)
 	struct stat result;
 	if(stat(filepath, &result) == 0)
 	{
+		bool changed = false;
+		if (result.st_mtime > *update_time)
+			changed = true;
+
 	    *update_time = result.st_mtime;
+
+		return changed;
 	}
 
 	return false;
