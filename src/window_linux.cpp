@@ -77,13 +77,14 @@ bool uti::window_update(window* win)
 			case MotionNotify:
 				if (win->mouse_callback)
 				{
+					u32 wheel = ((event.xmotion.state & Button4Mask) == Button4Mask) + ((event.xmotion.state & Button5Mask) == Button5Mask) * -1;
 					win->mouse_callback(
 						event.xmotion.x /*x*/,
 						event.xmotion.y /*y*/,
 						event.xmotion.state & Button1Mask,
 						event.xmotion.state & Button2Mask,
 						event.xmotion.state & Button3Mask,
-						0, // TODO: wheel - where from?
+						wheel,
 						win);
 				}
 				break;
@@ -92,13 +93,14 @@ bool uti::window_update(window* win)
 			case ButtonRelease:
 				if(win->mouse_callback)
 				{
+					u32 wheel = ((event.xmotion.state & Button4Mask) == Button4Mask) + ((event.xmotion.state & Button5Mask) == Button5Mask) * -1;
 					win->mouse_callback(
 						event.xmotion.x /*x*/,
 						event.xmotion.y /*y*/,
 						event.xmotion.state & Button1Mask,
 						event.xmotion.state & Button2Mask,
 						event.xmotion.state & Button3Mask,
-						0, // TODO: wheel - where from?
+						wheel, // TODO: wheel - where from?
 						win);
 				}
 				break;
@@ -143,40 +145,26 @@ void uti::window_close(window* win)
 
 int16 uti::window_width(window* win)
 {
-	unsigned int width = 0;
+	// Potentially expensive: Using this because XGetGeometry crashes
 	auto lwin = (linux_window*)win->hwnd;
-	int an_int = 0;
-	unsigned int a_uint = 0;
-	Window* root = 0;
-	/*XGetGeometry(
+	XWindowAttributes attrib = {};
+	XGetWindowAttributes(
 		lwin->display, 
-		lwin->window, 
-		root, 
-		&an_int,
-		&an_int,
-		&width,
-		&a_uint,
-		&a_uint,
-		&a_uint);*/
-	return 1000;//(int16)width;
+		lwin->window,
+		&attrib);
+	return attrib.width;//(int16)width;
 }
 
 int16 uti::window_height(window* win)
 {
-	unsigned int height = 0;
+	// Potentially expensive: Using this because XGetGeometry crashes
 	auto lwin = (linux_window*)win->hwnd;
-	int an_int = 0;
-	unsigned int a_uint = 0;
-	Window* root = 0;
-	/*XGetGeometry(lwin->display, lwin->window, 
-		root, 
-		&an_int,
-		&an_int,
-		&a_uint,
-		&height,
-		&a_uint,
-		&a_uint);*/
-	return 1000;//(int16)height;
+	XWindowAttributes attrib = {};
+	XGetWindowAttributes(
+		lwin->display, 
+		lwin->window,
+		&attrib);
+	return attrib.height;//(int16)height;
 }
 
 void uti::window_get_mouse_pos(int16& x, int16& y)
