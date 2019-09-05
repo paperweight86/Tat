@@ -49,7 +49,7 @@ bool gel::set_gl_context(ptr hwnd, ptr gl_context)
 	return wglMakeCurrent(hdc, (HGLRC)gl_context) != GL_FALSE;
 }
 
-void gel::swap_gl_buffers(ptr hdc)
+void gel::swap_gl_buffers(ptr hdc, ptr gl_context)
 {
 	SwapBuffers((HDC)hdc);
 }
@@ -61,24 +61,52 @@ void gel::destroy_gl_context(ptr gl_context)
 
 #else
 
-unsigned long uti::gel::create_gl_context(unsigned long hwnd)
+#include <GL/glx.h>
+
+#include "window_linux.h"
+
+uti::ptr uti::gel::create_gl_context(uti::ptr hwnd)
 {
-	return 0;
+	auto lwin = (linux_window*)hwnd;
+	/*GLint attribs[] = { GLX_RGBA, GLX_DEPTH_SIZE, 24, GLX_DOUBLEBUFFER, None };
+	XVisualInfo* visual_info = glXChooseVisual(lwin->display, 0, attribs);
+	if(visual_info == NULL)
+	{
+		return 0;
+	}*/
+
+	XWindowAttributes win_att = {};
+	XGetWindowAttributes(lwin->display, lwin->window, &win_att);
+	XVisualInfo vi_template = {};
+	vi_template.visualid = XVisualIDFromVisual(win_att.visual);
+	int num_vi_items = 0;
+	XVisualInfo* visual_info = XGetVisualInfo(lwin->display, VisualIDMask, &vi_template, &num_vi_items);
+	
+	GLXContext context = glXCreateContext(lwin->display, visual_info, NULL, GL_TRUE);
+
+	//Window root = DefaultRootWindow(lwin->display);
+	//Colormap colormap = XCreateColormap(lwin->display, lwin->window, visual_info->visual, AllocNone);
+	//XSetWindowColormap(lwin->display, lwin->window, colormap);
+
+	return (uti::u64)context;
 }
 
 bool uti::gel::set_gl_context(uti::ptr hwnd, uti::ptr gl_context)
 {
-	return false;
+	auto lwin = (linux_window*)hwnd;
+	return glXMakeCurrent(lwin->display, lwin->window, (GLXContext)gl_context);
 }
 
-void uti::gel::swap_gl_buffers(uti::ptr hdc)
+void uti::gel::swap_gl_buffers(uti::ptr hdc, uti::ptr hwnd)
 {
-	
+	auto lwin = (linux_window*)hwnd;
+	glXSwapBuffers(lwin->display, lwin->window);
 }
 
-void uti::gel::destroy_gl_context(uti::ptr gl_context)
+void uti::gel::destroy_gl_context(uti::ptr gl_context, uti::ptr hwnd)
 {
-	
+	auto lwin = (linux_window*)hwnd;
+	glXDestroyContext(lwin->display, (GLXContext)gl_context);
 }
 
 #endif

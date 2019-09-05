@@ -4,6 +4,12 @@
 
 #include "file_system.h"
 
+#include <fcntl.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <sys/sendfile.h>
+#include <sys/stat.h>
+#include <sys/types.h>
 #include "unistd.h"
 
 void TAT_DEF uti::get_executable_path(tchar* str, size_t strLen)
@@ -13,7 +19,6 @@ void TAT_DEF uti::get_executable_path(tchar* str, size_t strLen)
 
 void TAT_DEF uti::get_executable_path_w(wchar_t* str, size_t strLen)
 {
-	// errrrrrr?
 }
 
 void TAT_DEF uti::get_executable_folder_path(tchar* str, size_t strLen)
@@ -42,32 +47,11 @@ bool uti::file_exists(const char* name)
 
 bool uti::update_file_mod_time(const char* filepath, uti::u64* update_time)
 {
-//	HANDLE file_handle;
-//	FILETIME mod_time;
-//	file_handle = CreateFile(filepath, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
-//
-//	if (file_handle == INVALID_HANDLE_VALUE)
-//	{
-//		return false;
-//	}
-//
-//	if (!GetFileTime(file_handle, NULL, NULL, &mod_time))
-//	{
-//		CloseHandle(file_handle);
-//		return false;
-//	}
-//
-//	CloseHandle(file_handle);
-//
-//	u64 mod_time_64 = (u64)mod_time.dwLowDateTime | ((u64)mod_time.dwHighDateTime << 32);
-//
-//	bool changed = false;
-//	if (mod_time_64 > *update_time)
-//		changed = true;
-//
-//	*update_time = mod_time_64;
-//
-//	return changed;
+	struct stat result;
+	if(stat(filepath, &result) == 0)
+	{
+	    *update_time = result.st_mtime;
+	}
 
 	return false;
 }
@@ -90,6 +74,20 @@ bool uti::file_load_all_lines(const char* filepath, char** out_lines, uti::u64* 
 	fclose(ptr_file);
 
 	// TODO: This should check the result of the fread_s which was acting odd when I wrote this
+	return true;
+}
+
+bool uti::file_copy(const char* src_file, const char* dst_file)
+{
+	int src_fd = open(src_file, O_RDONLY);
+	struct stat stat_buf;
+	fstat(src_fd, &stat_buf);
+	int dst_fd = open(dst_file, O_WRONLY | O_CREAT, stat_buf.st_mode);
+	off_t offset = 0;
+	sendfile(dst_fd, src_fd, &offset, stat_buf.st_size);
+	close(src_fd);
+	close(dst_fd);
+
 	return true;
 }
 

@@ -99,4 +99,9 @@ bool uti::file_load_all_lines(const char* filepath, char** out_lines, uti::u64* 
 	return true;
 }
 
+bool uti::file_copy(const char* src_file, const char* dst_file)
+{
+	return 0 != CopyFileA(ooh_data->dll_build_path, ooh_data->dll_load_path, false);
+}
+
 #endif

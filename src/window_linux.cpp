@@ -5,14 +5,11 @@
 #ifdef TAT_LINUX
 
 #include<X11/Xlib.h>
+#include <X11/XKBlib.h>
 
 using namespace uti;
 
-struct linux_window
-{
-	Display* display;
-	Window   window;
-};
+#include "window_linux.h"
 
 bool uti::window_initialise(window* win, int16 width, int16 height, bool show, tstr windowTitle)
 {
@@ -25,19 +22,26 @@ bool uti::window_initialise(window* win, int16 width, int16 height, bool show, t
         return false;
     }
 
-    int def_screen = DefaultScreen(lwin->display);
+    int screen = DefaultScreen(lwin->display);
 
-    lwin->window = XCreateSimpleWindow(
+/*    lwin->window = XCreateSimpleWindow(
     	lwin->display,
     	RootWindow(lwin->display, def_screen),
-    	10, 10, 200, 200, 1,
+    	0, 0, width, height, 0,
     	BlackPixel(lwin->display, def_screen),
     	WhitePixel(lwin->display, def_screen)
-    	);
+    	);*/
+
+    XSetWindowAttributes swa = {};
+    swa.colormap = DefaultColormap(lwin->display, screen);
+ 	swa.event_mask = ExposureMask | KeyPressMask;
+	lwin->window = XCreateWindow(lwin->display, RootWindow(lwin->display, screen), 0, 0, width, height, 0, DefaultDepth(lwin->display, screen), InputOutput, DefaultVisual(lwin->display, screen), CWColormap | CWEventMask, &swa);
 
     XSelectInput(lwin->display, lwin->window,
     	ExposureMask | KeyPressMask | KeyReleaseMask
     	);
+
+    XStoreName(lwin->display, lwin->window, windowTitle);
 
     XMapWindow(lwin->display, lwin->window);
 
@@ -54,7 +58,6 @@ bool uti::window_initialise(window* win, int16 width, int16 height, bool show, t
 bool uti::window_update(window* win)
 {
 	auto lwin = (linux_window*)win->hwnd;
-
 	XEvent event;
 	while(XCheckMaskEvent(
 			lwin->display, 
@@ -62,7 +65,9 @@ bool uti::window_update(window* win)
 			&event
 		 ))
 	{
-		uti::log::err_out("arse\r\n");
+ 	//while(1) {
+        //XNextEvent(lwin->display, &event);
+		
 		switch(event.type)
 		{
 			case Expose:
@@ -72,14 +77,19 @@ bool uti::window_update(window* win)
 			case KeyPress:
 				if(win->keyboard_callback)
 				{
-					win->keyboard_callback(event.xkey.keycode, true, false);
+					KeySym keysym = XkbKeycodeToKeysym( lwin->display, event.xkey.keycode, 0, event.xkey.state & ShiftMask ? 0 : 1);
+					win->keyboard_callback(keysym, true, false);
+					printf("key down %lu!\r\n", keysym);
+					//FreeSym(keysym);
 				}
 				break;
 
 			case KeyRelease:
 				if(win->keyboard_callback)
 				{
-					win->keyboard_callback(event.xkey.keycode, false, false);
+					KeySym keysym = XkbKeycodeToKeysym( lwin->display, event.xkey.keycode, 0, event.xkey.state & ShiftMask ? 0 : 1);
+					win->keyboard_callback(keysym, false, false);
+					printf("key up %lu!\r\n", keysym);
 				}
 				break;
 		}
