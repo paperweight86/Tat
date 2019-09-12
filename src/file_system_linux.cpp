@@ -34,7 +34,7 @@ void TAT_DEF uti::get_executable_folder_path_w(wchar_t* str, size_t strLen)
 bool uti::file_exists(const char* name)
 {
 	FILE* file = fopen(name, "r");
-	if (file == nullptr)
+	if (file != nullptr)
 	{
 		fclose(file);
 		return true;
@@ -90,11 +90,11 @@ bool uti::file_copy(const char* src_file, const char* dst_file)
 	fstat(src_fd, &stat_buf);
 	int dst_fd = open(dst_file, O_WRONLY | O_CREAT, stat_buf.st_mode);
 	off_t offset = 0;
-	sendfile(dst_fd, src_fd, &offset, stat_buf.st_size);
+	bool succeess = -1 != sendfile(dst_fd, src_fd, &offset, stat_buf.st_size);
 	close(src_fd);
 	close(dst_fd);
 
-	return true;
+	return succeess;
 }
 
 #endif

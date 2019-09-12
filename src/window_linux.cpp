@@ -110,7 +110,6 @@ bool uti::window_update(window* win)
 				{
 					KeySym keysym = XkbKeycodeToKeysym( lwin->display, event.xkey.keycode, 0, event.xkey.state & ShiftMask ? 0 : 1);
 					win->keyboard_callback(keysym, true, false);
-					//printf("key down %lu!\r\n", keysym);
 				}
 				break;
 
@@ -119,7 +118,6 @@ bool uti::window_update(window* win)
 				{
 					KeySym keysym = XkbKeycodeToKeysym( lwin->display, event.xkey.keycode, 0, event.xkey.state & ShiftMask ? 0 : 1);
 					win->keyboard_callback(keysym, false, false);
-					//printf("key up %lu!\r\n", keysym);
 				}
 				break;
 		}

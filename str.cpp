@@ -75,6 +75,22 @@ uti::i64 str::find_num_char(uti::cstr src, char ch, uti::i64 str_len)
 	return i64_max;
 }
 
+uti::i64 str::find_any_char(uti::cstr src, uti::cstr chars, uti::i64 str_len)
+{
+	for (uti::i64 i = 0; i < str_len; i++)
+	{
+		char* cur = (char*)chars;
+		while(*cur != '\0')
+		{
+			if (src[i] == *cur)
+				return i;
+			++cur;
+		}
+	}
+
+	return UTI_STR_FIND_NOT_FOUND;
+}
+
 //!< Finds a word within a string by assuming it's surrounded by whitespace
 uti::i64 str::find_word(uti::cstr find, uti::i64 find_len, char* src, uti::i64 str_len)
 {

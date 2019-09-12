@@ -9,6 +9,8 @@
 
 #define UTI_STR_FIND_NOT_FOUND i64_max
 
+#define UTI_STR_WHITESPACE_CHARS " \r\n\t"
+
 namespace str
 {
 	TAT_DEF uti::i64 strOffToNextFloat(uti::tstr c, uti::i64 l = 32);
@@ -21,7 +23,8 @@ namespace str
 
 	TAT_DEF uti::i64 find_num_char(uti::cstr src, char ch, uti::i64 str_len);
 
-	//!< Finds a word within a string by assuming it's surrounded by whitespace
+	TAT_DEF uti::i64 find_any_char(uti::cstr src, uti::cstr chars, uti::i64 str_len);
+
 	TAT_DEF uti::i64 find_word(uti::cstr find, uti::i64 find_len, char* src, uti::i64 str_len);
 
 	TAT_DEF uti::i64 find_number(uti::tstr str, uti::i64 str_len);
