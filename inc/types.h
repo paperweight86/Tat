@@ -28,6 +28,8 @@ namespace uti
 	#if defined(_WIN32) || defined(_WIN64)
 		#define TAT_WINDOWS
 	#endif
+#else 
+	#define __ARCX64
 #endif
 #if !defined(TAT_WINDOWS) && defined(LINUX)
 	#define TAT_LINUX
