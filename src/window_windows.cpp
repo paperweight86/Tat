@@ -4,6 +4,8 @@
 #ifdef TAT_WINDOWS
 #include <windows.h>
 #include <windowsx.h>
+#undef max
+#undef min
 
 using namespace uti;
 
@@ -123,7 +125,7 @@ namespace
 
 bool uti::window_initialise(window* win, int16 width, int16 height, bool show, tstr windowTitle)
 {
-	_stprintf_s<32>(win->class_name, _T("%s"), _T("tat_window_windows"));
+	sprintf_s<32>(win->class_name, "%s", "tat_window_windows");
 	win->quit = false;
 	win->hwnd = 0;
 

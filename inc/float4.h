@@ -20,10 +20,10 @@ namespace uti
 	TAT_DEF float4 norm(float4 vec);
 };
 
-//TAT_DEF uti::float4 operator-(const uti::float4& left, const uti::float4& right);
-//TAT_DEF uti::float4 operator+(const uti::float4& left, const uti::float4& right);
-uti::float4 operator*(const uti::float4& left, const uti::float4& right);
-uti::float4 operator*(uti::float4 left, float right);
-uti::float4 operator*(float left, uti::float4 right);
-//uti::float4 operator/(const uti::float4& left, const uti::float4& right);
-uti::float4 operator/(uti::float4 left, float right);
+TAT_DEF uti::float4 operator-(const uti::float4& left, const uti::float4& right);
+TAT_DEF uti::float4 operator+(const uti::float4& left, const uti::float4& right);
+TAT_DEF uti::float4 operator*(const uti::float4& left, const uti::float4& right);
+TAT_DEF uti::float4 operator*(uti::float4 left, float right);
+TAT_DEF uti::float4 operator*(float left, uti::float4 right);
+TAT_DEF uti::float4 operator/(const uti::float4& left, const uti::float4& right);
+TAT_DEF uti::float4 operator/(uti::float4 left, float right);

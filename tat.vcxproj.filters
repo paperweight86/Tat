@@ -21,18 +21,6 @@
     <ClCompile Include="src\float4.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\IEventArgs.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\IInput.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\IObservable.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\IObserver.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\ScopedLog.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -56,9 +44,6 @@
     <ClCompile Include="src\window_windows.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\file_system.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\ext\murmur_hash_3.cpp">
       <Filter>src\ext</Filter>
     </ClCompile>
@@ -69,6 +54,12 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="str.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\file_system_windows.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\dynamic_libs_windows.cpp">
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>

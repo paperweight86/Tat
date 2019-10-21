@@ -13,14 +13,14 @@
 
 //using namespace uti;
 
-uti::tstr g_Info = _T("Info");
-uti::tstr g_InfoShort = _T("Inf");
-uti::tstr g_Warning = _T("Warning");
-uti::tstr g_WarningShort = _T("Wrn");
-uti::tstr g_Error = _T("Error");
-uti::tstr g_ErrorShort = _T("Err");
-uti::tstr g_Debug = _T("Debug");
-uti::tstr g_DebugShort = _T("Dbg");
+uti::cstr g_Info = "Info";
+uti::cstr g_InfoShort = "Inf";
+uti::cstr g_Warning = "Warning";
+uti::cstr g_WarningShort = "Wrn";
+uti::cstr g_Error = "Error";
+uti::cstr g_ErrorShort = "Err";
+uti::cstr g_Debug = "Debug";
+uti::cstr g_DebugShort = "Dbg";
 
 static uti::log::log_state g_default_logger;
 
@@ -43,7 +43,7 @@ uti::tstr uti::log::level_to_str(log::log_level level, bool _short)
 		return _short ? g_DebugShort : g_Debug;
 		break;
 	default:
-		return _short ? _T("???") : _T("Unknown");
+		return _short ? "???" : "Unknown";
 	}
 }
 
@@ -106,14 +106,14 @@ void uti::log::out(log_state* state, log_level level, log_flag flags, cstr forma
 	{
 		if (state->prefix != nullptr)
 		{
-			cstr finalFormat = _T("[%s][%s] %s\n");
+			cstr finalFormat = "[%s][%s] %s\n";
 			assert(strlen(levelStr) + strlen(format) + strlen(finalFormat) <= log::g_iMaxMsg);
 			snprintf(fmt_buffer, log::g_iMaxMsg, finalFormat, state->prefix, levelStr, format);
 			vsnprintf(buffer, log::g_iMaxMsg, fmt_buffer, args);
 		}
 		else
 		{
-			cstr finalFormat = _T("[%s] %s\n");
+			cstr finalFormat = "[%s] %s\n";
 			assert(strlen(levelStr) + strlen(format) + strlen(finalFormat) <= log::g_iMaxMsg);
 			snprintf(fmt_buffer, log::g_iMaxMsg, finalFormat, levelStr, format);
 			vsnprintf(buffer, log::g_iMaxMsg, fmt_buffer, args);

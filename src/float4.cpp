@@ -97,16 +97,16 @@ namespace uti
 
 using namespace uti;
 
-//float4 operator-(const float4& left, const float4& right)
-//{
-//	auto res = _mm_sub_ps(left, right);
-//	return make_float4(get_x(res), get_y(res), get_z(res));
-//}
+float4 operator-(const float4& left, const float4& right)
+{
+	auto res = _mm_sub_ps(left, right);
+	return make_float4(get_x(res), get_y(res), get_z(res));
+}
 
-//float4 operator+(const float4& left, const float4& right)
-//{
-//	return _mm_add_ps(left, right);
-//}
+float4 operator+(const float4& left, const float4& right)
+{
+	return _mm_add_ps(left, right);
+}
 
 float4 operator*(const float4& left, const float4& right)
 {
@@ -123,10 +123,10 @@ float4 operator*(float left, float4 right)
 	return float4(_mm_mul_ps(_mm_set1_ps(left), right));
 }
 
-//float4 operator/(const float4& left, const float4& right)
-//{
-//	return float4(_mm_div_ps(left, right));
-//}
+float4 operator/(const float4& left, const float4& right)
+{
+	return float4(_mm_div_ps(left, right));
+}
 
 float4 operator/(float4 left, float right)
 {

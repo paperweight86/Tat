@@ -9,46 +9,46 @@
 
 #include <limits>
 
-#ifndef TAT_WINDOWS
-#include <linux/limits.h>
-#endif
-
-namespace uti
-{
 	// Instruction Set
 
 
 // Platform & Config
 #ifdef _MSC_VER
-	#if defined(_M_AMD64)
-		#define __ARCX64
-	#elif defined(_M_IX86)
-		#define __ARCX86
-	#endif
-	#if defined(_WIN32) || defined(_WIN64)
-		#define TAT_WINDOWS
-	#endif
+#if defined(_M_AMD64)
+#define __ARCX64
+#elif defined(_M_IX86)
+#define __ARCX86
+#endif
+#if defined(_WIN32) || defined(_WIN64)
+#define TAT_WINDOWS
+#endif
 #else 
-	#define __ARCX64
+#define __ARCX64
 #endif
 #if !defined(TAT_WINDOWS) && defined(LINUX)
-	#define TAT_LINUX
-	#if __x86_64__ || __ppc64__
-		#define __ARCX64
-	#elif defined(_M_IX86)
-		#define __ARCX86
-	#endif
+#define TAT_LINUX
+#if __x86_64__ || __ppc64__
+#define __ARCX64
+#elif defined(_M_IX86)
+#define __ARCX86
+#endif
 #endif
 #ifdef _DEBUG
-	#define TAT_DEBUG
+#define TAT_DEBUG
 #else
-	#define TAT_RELEASE
+#define TAT_RELEASE
 #endif
 
 #if defined(__ARCX64) || defined(__ARCX86)
 #define __SSE
 #endif
 
+#ifndef TAT_WINDOWS
+#include <linux/limits.h>
+#endif
+
+namespace uti
+{
 	// POD types
 #ifdef TAT_LINUX
 	typedef char int8;
@@ -427,7 +427,7 @@ namespace uti
 	namespace plt
 	{
 		#ifdef TAT_WINDOWS
-		constexpr ptr max_len_path = MAX_PATH;
+		constexpr ptr max_len_path = 260;// MAX_PATH;
 		#else
 		constexpr ptr max_len_path = PATH_MAX-1;
 		#endif
