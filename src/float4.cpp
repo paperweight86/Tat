@@ -53,18 +53,18 @@ namespace uti
 
 	float4 dot(const float4& left, const float4& right)
 	{
-		#ifdef __SSE4_1__
+		//#ifdef __SSE4_1__
 		const int mask = 0xE << 4 | 0xF;
 		float4 result = float4(_mm_dp_ps(left, right, mask));
 		return result;
-		#else
+		/*#else
 		//float4 result = make_float4(0.0f,0.0f,0.0f,1.0f);
 		float4 r1 = _mm_mul_ps(left, right);
 		float4 r2 = _mm_hadd_ps(r1, r1);
 		float4 r3 = _mm_hadd_ps(r2, r2);
 		//_mm_store_ss(&result, r3);
 		return r3;
-		#endif
+		#endif*/
 	}
 
 	float4 cross(const float4& left, const float4& right)
