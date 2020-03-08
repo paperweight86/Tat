@@ -12,6 +12,17 @@ namespace uti
 	template <class T>
 	struct rearray
 	{
+		struct iterator
+		{
+			T* pointer;
+
+			iterator( ) : ptr(nullptr) { }
+			iterator(T* ptr) : pointer(ptr) { }
+			iterator operator++() { return iterator(++pointer); }
+			bool operator!=(const iterator& other) { return other.pointer != pointer; }
+			const T& operator*() { return *pointer; }
+		};
+		 
 		uti::u8* data;
 		uti::i64 count;
 		uti::i64 capacity;
@@ -31,6 +42,9 @@ namespace uti
 		void add_end(T& data, bool zero_if_grow = true);
 		T*	 add_end(bool zero = true);
 		void remove_end();
+
+		iterator begin() { return iterator((T*)data); }
+		iterator end()	 { return iterator((T*)data + count);  }
 	};
 
 	template <class T>

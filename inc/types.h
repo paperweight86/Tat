@@ -329,9 +329,9 @@ namespace uti
 
 	//!< Pointer Sized Type
 #if   defined(__ARCX64)
-	typedef u64 ptr;
+	typedef i64 ptr;
 #else
-	typedef u32 ptr;
+	typedef i32 ptr;
 #endif
 
 	// resource handle, split into 32bits for unique ID, 32bits for type
@@ -413,6 +413,11 @@ namespace uti
 	namespace mth
 	{
 		constexpr float pi = 3.14159265358979323f;
+
+		inline bool float_almost_zero(float val, float epsilon = float_epsilon)
+		{
+			return abs(val) < float_epsilon;
+		}
 	}
 
 	// array size macro

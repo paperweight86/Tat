@@ -52,15 +52,16 @@ namespace uti
 
 	bool ray_vs_plane(float4 ray_pos, float4 ray_dir, float4 plane_normal, float4 plane_pos, float4* pos)
 	{
-		float ndp = uti::get_x(uti::dot(plane_normal, ray_dir));
-		if (ndp != 0.0f)
+		float4 ndp = uti::dot(plane_normal, ray_dir);
+		if (uti::get_x(ndp) != 0.0f)
 		{
 			float4 rayToPlane = plane_pos - ray_pos;
-			float t = uti::get_x(uti::dot(rayToPlane, plane_normal)) / ndp;
-			if (t >= 0.0f)
+			float4 rtpdn = uti::dot(rayToPlane, plane_normal);
+			float4 t = rtpdn / ndp;
+			if (uti::get_x(t) >= 0.0f)
 			{
 				if (pos != nullptr)
-					*pos = ray_pos + uti::make_float4(t) * ray_dir;
+					*pos = ray_pos + t * ray_dir;
 
 				return true;
 			}
@@ -69,19 +70,19 @@ namespace uti
 		return false;
 	}
 
-	bool ray_test_bounds(const Ray& ray, model_bounds* bounds, const float44& xform, float4* hit_pos_out, float4* hit_norm_out, float4* hit_tan_out)
+	bool ray_test_bounds(const Ray& ray, mesh_bounds* bounds, const float44& xform, float4* hit_pos_out, float4* hit_norm_out, float4* hit_tan_out)
 	{
 		float4 xform_pos = make_float4(xform.m[12], xform.m[13], xform.m[14], 1.0f);
-		if (bounds->type == model_bounds_type::sphere)
+		if (bounds->type == mesh_bounds_type::sphere)
 		{
 			return uti::ray_vs_sphere(ray, xform_pos, bounds->sphere.radius);
 		}
-		else if (  bounds->type == model_bounds_type::sphere_segment
-				|| bounds->type == model_bounds_type::aa_sphere_segment)
+		else if (  bounds->type == mesh_bounds_type::sphere_segment
+				|| bounds->type == mesh_bounds_type::aa_sphere_segment)
 		{
 			return uti::ray_vs_sphere_segment(ray, bounds, xform, hit_pos_out, hit_norm_out, hit_tan_out);
 		}
-		else if (bounds->type == model_bounds_type::aa_box)
+		else if (bounds->type == mesh_bounds_type::aa_box)
 		{
 			float4 ray_origin = ray.origin - xform_pos;
 
@@ -209,10 +210,10 @@ namespace uti
 		return false;
 	}
 
-	bool ray_vs_sphere_segment(const Ray& ray, model_bounds* bounds, const float44& xform, float4* hit_pos_out, float4* hit_norm_out, float4* hit_tan_out)
+	bool ray_vs_sphere_segment(const Ray& ray, mesh_bounds* bounds, const float44& xform, float4* hit_pos_out, float4* hit_norm_out, float4* hit_tan_out)
 	{
 		float4 xform_pos = make_float4(xform.m[12], xform.m[13], xform.m[14], 1.0f);
-		if (bounds->type == model_bounds_type::aa_sphere_segment)
+		if (bounds->type == mesh_bounds_type::aa_sphere_segment)
 		{
 			if (ray_vs_sphere(ray, xform_pos, bounds->sphere_segment.radius, hit_pos_out, hit_norm_out, hit_tan_out))
 			{
@@ -257,7 +258,7 @@ namespace uti
 				}
 			}
 		}
-		else if (bounds->type == model_bounds_type::sphere_segment)
+		else if (bounds->type == mesh_bounds_type::sphere_segment)
 		{
 			// TODO: [DanJ] Construct planes to test against by using the inverse transpose of the xform to move the normals/point-in-plane
 			if (ray_vs_sphere(ray, xform_pos, bounds->sphere_segment.radius, hit_pos_out, hit_norm_out, hit_tan_out))

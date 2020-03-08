@@ -193,7 +193,7 @@ int16 uti::window_width(window* win)
 	RECT rect;
 	ZeroMemory(&rect, sizeof(rect));
 	if (GetClientRect((HWND)win->hwnd, &rect))
-		return rect.right - rect.left;
+		return (int16)(rect.right - rect.left);
 	else
 		return -1;
 }
@@ -203,7 +203,7 @@ int16 uti::window_height(window* win)
 	RECT rect;
 	ZeroMemory(&rect, sizeof(rect));
 	if (GetClientRect((HWND)win->hwnd, &rect))
-		return rect.bottom - rect.top;
+		return (int16)(rect.bottom - rect.top);
 	else
 		return -1;
 }
@@ -213,8 +213,8 @@ void uti::window_get_mouse_pos(int16& x, int16& y)
 	POINT pt = {};
 	if (GetCursorPos(&pt))
 	{
-		x = pt.x;
-		y = pt.y;
+		x = (int16)pt.x;
+		y = (int16)pt.y;
 	}
 }
 

@@ -4,7 +4,7 @@
 
 namespace uti
 {
-	enum model_bounds_type : u8
+	enum mesh_bounds_type : u8
 	{
 		none,
 		sphere,
@@ -24,9 +24,9 @@ namespace uti
 	struct bounds_sphere_segment { float radius; float start; float end; axis in_axis; };
 	struct bounds_aabox { float right; float left; float top; float bottom; float front; float back; };
 
-	struct model_bounds
+	struct mesh_bounds
 	{
-		model_bounds_type type;
+		mesh_bounds_type type;
 		union
 		{
 			bounds_sphere sphere;
@@ -41,9 +41,9 @@ namespace uti
 
 	TAT_DEF bool ray_vs_plane(float4 ray_pos, float4 ray_dir, float4 plane_normal, float4 plane_pos, float4* pos = nullptr);
 
-	TAT_DEF bool ray_test_bounds(const Ray& ray, model_bounds* bounds, const float44& xform, float4* hit_pos_out = nullptr, float4* hit_norm_out = nullptr, float4* hit_tan_out = nullptr);
+	TAT_DEF bool ray_test_bounds(const Ray& ray, mesh_bounds* bounds, const float44& xform, float4* hit_pos_out = nullptr, float4* hit_norm_out = nullptr, float4* hit_tan_out = nullptr);
 
-	TAT_DEF bool ray_vs_sphere_segment(const Ray& ray, model_bounds* bounds, const float44& xform, float4* hit_pos_out = nullptr, float4* hit_norm_out = nullptr, float4* hit_tan_out = nullptr);
+	TAT_DEF bool ray_vs_sphere_segment(const Ray& ray, mesh_bounds* bounds, const float44& xform, float4* hit_pos_out = nullptr, float4* hit_norm_out = nullptr, float4* hit_tan_out = nullptr);
 
 	TAT_DEF plane_position point_vs_plane(float4 point, float4 plane_normal, float4 plane_pos);
 

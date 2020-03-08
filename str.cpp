@@ -154,7 +154,7 @@ void	str::to_lower_inplace(uti::mstr str, uti::i64 str_len)
 	uti::i64 i = 0;
 	while(*c != '\0' && i < str_len)
 	{
-		*c = tolower(*c);
+		*c = (char)tolower(*c);
 		c++; i++;
 	}
 }
