@@ -64,6 +64,18 @@ uti::i64 str::find_not_char(uti::cstr src, char ch, uti::i64 str_len)
 	return UTI_STR_FIND_NOT_FOUND;
 }
 
+uti::i64 str::find_last_char(uti::cstr src, char ch, uti::i64 str_len)
+{
+	uti::i64 idx = UTI_STR_FIND_NOT_FOUND;
+	for (uti::i64 i = 0; i < str_len; i++)
+	{
+		if (src[i] == ch)
+			idx = i;
+	}
+
+	return idx;
+}
+
 uti::i64 str::find_num_char(uti::cstr src, char ch, uti::i64 str_len)
 {
 	for (uti::i64 i = 0; i < str_len; i++)

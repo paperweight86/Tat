@@ -3,6 +3,7 @@
 #ifdef TAT_WINDOWS
 
 #include "file_system.h"
+#include "str.h"
 
 // More windows utilities
 #include <Shlwapi.h>
@@ -102,6 +103,16 @@ bool uti::file_load_all_lines(const char* filepath, char** out_lines, uti::u64* 
 bool uti::file_copy(const char* src_file, const char* dst_file)
 {
 	return 0 != CopyFileA(src_file, dst_file, false);
+}
+
+#undef min
+#undef max
+uti::i64 uti::get_folder_path_end_pos(const char* filepath)
+{
+	uti::i64 length = strlen(filepath);
+	uti::i64 index = str::find_last_char(filepath, path_separator, length);
+	// if we don't find it assume it's a filename
+	return index == UTI_STR_FIND_NOT_FOUND? 0 : uti::min(index+1, length-1);
 }
 
 #endif

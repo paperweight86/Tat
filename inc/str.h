@@ -21,6 +21,8 @@ namespace str
 
 	TAT_DEF uti::i64 find_not_char(uti::cstr src, char ch, uti::i64 str_len);
 
+	TAT_DEF uti::i64 find_last_char(uti::cstr src, char ch, uti::i64 str_len);
+
 	TAT_DEF uti::i64 find_num_char(uti::cstr src, char ch, uti::i64 str_len);
 
 	TAT_DEF uti::i64 find_any_char(uti::cstr src, uti::cstr chars, uti::i64 str_len);

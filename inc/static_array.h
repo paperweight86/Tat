@@ -1,7 +1,6 @@
 /*
 	Static capacity array.
 	
-	- Count is maintained "manually" if you use data or [] directly
 	- Negative indexing is supported based on count.
 */
 #pragma once
