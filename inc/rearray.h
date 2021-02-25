@@ -28,11 +28,12 @@ namespace uti
 		uti::i64 capacity;
 
 		rearray();
+		rearray(const rearray& other);
 		rearray(rearray&& other);
 		~rearray();
 
-		void allocate(uti::i64 initial_capacity, bool zero = true);
-		void allocate_size(uti::i64 initial_size, bool zero = true);
+		void allocate_capacity(uti::i64 initial_capacity, bool zero = true);
+		void allocate_count(uti::i64 initial_size, bool zero = true);
 		void reallocate(uti::i64 new_capacity, bool zero = true);
 		void deallocate();
 
@@ -45,6 +46,8 @@ namespace uti
 
 		iterator begin() { return iterator((T*)data); }
 		iterator end()	 { return iterator((T*)data + count);  }
+
+		rearray &rearray::operator =(const rearray& other) = default;
 	};
 
 	template <class T>
@@ -53,6 +56,14 @@ namespace uti
 		data = nullptr;
 		count = 0;
 		capacity = 0;
+	}
+
+	template <class T>
+	rearray<T>::rearray(const rearray& other)
+	{
+		allocate_capacity(other.capacity);
+		count = other.count;
+		memcpy(data, other.data, other.count);
 	}
 
 	template <class T>
@@ -75,7 +86,7 @@ namespace uti
 	}
 
 	template <class T>
-	void rearray<T>::allocate(uti::i64 initial_capacity, bool zero)
+	void rearray<T>::allocate_capacity(uti::i64 initial_capacity, bool zero)
 	{
 		assert(count == 0 && capacity == 0);
 		data = new uti::u8[sizeof(T) * initial_capacity];
@@ -86,7 +97,7 @@ namespace uti
 	}
 
 	template <class T>
-	void rearray<T>::allocate_size(uti::i64 initial_size, bool zero)
+	void rearray<T>::allocate_count(uti::i64 initial_size, bool zero)
 	{
 		data = new uti::u8[sizeof(T) * initial_size];
 		capacity = initial_size;

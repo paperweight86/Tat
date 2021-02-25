@@ -2,6 +2,8 @@
 
 #include "types.h"
 
+#include "rearray.h"
+
 #define STR_CHAR_IS_NUM(c)								(*(c) >= '0' && *(c) <= '9')
 #define STR_CHAR_IS_NEGNUM_START(c, nextOff, len, next) (*(c) == '-' && nextOff < len && STR_CHAR_IS_NUM(next))
 #define STR_CHAR_IS_SCIFLT_EXPONENT(c)	 (*(c) == 'e')
@@ -10,6 +12,34 @@
 #define UTI_STR_FIND_NOT_FOUND i64_max
 
 #define UTI_STR_WHITESPACE_CHARS " \r\n\t"
+
+namespace uti
+{
+	struct string
+	{
+		rearray<char> data;
+
+		string(const char* str)
+		{
+			i64 str_len = strnlen(str, plt::max_len_path);
+			data.allocate_count(str_len + 1, /*zero*/ true);
+			memcpy(data.data, str, str_len);
+		}
+
+		string(const uti::string& other)
+		{
+			data = other.data;
+		}
+
+		operator const char*()
+		{
+			return (const char*)data.data;
+		}
+
+
+		i64 length() { return data.count-1; }
+	};
+}
 
 namespace str
 {
