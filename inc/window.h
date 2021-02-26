@@ -28,6 +28,9 @@ namespace uti
 			uti::u32 stride,
 			uti::float2 pos
 			);
+		void(*text_input_callback)(
+			uti::uint64 character
+			);
 	};
 
 	TAT_DEF bool	window_initialise(window* win, int16 width, int16 height, bool show, tstr windowTitle = "Main");

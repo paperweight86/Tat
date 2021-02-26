@@ -17,6 +17,12 @@ namespace
 		bool keyDown = true;
 		switch (message)
 		{
+		case WM_CHAR:
+			if (win->text_input_callback)
+			{
+				win->text_input_callback(wParam);
+			}
+			break;
 		case WM_SYSKEYUP:
 		case WM_KEYUP:
 			keyDown = false;
