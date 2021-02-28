@@ -157,7 +157,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="intersection.cpp" />
     <ClCompile Include="src\dynamic_libs_windows.cpp" />
     <ClCompile Include="src\ext\murmur_hash_3.cpp" />
     <ClCompile Include="src\file_system_windows.cpp" />
@@ -166,11 +165,11 @@
     <ClCompile Include="src\float4.cpp" />
     <ClCompile Include="src\float44.cpp" />
     <ClCompile Include="src\gel.cpp" />
+    <ClCompile Include="src\intersection.cpp" />
     <ClCompile Include="src\log.cpp" />
     <ClCompile Include="src\non_crypto_hash.cpp" />
     <ClCompile Include="src\quaternion.cpp" />
     <ClCompile Include="src\rearray.cpp" />
-    <ClCompile Include="src\ScopedLog.cpp" />
     <ClCompile Include="src\window_windows.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="str.cpp" />
@@ -201,7 +200,6 @@
     <ClInclude Include="inc\primatives.h" />
     <ClInclude Include="inc\quaternion.h" />
     <ClInclude Include="inc\rearray.h" />
-    <ClInclude Include="inc\ScopedLog.h" />
     <ClInclude Include="inc\static_array.h" />
     <ClInclude Include="inc\tat.h" />
     <ClInclude Include="inc\types.h" />

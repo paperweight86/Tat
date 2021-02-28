@@ -21,11 +21,7 @@
     <ClCompile Include="src\float4.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\ScopedLog.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="intersection.cpp" />
     <ClCompile Include="src\float2.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -62,6 +58,9 @@
     <ClCompile Include="src\dynamic_libs_windows.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\intersection.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="inc\Callback.h">
@@ -95,9 +94,6 @@
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="inc\IObserver.h">
-      <Filter>inc</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\ScopedLog.h">
       <Filter>inc</Filter>
     </ClInclude>
     <ClInclude Include="inc\types.h">
