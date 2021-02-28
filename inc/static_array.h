@@ -17,15 +17,15 @@ namespace uti
 		uti::u8 data[capacity*sizeof(T)];
 		uti::i64 count;
 
-		static_array(bool zero = false);
+		static_array(bool zero = true);
 		~static_array();
 
 		T& operator[](uti::i64 idx);
 		T* ptr_at(uti::i64 idx);
 
-		uti::i64 push_back(T& thing);
-		T*		 push_back(bool zero = false);
-		void pop_back(bool zero = false);
+		T* push_back(const T& thing);
+		T* push_back(bool zero = true);
+		void pop_back(bool zero = true);
 	};
 
 	template <class T, uti::i64 capacity>
@@ -64,22 +64,24 @@ namespace uti
 	}
 
 	template <class T, uti::i64 capacity>
-	uti::i64 static_array<T, capacity>::push_back(T& thing)
+	T* static_array<T, capacity>::push_back(const T& thing)
 	{
 		assert(count + 1 < capacity);
-		this[count] = thing;
-		return count++;
+		T* new_item = ptr_at(count++);
+		*new_item = thing;
+		return new_item;
 	}
 
 	template <class T, uti::i64 capacity>
 	T* static_array<T, capacity>::push_back(bool zero)
 	{
 		assert(count + 1 < capacity);
+		T* new_item = ptr_at(count++);
 		if (zero)
 		{
-			memset(ptr_at(count), 0, sizeof(T));
+			memset(new_item, 0, sizeof(T));
 		}
-		return ptr_at(count++);
+		return new_item;
 	}
 
 	template <class T, uti::i64 capacity>

@@ -31,13 +31,19 @@ namespace uti
 			data = other.data;
 		}
 
+		string(i64 length)
+		{
+			data.allocate_count(length + 1, /*zero*/ true);
+		}
+
 		operator const char*()
 		{
 			return (const char*)data.data;
 		}
 
-
 		i64 length() { return data.count-1; }
+		char* raw() { return (char*)data.data; }
+		void zero() { memset(raw(), 0, length()*sizeof(char)); }
 	};
 }
 

@@ -56,7 +56,7 @@ namespace
 		case WM_MOUSEWHEEL:
 			if (win->mouse_callback)
 			{
-				wheelDelta = HIWORD(wParam);
+				wheelDelta = GET_WHEEL_DELTA_WPARAM(wParam);
 				// Decode parameters
 				bool lButton = (LOWORD(wParam) & MK_LBUTTON) == MK_LBUTTON;
 				bool mButton = (LOWORD(wParam) & MK_MBUTTON) == MK_MBUTTON;
@@ -66,7 +66,7 @@ namespace
 				pt.y = GET_Y_LPARAM(lParam);
 				ScreenToClient((HWND)win->hwnd, &pt);
 				// Fire Callback
-				win->mouse_callback((i16)pt.x, (i16)pt.y, lButton, mButton, rButton, wheelDelta / WHEEL_DELTA, win);
+				win->mouse_callback((i16)pt.x, (i16)pt.y, lButton, mButton, rButton, (float)wheelDelta / (float)WHEEL_DELTA, win);
 				return 0;
 			}
 			break;
@@ -234,6 +234,11 @@ void uti::window_set_cursor_visible(bool visible)
 	{
 		while (ShowCursor(false) >= 0) { _mm_pause(); }
 	}
+}
+
+void uti::window_destroy(window* win)
+{
+	DestroyWindow((HWND)win->hwnd);
 }
 
 #endif
