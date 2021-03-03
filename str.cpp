@@ -23,6 +23,24 @@ uti::i64 str::strOffToNextFloat(uti::tstr c, uti::i64 l)
 	return off;
 }
 
+char* str::strOffToNextFloatPtr(char* c, uti::i64 l)
+{
+	uti::i64 off = 0;
+	bool lastWasNum = STR_CHAR_IS_NUM(c + off);
+
+	while (!STR_CHAR_IS_NUM(c + off)
+		&& !STR_CHAR_IS_NEGNUM_START(c + off, off + 1, l, c + off + 1)
+		&& off < l
+		&& c + off != 0)
+	{
+		lastWasNum = STR_CHAR_IS_NUM(c + off);
+		++off;
+	}
+	if (!STR_CHAR_IS_NUM(c + off) && !STR_CHAR_IS_NEGNUM_START(c + off, off + 1, l, c + off + 1))
+		return nullptr;
+	return c + off;
+}
+
 uti::i64 str::strOffToEndFloat(uti::tstr c, uti::i64 l)
 {
 	uti::i64 off = 0;
@@ -42,6 +60,46 @@ uti::i64 str::strOffToEndFloat(uti::tstr c, uti::i64 l)
 	return off;
 }
 
+char* str::strOffToEndFloatPtr(char* c, uti::i64 l)
+{
+	uti::i64 off = 0;
+	bool lastWasNum = STR_CHAR_IS_NUM(c + off);
+
+	while ((STR_CHAR_IS_NUM(c + off)
+		|| STR_CHAR_IS_DECIMAL_POINT(c + off)
+		|| (STR_CHAR_IS_NEGNUM_START(c + off, off + 1, l, c + off + 1) && off == 0)
+		|| (lastWasNum && STR_CHAR_IS_SCIFLT_EXPONENT(c + off)))
+		&& off < l
+		&& c + off != 0)
+	{
+		lastWasNum = STR_CHAR_IS_NUM(c + off);
+		++off;
+	}
+
+	return c + off;
+}
+
+char* str::find_integer_ptr(char* str, uti::i64 str_len)
+{
+	char* cur = str;
+	while (!STR_CHAR_IS_NUM(cur) && cur - str < str_len) { cur++; }
+	if (STR_CHAR_IS_NUM(cur))
+	{
+		if (cur != str && *(cur - 1) == '-')
+		{
+			return cur - 1;
+		}
+		else
+		{
+			return cur;
+		}
+	}
+	else
+	{
+		return nullptr;
+	}
+}
+
 uti::i64 str::find_char(uti::cstr src, char ch, uti::i64 str_len)
 {
 	for (uti::i64 i = 0; i < str_len; i++)
@@ -51,6 +109,14 @@ uti::i64 str::find_char(uti::cstr src, char ch, uti::i64 str_len)
 	}
 
 	return UTI_STR_FIND_NOT_FOUND;
+}
+
+char* str::find_char_ptr(char* src, char ch, uti::i64 str_len)
+{
+	char* cur = src;
+	while (*cur != ch && cur - src < str_len) { cur++; }
+
+	return *cur == ch? cur : nullptr;
 }
 
 uti::i64 str::find_not_char(uti::cstr src, char ch, uti::i64 str_len)
@@ -169,4 +235,176 @@ void	str::to_lower_inplace(uti::mstr str, uti::i64 str_len)
 		*c = (char)tolower(*c);
 		c++; i++;
 	}
+}
+
+bool str::string_to_float(char* str, uti::i64 len, float* out_float, char** out_str_after)
+{
+	float result = 0.0f;
+	char* cur = str;
+	if (len == 0)
+		return false;
+	int i = 0;
+	bool negate = false;
+	if (STR_CHAR_IS_NEGNUM_START(cur, 1, len, cur+1))
+	{
+		negate = true;
+		++cur;
+		++i;
+	}
+	bool integer_part = true;
+	float div = 1.0f;
+	while (cur - str < len && cur != '\0')
+	{
+		if (STR_CHAR_IS_NUM(cur))
+		{
+			i++;
+			if (integer_part)
+			{
+				result *= 10.0f;
+				result += (float)(*cur - '0');
+			}
+			else
+			{
+				div *= 10.0f;
+				result += (float)(*cur - '0') / div;
+			}
+		}
+		else if (STR_CHAR_IS_DECIMAL_POINT(cur))
+		{
+			integer_part = false;
+		}
+		// TODO: sci exp representation
+		//else if(STR_CHAR_IS_SCIFLT_EXPONENT)
+		//{}
+		else if (i == 0)
+		{
+			// No numbers were read
+			return false;
+		}
+		else
+		{
+			break;
+		}
+
+		++cur;
+	}
+
+	if (negate)
+	{
+		result *= -1.0f;
+	}
+
+	if (out_str_after)
+	{
+		*out_str_after = cur;
+	}
+
+	assert(out_float != nullptr);
+	*out_float = result;
+	return true;
+}
+
+bool str::string_to_u32(char* str, uti::i64 len, uti::u32* out_u64, char** out_str_after)
+{
+	uti::u32 result = 0;
+	char* cur = str;
+	if (len == 0)
+		return false;
+	int i = 0;
+	while (cur - str < len && cur != '\0')
+	{
+		if (STR_CHAR_IS_NUM(cur))
+		{
+			i++;
+			result *= 10;
+			result += (uti::u32)(*cur - '0');
+			// TODO: Check for overflow
+		}
+		else if (i == 0)
+		{
+			// No numbers were read
+			return false;
+		}
+		else
+		{
+			break;
+		}
+
+		++cur;
+	}
+
+	if (out_str_after)
+	{
+		*out_str_after = cur;
+	}
+
+	assert(out_u64 != nullptr);
+	*out_u64 = result;
+
+	return true;
+}
+
+bool str::read_floats(char* str, uti::i64 len, float* out_float, uti::i64 num_out_float, char** out_ptr)
+{
+	char* next_float = str;
+	for (int i = 0; i < num_out_float; ++i)
+	{
+		next_float = str::strOffToNextFloatPtr(next_float, len - (next_float - str));
+		if (next_float == nullptr || next_float - str > len)
+			return false;
+		if (!string_to_float(next_float, len - (next_float - str), out_float + i, &next_float))
+			return false;
+		//out_float[i] = strtof(next_float, &next_float);
+	}
+
+	if (out_ptr)
+	{
+		*out_ptr = next_float;
+	}
+
+	return true;
+}
+
+uti::i64 str::read_any_floats(char* str, uti::i64 len, float* out_float, uti::i64 max_floats, char** out_ptr)
+{
+	char* next_float = str;
+	int i;
+	for (i = 0; i < max_floats; ++i)
+	{
+		next_float = str::strOffToNextFloatPtr(next_float, len - (next_float - str));
+		if (next_float == nullptr || next_float - str > len)
+			return i;
+		if (!string_to_float(next_float, len - (next_float - str), out_float + i, &next_float))
+			break;
+		//out_float[i] = strtof(next_float, &next_float);
+	}
+
+	if (out_ptr)
+	{
+		*out_ptr = next_float;
+	}
+
+	return i;
+}
+
+uti::i64 str::read_any_u32(char* str, uti::i64 len, uti::u32* out_integer, uti::i64 max_integers, char** out_ptr)
+{
+	char* next_integer = str;
+	uti::i64 i;
+	for (i = 0; i < max_integers; ++i)
+	{
+		next_integer = str::find_integer_ptr(next_integer, len - (next_integer - str));
+		if (next_integer == nullptr || next_integer - str > len)
+			return i;
+		if (!string_to_u32(next_integer, len - (next_integer - str), out_integer + i, &next_integer))
+			break;
+		//out_float[i] = strtof(next_float, &next_float);
+	}
+
+	if (out_ptr)
+	{
+		*out_ptr = next_integer;
+	}
+
+	return i;
 }

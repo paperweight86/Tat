@@ -51,9 +51,17 @@ namespace str
 {
 	TAT_DEF uti::i64 strOffToNextFloat(uti::tstr c, uti::i64 l = 32);
 
+	TAT_DEF char* strOffToNextFloatPtr(char* c, uti::i64 l = 32);
+
 	TAT_DEF uti::i64 strOffToEndFloat(uti::tstr c, uti::i64 l = 32);
 
+	TAT_DEF char* strOffToEndFloatPtr(char* c, uti::i64 l = 32);
+
+	TAT_DEF char*	 find_integer_ptr(char* str, uti::i64 str_len);
+
 	TAT_DEF uti::i64 find_char(uti::cstr src, char ch, uti::i64 str_len);
+
+	TAT_DEF char*	 find_char_ptr(char* src, char ch, uti::i64 str_len);
 
 	TAT_DEF uti::i64 find_not_char(uti::cstr src, char ch, uti::i64 str_len);
 
@@ -70,4 +78,14 @@ namespace str
 	TAT_DEF uti::i64 find_end_number(uti::tstr str, uti::i64 str_len);
 
 	TAT_DEF void 	 to_lower_inplace(uti::mstr str, uti::i64 str_len);
+
+	TAT_DEF bool	 string_to_float(char* str, uti::i64 len, float* out_float, char** out_str_after);
+
+	TAT_DEF bool	 string_to_u32(char* str, uti::i64 len, uti::u32* out_u64, char** out_str_after);
+
+	TAT_DEF bool	 read_floats(char* str, uti::i64 len, float* out_float, uti::i64 num_out_float, char** out_ptr);
+
+	TAT_DEF uti::i64 read_any_floats(char* str, uti::i64 len, float* out_float, uti::i64 max_floats, char** out_ptr);
+
+	TAT_DEF uti::i64 read_any_u32(char* str, uti::i64 len, uti::u32* out_integer, uti::i64 max_integers, char** out_ptr);
 }
