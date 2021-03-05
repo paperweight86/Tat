@@ -38,6 +38,7 @@ namespace uti
 		void deallocate();
 
 		T& operator[](uti::i64 idx);
+		const T& operator[](uti::i64 idx) const;
 		T* ptr_at(uti::i64 idx);
 
 		void add_end(T& data, bool zero_if_grow = true);
@@ -116,6 +117,16 @@ namespace uti
 
 	template <class T>
 	T& rearray<T>::operator[](uti::i64 idx)
+	{
+		assert(std::abs(idx) < count || (idx == -1 && count == 1));
+		if (idx >= 0)
+			return *(T*)(data + idx * sizeof(T));
+		else
+			return *(T*)(data + (count + idx) * sizeof(T));
+	}
+
+	template <class T>
+	const T& rearray<T>::operator[](uti::i64 idx) const
 	{
 		assert(std::abs(idx) < count || (idx == -1 && count == 1));
 		if (idx >= 0)

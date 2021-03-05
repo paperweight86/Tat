@@ -3,6 +3,7 @@
 #include "types.h"
 
 #include "rearray.h"
+#include "static_array.h"
 
 #define STR_CHAR_IS_NUM(c)								(*(c) >= '0' && *(c) <= '9')
 #define STR_CHAR_IS_NEGNUM_START(c, nextOff, len, next) (*(c) == '-' && nextOff < len && STR_CHAR_IS_NUM(next))
@@ -26,6 +27,12 @@ namespace uti
 			memcpy(data.data, str, str_len);
 		}
 
+		string(const char* str, i64 len)
+		{
+			data.allocate_count(len + 1, /*zero*/ true);
+			memcpy(data.data, str, len);
+		}
+
 		string(const uti::string& other)
 		{
 			data = other.data;
@@ -41,10 +48,95 @@ namespace uti
 			return (const char*)data.data;
 		}
 
-		i64 length() { return data.count-1; }
+		i64 length() const const { return data.count-1; }
 		char* raw() { return (char*)data.data; }
+		const char* raw() const { return (const char*)data.data; }
 		void zero() { memset(raw(), 0, length()*sizeof(char)); }
 	};
+
+	template <uti::i64 capacity>
+	struct fixed_string
+	{
+		static_array<char, capacity> data;
+
+		fixed_string(const char* str)
+		{
+			i64 str_len = strnlen(str, capacity);
+			memcpy(data.data, str, str_len);
+		}
+
+		fixed_string(const uti::string& other)
+		{
+			data = other.data;
+		}
+
+		operator const char*()
+		{
+			return (const char*)data.data;
+		}
+
+		operator string()
+		{
+			return string((const char*)&data.data[0]);
+		}
+
+		i64 length() const { return strnlen(data.data, capacity); }
+		char* raw() { return (char*)&data.data[0]; }
+		const char* raw() const { return (const char*)&data.data[0]; }
+		void zero() { memset(raw(), 0, length() * sizeof(char)); }
+	};
+
+	struct string_view
+	{
+		const char* viewing;
+		i64			len;
+
+		string_view(const string& str, i64 offset) : viewing((const char*)str.data.data+offset), len(str.length() - offset)
+		{
+			assert(offset < str.length() && offset >= 0);
+		}
+
+		operator const char*()
+		{
+			return viewing;
+		}
+
+		i64 length() const { return len; }
+		const char* raw() const { return viewing; }
+
+		/* TODO: we need to trim the string
+		operator string()
+		{
+		}*/
+	};
+
+	template <class string_type>
+	uti::i64 find_in_string(const string_type& in, const string& find, bool return_begin = true)
+	//uti::i64 uti::find_in_string(uti::string& in, uti::string& find, bool return_begin)
+	{
+		if (find.length() > in.length())
+			return UTI_STR_FIND_NOT_FOUND;
+
+		i64 pos = str::find_char(in.raw(), find.data[0], find.length());
+
+		while (pos != UTI_STR_FIND_NOT_FOUND && pos < in.length() - find.length())
+		{
+			if (pos == UTI_STR_FIND_NOT_FOUND)
+				return UTI_STR_FIND_NOT_FOUND;
+
+			if (memcmp(in.raw() + pos, find.raw(), find.length()) == 0)
+				return return_begin ? pos : pos + find.length();
+
+			pos = str::find_char(in.raw(), find.data[0], find.length());
+		}
+
+		return UTI_STR_FIND_NOT_FOUND;
+	}
+}
+
+inline uti::string_view operator+(const uti::string& str, uti::i64 offset)
+{
+	return uti::string_view(str, offset);
 }
 
 namespace str

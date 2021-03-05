@@ -6,6 +6,10 @@
 
 #include <ctype.h>
 
+//struct uti::string_view __cdecl operator+(struct uti::string const & str, __int64 offset)
+//uti::string_view operator+(const uti::string& str, uti::i64 offset)
+
+
 uti::i64 str::strOffToNextFloat(uti::tstr c, uti::i64 l)
 {
 	uti::i64 off = 0;
