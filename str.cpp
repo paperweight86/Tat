@@ -6,9 +6,8 @@
 
 #include <ctype.h>
 
-//struct uti::string_view __cdecl operator+(struct uti::string const & str, __int64 offset)
-//uti::string_view operator+(const uti::string& str, uti::i64 offset)
-
+const uti::string_view uti::string_view::null = uti::string_view();
+const uti::string uti::string::null = uti::string();
 
 uti::i64 str::strOffToNextFloat(uti::tstr c, uti::i64 l)
 {
